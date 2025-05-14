@@ -2,7 +2,7 @@
   "name": "phaser-project",
   "version": "1.0.0",
   "description": "Phaser 3 TypeScript Project",
-  "main": "src/main.js",
+    "main": "src/main.js",
   "scripts": {
     "start": "webpack serve --open",
     "build": "webpack --mode production"

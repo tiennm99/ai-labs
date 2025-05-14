@@ -80,9 +80,18 @@ function update() {
 }
 
 function addPipe() {
-    const pipe = this.physics.add.image(850, Phaser.Math.Between(50, 550), 'pipe');
-    pipe.setImmovable(true);
-    pipes.add(pipe);
+    // Create top pipe
+    const topPipe = this.add.rectangle(850, Phaser.Math.Between(50, 250), 50, Phaser.Math.Between(100, 400));
+    this.physics.add.existing(topPipe);
+    topPipe.body.setImmovable(true);
+
+    // Create bottom pipe
+    const bottomPipe = this.add.rectangle(850, Phaser.Math.Between(350, 550), 50, Phaser.Math.Between(100, 400));
+    this.physics.add.existing(bottomPipe);
+    bottomPipe.body.setImmovable(true);
+
+    pipes.add(topPipe);
+    pipes.add(bottomPipe);
 }
 
 function restartGame() {
