@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style 1 - Playful & Colorful</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f6d365 0%, #fda085 50%, #f093fb 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Nunito', sans-serif;
+    padding: 20px;
+  }
+  .card {
+    background: white;
+    border-radius: 32px;
+    padding: 48px 40px;
+    max-width: 560px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  }
+  .badge {
+    display: inline-block;
+    background: #f6d365;
+    color: #c05e00;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 6px 16px;
+    border-radius: 999px;
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+  }
+  h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 32px;
+    color: #2d2d2d;
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+  .subtitle {
+    color: #888;
+    font-size: 15px;
+    margin-bottom: 36px;
+  }
+  .option {
+    border: 3px solid #f0f0f0;
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .option:hover { border-color: #fda085; background: #fff8f5; transform: translateY(-2px); }
+  .option.selected { border-color: #fda085; background: #fff3ee; }
+  .option .emoji { font-size: 24px; }
+  .progress {
+    display: flex; gap: 8px; margin-bottom: 32px;
+  }
+  .dot { height: 8px; border-radius: 999px; flex: 1; background: #f0f0f0; }
+  .dot.active { background: linear-gradient(90deg, #f6d365, #fda085); }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="badge">Question 2 of 5</div>
+  <div class="progress">
+    <div class="dot active"></div>
+    <div class="dot active"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+  <h1>It's Friday night. What are you watching?</h1>
+  <p class="subtitle">Pick the one that feels most like you.</p>
+  <div class="option selected"><span class="emoji">⚔️</span> An action thriller that keeps you on edge</div>
+  <div class="option"><span class="emoji">🌿</span> A slow-burn documentary about nature</div>
+  <div class="option"><span class="emoji">🎉</span> Whatever your friends want to watch together</div>
+  <div class="option"><span class="emoji">🌙</span> A cult classic you've seen 10 times, starting at midnight</div>
+</div>
+<div style="position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.6);color:white;padding:8px 16px;border-radius:999px;font-size:13px;font-family:sans-serif;">Style 1 — Playful & Colorful</div>
+</body>
+</html>

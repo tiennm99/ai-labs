@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style 4 - Warm & Cozy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Lato:wght@300;400;700&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #f5ebe0 0%, #e8d5b7 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Lato', sans-serif;
+    padding: 20px;
+  }
+  .card {
+    background: #fffdf8;
+    border-radius: 20px;
+    padding: 52px 44px;
+    max-width: 560px;
+    width: 100%;
+    box-shadow: 0 8px 40px rgba(120, 80, 40, 0.12);
+    border: 1px solid rgba(180, 130, 80, 0.15);
+  }
+  .tag {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #a0785a;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 500;
+    color: #3d2b1a;
+    margin-bottom: 36px;
+    line-height: 1.4;
+  }
+  .option {
+    border: 1.5px solid #e8d9c8;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 15px;
+    color: #6b4f38;
+    font-weight: 400;
+    transition: all 0.2s;
+    background: transparent;
+  }
+  .option:hover { border-color: #c8956a; background: rgba(200, 149, 106, 0.05); color: #3d2b1a; }
+  .option.selected { border-color: #c8956a; background: rgba(200, 149, 106, 0.1); color: #3d2b1a; font-weight: 700; }
+  .progress-wrap { margin-bottom: 36px; }
+  .progress-label { font-size: 12px; color: #a0785a; margin-bottom: 10px; }
+  .bar { height: 4px; background: #e8d9c8; border-radius: 99px; overflow: hidden; }
+  .fill { height: 100%; width: 40%; background: linear-gradient(90deg, #c8956a, #a0785a); border-radius: 99px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="tag">Your Coffee Personality</div>
+  <div class="progress-wrap">
+    <div class="progress-label">Question 2 of 5</div>
+    <div class="bar"><div class="fill"></div></div>
+  </div>
+  <h1>It's Friday night. What are you watching?</h1>
+  <div class="option selected">An action thriller that keeps you on edge</div>
+  <div class="option">A slow-burn documentary about nature</div>
+  <div class="option">Whatever your friends want to watch together</div>
+  <div class="option">A cult classic you've seen 10 times, starting at midnight</div>
+</div>
+<div style="position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:rgba(60,30,10,0.7);color:white;padding:8px 16px;border-radius:999px;font-size:13px;font-family:sans-serif;">Style 4 — Warm & Cozy</div>
+</body>
+</html>
