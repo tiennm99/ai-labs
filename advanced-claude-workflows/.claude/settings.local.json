@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && [ ! -f hook_demo.js ] || grep -q '// COMPLETE' hook_demo.js || echo '{\"decision\":\"block\",\"reason\":\"hook_demo.js is missing the COMPLETE comment. Add it to mark the file as done.\"}'"
+          }
+        ]
+      }
+    ]
+  }
+}
