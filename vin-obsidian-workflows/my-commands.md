@@ -25,3 +25,9 @@ Pressure-tests your beliefs using your vault's own history. Finds contradictions
 Surfaces hidden patterns — ideas your vault implies but you never explicitly stated. Finds conclusions from scattered premises, unnamed patterns, and unarticulated directions your thinking is heading.
 
 **Use it:** When you want to discover what your notes know that you don't.
+
+## /ideas
+
+Scans the vault for actionable ideas across four categories: tools to build, essays to write, connections to make, and experiments to run. Uses CLI graph data to find neglected notes and high-connection topics.
+
+**Use it:** When you want to turn your vault into a to-do list — let the notes tell you what to do next.
