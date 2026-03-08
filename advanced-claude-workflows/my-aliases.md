@@ -1,62 +1,74 @@
 # My Claude Code Aliases
 
-## Your Alias
+## zclaude (Windows PowerShell)
 
-```bash
-alias h="claude --model claude-haiku-4-5-20251001"
+Launches Claude with the Z.ai API endpoint and custom model settings.
+
+```powershell
+function zclaude {
+    $env:ANTHROPIC_AUTH_TOKEN="your-api-key"
+    $env:ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"
+    $env:API_TIMEOUT_MS="3000000"
+    $env:ANTHROPIC_DEFAULT_OPUS_MODEL="GLM-5"
+    $env:ANTHROPIC_DEFAULT_SONNET_MODEL="GLM-5"
+    $env:ANTHROPIC_DEFAULT_HAIKU_MODEL="GLM-5"
+    claude
+}
 ```
-
-Type `h` to start Claude with the fast Haiku model - great for quick tasks where speed matters.
 
 ## How to Install
 
-1. Open your shell config:
-   ```bash
-   open ~/.zshrc
+1. Open your PowerShell profile:
+   ```powershell
+   notepad $PROFILE
+   ```
+   If the file doesn't exist, create it first:
+   ```powershell
+   New-Item -Path $PROFILE -ItemType File -Force
    ```
 
-2. Add this line at the bottom:
-   ```bash
-   alias h="claude --model claude-haiku-4-5-20251001"
+2. Paste the function above at the bottom of the file and save.
+
+3. Reload your profile:
+   ```powershell
+   . $PROFILE
    ```
 
-3. Save the file and reload:
-   ```bash
-   source ~/.zshrc
-   ```
+4. Test it - type `zclaude` in any PowerShell window.
 
-4. Test it - just type `h` in any directory to start Claude with Haiku.
+## Notes
 
-## When to Use Haiku
-
-- Quick questions and lookups
-- Simple file edits
-- Code formatting or renaming
-- Tasks where speed matters more than depth
-- Exploratory work before diving deep
+- Environment variables set this way are scoped to the current session only - they won't leak to other terminals.
+- To also load your Mermaid diagrams, extend the function:
+  ```powershell
+  function zclaude {
+      $env:ANTHROPIC_AUTH_TOKEN="your-api-key"
+      $env:ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"
+      $env:API_TIMEOUT_MS="3000000"
+      $env:ANTHROPIC_DEFAULT_OPUS_MODEL="GLM-5"
+      $env:ANTHROPIC_DEFAULT_SONNET_MODEL="GLM-5"
+      $env:ANTHROPIC_DEFAULT_HAIKU_MODEL="GLM-5"
+      $diagrams = Get-Content .ai\diagrams\*.md -Raw -ErrorAction SilentlyContinue
+      if ($diagrams) {
+          claude --append-system-prompt $diagrams
+      } else {
+          claude
+      }
+  }
+  ```
 
 ## Other Useful Aliases (Optional)
 
-```bash
-# Skip permission prompts (use with caution)
-alias x="claude --dangerously-skip-permissions"
+```powershell
+# Skip permission prompts
+function x { claude --dangerously-skip-permissions }
 
-# Load architecture diagrams at startup
-alias cdi="claude --append-system-prompt \"\$(cat .ai/diagrams/*.md)\""
+# Fast Haiku model
+function h { claude --model claude-haiku-4-5-20251001 }
 
-# Combo: Haiku + skip permissions
-alias xh="claude --model claude-haiku-4-5-20251001 --dangerously-skip-permissions"
-
-# Combo: Haiku + diagrams
-alias hdi="claude --model claude-haiku-4-5-20251001 --append-system-prompt \"\$(cat .ai/diagrams/*.md)\""
+# Load diagrams
+function cdi {
+    $diagrams = Get-Content .ai\diagrams\*.md -Raw
+    claude --append-system-prompt $diagrams
+}
 ```
-
-## When to Use Each
-
-| Alias | Use When |
-|-------|----------|
-| `h` | Quick questions, simple tasks |
-| `x` | You trust Claude and want no prompts |
-| `cdi` | Starting work on a documented project |
-| `xh` | Fast + no prompts |
-| `hdi` | Fast + full context |
