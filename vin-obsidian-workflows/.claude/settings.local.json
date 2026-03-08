@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(obsidian version:*)",
+      "Bash(obsidian vaults:*)",
+      "Bash(obsidian search:*)",
+      "Bash(obsidian:*)"
+    ]
+  }
+}
