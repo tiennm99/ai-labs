@@ -1,0 +1,18 @@
+[Screenshot captured: March 8, 2026 at 2:14 PM]
+[File: screenshot_app_bug.png — represented as text for demo]
+
+App: Dashboard v2.0
+Screen: User Settings > Notifications
+
+Bug observed: Toggle switch for "Email Notifications" is unresponsive on mobile.
+Tested on: iPhone 15, iOS 18.2, Safari
+Reproducible: Yes, 100% of attempts
+
+Steps to reproduce:
+1. Log in on mobile browser
+2. Navigate to Settings > Notifications
+3. Tap the Email Notifications toggle
+4. Toggle does not change state
+
+Expected: Toggle switches on/off
+Actual: No state change, no error message

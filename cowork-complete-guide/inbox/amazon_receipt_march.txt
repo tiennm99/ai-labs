@@ -1,0 +1,16 @@
+Order Confirmation - Amazon.com
+
+Order #112-4857291-6637842
+Order Date: March 7, 2026
+
+Items Ordered:
+- Anker USB-C Hub 7-in-1  x1    $34.99
+- Screen Cleaning Kit      x1    $12.49
+
+Subtotal:   $47.48
+Shipping:    $0.00 (Prime)
+Tax:         $4.27
+Total:      $51.75
+
+Shipped to: Tien N., 123 Main St, San Francisco CA 94105
+Payment: Visa ending in 4242

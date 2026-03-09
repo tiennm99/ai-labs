@@ -1,0 +1,21 @@
+Product Sync – Meeting Notes
+Date: March 6, 2026
+Attendees: Tien, Sarah, Marcus, Dev team
+
+AGENDA
+1. Q1 roadmap review
+2. Bug backlog triage
+3. Launch date for v2.1
+
+NOTES
+- Q1 roadmap: on track. Auth module done, dashboard 80% complete.
+- Bug backlog: 12 open issues, 4 critical. Marcus to fix #88 and #91 by EOW.
+- v2.1 launch: targeting March 28. Need QA sign-off by March 24.
+
+ACTION ITEMS
+- Tien: send updated timeline to stakeholders by Tuesday
+- Sarah: draft release notes template
+- Marcus: patch critical bugs, PR by Friday
+- Dev team: final regression tests March 22–23
+
+Next sync: March 13, 10am

@@ -1,0 +1,18 @@
+INVOICE
+
+From: Pixel & Co. Design Studio
+To: Tien N.
+Invoice #: INV-2026-084
+Date: March 1, 2026
+Due: March 31, 2026
+
+Services:
+- Website redesign (homepage + 3 pages)   $1,200.00
+- Logo refresh                               $350.00
+- Monthly maintenance retainer (March)      $150.00
+
+Subtotal:  $1,700.00
+Tax (8%):    $136.00
+TOTAL DUE: $1,836.00
+
+Payment via bank transfer or PayPal: billing@pixelandco.com
