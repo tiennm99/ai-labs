@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ Pikachu Connect</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: linear-gradient(135deg, #0d0d2b 0%, #1a1a4e 50%, #0d0d2b 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  color: white;
+  overflow: hidden;
+}
+
+/* Stars background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 80%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 60%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 70%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(2px 2px at 40% 20%, rgba(255,215,0,0.4) 0%, transparent 100%),
+    radial-gradient(2px 2px at 70% 50%, rgba(255,215,0,0.3) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+h1 {
+  font-size: 2.2rem;
+  color: #FFD700;
+  text-shadow: 0 0 20px rgba(255,215,0,0.8), 0 0 40px rgba(255,215,0,0.4);
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+  z-index: 1;
+}
+
+.stats {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 14px;
+  z-index: 1;
+}
+
+.stat {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,215,0,0.3);
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  backdrop-filter: blur(4px);
+}
+
+.stat span {
+  color: #FFD700;
+  font-weight: bold;
+}
+
+.timer-warning { color: #ff4444 !important; animation: pulse 0.5s infinite alternate; }
+@keyframes pulse { from { opacity: 1; } to { opacity: 0.5; } }
+
+/* Game wrapper with canvas overlay */
+.game-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+canvas#pathCanvas {
+  position: absolute;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(8, 58px);
+  grid-template-rows: repeat(8, 58px);
+  gap: 4px;
+  background: rgba(0,0,0,0.4);
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,215,0,0.25);
+  box-shadow: 0 0 40px rgba(0,0,0,0.6), inset 0 0 30px rgba(0,0,100,0.3);
+}
+
+.cell {
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  border-radius: 10px;
+  transition: transform 0.12s, background 0.12s, box-shadow 0.12s;
+  user-select: none;
+  position: relative;
+}
+
+.cell.filled {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  cursor: pointer;
+}
+
+.cell.filled:hover {
+  background: rgba(255,255,255,0.2);
+  transform: scale(1.06);
+  border-color: rgba(255,255,255,0.35);
+}
+
+.cell.selected {
+  background: rgba(255,215,0,0.25) !important;
+  border: 2px solid #FFD700 !important;
+  transform: scale(1.1) !important;
+  box-shadow: 0 0 18px rgba(255,215,0,0.7), 0 0 6px rgba(255,215,0,0.4);
+}
+
+.cell.empty {
+  cursor: default;
+  background: rgba(0,0,0,0.15);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.cell.matched {
+  animation: matched-anim 0.45s ease forwards;
+}
+@keyframes matched-anim {
+  0%   { transform: scale(1); opacity: 1; }
+  40%  { transform: scale(1.3) rotate(15deg); opacity: 0.8; }
+  100% { transform: scale(0) rotate(30deg); opacity: 0; }
+}
+
+.cell.wrong {
+  animation: wrong-anim 0.35s ease;
+}
+@keyframes wrong-anim {
+  0%,100% { transform: translateX(0); background: rgba(255,255,255,0.1); }
+  20%     { transform: translateX(-6px); background: rgba(255,60,60,0.3); }
+  60%     { transform: translateX(6px);  background: rgba(255,60,60,0.3); }
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  z-index: 1;
+}
+
+.btn {
+  padding: 9px 26px;
+  border: none;
+  border-radius: 25px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #1a1a2e;
+}
+.btn-primary:hover { transform: scale(1.06); box-shadow: 0 4px 18px rgba(255,165,0,0.5); }
+
+.btn-secondary {
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+.btn-secondary:hover { background: rgba(255,255,255,0.18); transform: scale(1.04); }
+
+/* Overlay */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 18px;
+  z-index: 100;
+}
+.overlay.show { display: flex; }
+
+.overlay-box {
+  background: rgba(20,20,50,0.95);
+  border: 1px solid rgba(255,215,0,0.4);
+  border-radius: 20px;
+  padding: 40px 60px;
+  text-align: center;
+  box-shadow: 0 0 60px rgba(255,215,0,0.15);
+}
+
+.overlay-box h2 { font-size: 3rem; color: #FFD700; margin-bottom: 10px; }
+.overlay-box p  { font-size: 1.2rem; color: rgba(255,255,255,0.8); margin-bottom: 20px; }
+
+/* Hint flash */
+.cell.hint {
+  animation: hint-anim 0.6s ease 3;
+}
+@keyframes hint-anim {
+  0%,100% { box-shadow: none; }
+  50% { box-shadow: 0 0 20px rgba(0,200,255,0.9); background: rgba(0,200,255,0.2); border-color: rgba(0,200,255,0.8) !important; }
+}
+
+/* Combo popup */
+.combo-popup {
+  position: fixed;
+  pointer-events: none;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #FFD700;
+  text-shadow: 0 0 10px rgba(255,215,0,0.8);
+  animation: combo-fly 0.9s ease forwards;
+  z-index: 200;
+}
+@keyframes combo-fly {
+  0%   { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-70px) scale(1.4); opacity: 0; }
+}
+</style>
+</head>
+<body>
+
+<h1>⚡ Pikachu Connect ⚡</h1>
+
+<div class="stats">
+  <div class="stat">Score: <span id="score">0</span></div>
+  <div class="stat">Time: <span id="timer">180</span>s</div>
+  <div class="stat">Pairs: <span id="pairs">0</span> / 32</div>
+  <div class="stat">Combo: <span id="combo">x1</span></div>
+</div>
+
+<div class="game-wrapper">
+  <canvas id="pathCanvas"></canvas>
+  <div class="grid" id="grid"></div>
+</div>
+
+<div class="buttons">
+  <button class="btn btn-primary" onclick="newGame()">New Game</button>
+  <button class="btn btn-secondary" onclick="showHint()">Hint 💡</button>
+</div>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay">
+  <div class="overlay-box">
+    <h2 id="overlayTitle">🎉</h2>
+    <p id="overlayMsg"></p>
+    <button class="btn btn-primary" onclick="newGame()">Play Again</button>
+  </div>
+</div>
+
+<script>
+const ROWS = 8, COLS = 8;
+const TOTAL_PAIRS = 32;
+
+const POKEMON = [
+  '⚡','🔥','💧','🌿','🎵','🔮','😴','👻',
+  '🌊','🍃','❄️','🌈','💫','🌙','⭐','🎯'
+];
+
+// Colors per pokemon type for path drawing
+const TYPE_COLORS = [
+  '#FFD700','#FF6B35','#4FC3F7','#81C784','#CE93D8','#B39DDB','#A5D6A7','#9575CD',
+  '#29B6F6','#66BB6A','#80DEEA','#F48FB1','#FFF176','#7986CB','#FFB74D','#EF9A9A'
+];
+
+let grid = [];
+let selected = null;
+let score = 0;
+let pairsFound = 0;
+let timerInterval = null;
+let timeLeft = 180;
+let combo = 1;
+let lastMatchTime = 0;
+let hintsLeft = 3;
+
+// ── Grid helpers ────────────────────────────────────────────────────────────
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function newGame() {
+  document.getElementById('overlay').classList.remove('show');
+  clearInterval(timerInterval);
+
+  timeLeft = 180;
+  score = 0;
+  pairsFound = 0;
+  combo = 1;
+  hintsLeft = 3;
+  selected = null;
+  lastMatchTime = 0;
+
+  updateStats();
+  clearCanvas();
+
+  // 16 types × 4 tiles each = 64 tiles, giving 32 pairs
+  let tiles = [];
+  for (let i = 0; i < 16; i++) {
+    for (let j = 0; j < 4; j++) tiles.push(i + 1); // 1-indexed; 0 = empty
+  }
+  shuffle(tiles);
+
+  grid = [];
+  for (let r = 0; r < ROWS; r++) {
+    grid[r] = [];
+    for (let c = 0; c < COLS; c++) {
+      grid[r][c] = tiles[r * COLS + c];
+    }
+  }
+
+  renderGrid();
+  startTimer();
+}
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    const el = document.getElementById('timer');
+    el.textContent = timeLeft;
+    if (timeLeft <= 30) el.classList.add('timer-warning');
+    else el.classList.remove('timer-warning');
+
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      endGame(false);
+    }
+  }, 1000);
+}
+
+function updateStats() {
+  document.getElementById('score').textContent = score;
+  document.getElementById('timer').textContent = timeLeft;
+  document.getElementById('pairs').textContent = pairsFound;
+  document.getElementById('combo').textContent = 'x' + combo;
+}
+
+function renderGrid() {
+  const gridEl = document.getElementById('grid');
+  gridEl.innerHTML = '';
+
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const cell = document.createElement('div');
+      const val = grid[r][c];
+      cell.className = 'cell ' + (val ? 'filled' : 'empty');
+      cell.dataset.r = r;
+      cell.dataset.c = c;
+      if (val) {
+        cell.textContent = POKEMON[val - 1];
+        cell.addEventListener('click', onCellClick);
+      }
+      gridEl.appendChild(cell);
+    }
+  }
+
+  // Sync canvas size
+  const gridDOM = gridEl.getBoundingClientRect();
+  const canvas = document.getElementById('pathCanvas');
+  canvas.width  = gridEl.offsetWidth;
+  canvas.height = gridEl.offsetHeight;
+  canvas.style.width  = gridEl.offsetWidth  + 'px';
+  canvas.style.height = gridEl.offsetHeight + 'px';
+}
+
+function getCell(r, c) {
+  return document.querySelector(`.cell[data-r="${r}"][data-c="${c}"]`);
+}
+
+// ── Click handler ────────────────────────────────────────────────────────────
+
+function onCellClick(e) {
+  const r = +e.currentTarget.dataset.r;
+  const c = +e.currentTarget.dataset.c;
+  if (!grid[r][c]) return;
+
+  // Deselect same cell
+  if (selected && selected.r === r && selected.c === c) {
+    e.currentTarget.classList.remove('selected');
+    selected = null;
+    return;
+  }
+
+  if (!selected) {
+    selected = { r, c };
+    e.currentTarget.classList.add('selected');
+    return;
+  }
+
+  const { r: r1, c: c1 } = selected;
+  const r2 = r, c2 = c;
+  getCell(r1, c1)?.classList.remove('selected');
+
+  if (grid[r1][c1] !== grid[r2][c2]) {
+    flashWrong(r1, c1, r2, c2);
+    selected = null;
+    return;
+  }
+
+  const path = findPath(r1, c1, r2, c2);
+  if (path) {
+    handleMatch(r1, c1, r2, c2, path);
+  } else {
+    flashWrong(r1, c1, r2, c2);
+    selected = null;
+  }
+}
+
+function flashWrong(r1, c1, r2, c2) {
+  combo = 1;
+  updateStats();
+  [getCell(r1, c1), getCell(r2, c2)].forEach(el => {
+    if (!el) return;
+    el.classList.add('wrong');
+    setTimeout(() => el?.classList.remove('wrong'), 400);
+  });
+}
+
+function handleMatch(r1, c1, r2, c2, path) {
+  const now = Date.now();
+  if (now - lastMatchTime < 2500) combo = Math.min(combo + 1, 8);
+  else combo = 1;
+  lastMatchTime = now;
+
+  const typeIdx = grid[r1][c1] - 1;
+  const points = 10 * combo;
+
+  // Draw path briefly
+  drawPath(path, TYPE_COLORS[typeIdx]);
+
+  // Animate cells
+  getCell(r1, c1)?.classList.add('matched');
+  getCell(r2, c2)?.classList.add('matched');
+
+  showComboPopup(r2, c2, points, combo);
+
+  setTimeout(() => {
+    clearCanvas();
+    grid[r1][c1] = 0;
+    grid[r2][c2] = 0;
+    renderGrid();
+
+    score += points;
+    pairsFound++;
+    updateStats();
+
+    if (pairsFound === TOTAL_PAIRS) {
+      clearInterval(timerInterval);
+      endGame(true);
+    }
+  }, 420);
+
+  selected = null;
+}
+
+// ── Path drawing ─────────────────────────────────────────────────────────────
+
+const CELL_SIZE = 58;
+const CELL_GAP  = 4;
+const GRID_PAD  = 12;
+
+function cellCenter(r, c) {
+  const x = GRID_PAD + c * (CELL_SIZE + CELL_GAP) + CELL_SIZE / 2;
+  const y = GRID_PAD + r * (CELL_SIZE + CELL_GAP) + CELL_SIZE / 2;
+  return { x, y };
+}
+
+function drawPath(path, color) {
+  const canvas = document.getElementById('pathCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 3.5;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.shadowColor = color;
+  ctx.shadowBlur = 10;
+  ctx.globalAlpha = 0.85;
+
+  ctx.beginPath();
+  const start = cellCenter(path[0][0], path[0][1]);
+  ctx.moveTo(start.x, start.y);
+  for (let i = 1; i < path.length; i++) {
+    const pt = cellCenter(path[i][0], path[i][1]);
+    ctx.lineTo(pt.x, pt.y);
+  }
+  ctx.stroke();
+
+  // Dots at endpoints
+  ctx.globalAlpha = 1;
+  ctx.shadowBlur = 15;
+  [path[0], path[path.length - 1]].forEach(([r, c]) => {
+    const { x, y } = cellCenter(r, c);
+    ctx.beginPath();
+    ctx.arc(x, y, 7, 0, Math.PI * 2);
+    ctx.fillStyle = color;
+    ctx.fill();
+  });
+}
+
+function clearCanvas() {
+  const canvas = document.getElementById('pathCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+// ── Combo popup ──────────────────────────────────────────────────────────────
+
+function showComboPopup(r, c, points, combo) {
+  const { x, y } = cellCenter(r, c);
+  const gridEl = document.getElementById('grid');
+  const rect   = gridEl.getBoundingClientRect();
+
+  const el = document.createElement('div');
+  el.className = 'combo-popup';
+  el.textContent = combo > 1 ? `+${points} ×${combo}!` : `+${points}`;
+  el.style.left = (rect.left + x - 20) + 'px';
+  el.style.top  = (rect.top  + y - 20) + 'px';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 950);
+}
+
+// ── Connection algorithm ─────────────────────────────────────────────────────
+
+// Returns true if cell (r,c) can be passed through,
+// treating the two selected endpoints as transparent.
+function passable(r, c, er1, ec1, er2, ec2) {
+  if (r < 0 || r >= ROWS || c < 0 || c >= COLS) return true; // outside grid = open
+  if ((r === er1 && c === ec1) || (r === er2 && c === ec2)) return true;
+  return grid[r][c] === 0;
+}
+
+// Returns true if a straight horizontal/vertical line between the two points
+// is blocked (any cell along the way is occupied).
+function lineBlocked(r1, c1, r2, c2, er1, ec1, er2, ec2) {
+  if (r1 !== r2 && c1 !== c2) return true; // not axis-aligned
+  if (r1 === r2) {
+    const a = Math.min(c1, c2), b = Math.max(c1, c2);
+    for (let c = a; c <= b; c++) if (!passable(r1, c, er1, ec1, er2, ec2)) return true;
+  } else {
+    const a = Math.min(r1, r2), b = Math.max(r1, r2);
+    for (let r = a; r <= b; r++) if (!passable(r, c1, er1, ec1, er2, ec2)) return true;
+  }
+  return false;
+}
+
+function findPath(r1, c1, r2, c2) {
+  const er1 = r1, ec1 = c1, er2 = r2, ec2 = c2;
+
+  // 0 turns ─ direct straight line
+  if (!lineBlocked(r1, c1, r2, c2, er1, ec1, er2, ec2))
+    return [[r1,c1],[r2,c2]];
+
+  // 1 turn ─ via corner (r1,c2)
+  if (passable(r1, c2, er1, ec1, er2, ec2)
+    && !lineBlocked(r1, c1, r1, c2, er1, ec1, er2, ec2)
+    && !lineBlocked(r1, c2, r2, c2, er1, ec1, er2, ec2))
+    return [[r1,c1],[r1,c2],[r2,c2]];
+
+  // 1 turn ─ via corner (r2,c1)
+  if (passable(r2, c1, er1, ec1, er2, ec2)
+    && !lineBlocked(r1, c1, r2, c1, er1, ec1, er2, ec2)
+    && !lineBlocked(r2, c1, r2, c2, er1, ec1, er2, ec2))
+    return [[r1,c1],[r2,c1],[r2,c2]];
+
+  // 2 turns ─ scan intermediate columns (including virtual -1 and COLS)
+  for (let c = -1; c <= COLS; c++) {
+    if (c === c1 || c === c2) continue;
+    if (passable(r1, c, er1, ec1, er2, ec2) && passable(r2, c, er1, ec1, er2, ec2)
+      && !lineBlocked(r1, c1, r1, c,  er1, ec1, er2, ec2)
+      && !lineBlocked(r1, c,  r2, c,  er1, ec1, er2, ec2)
+      && !lineBlocked(r2, c,  r2, c2, er1, ec1, er2, ec2))
+      return [[r1,c1],[r1,c],[r2,c],[r2,c2]];
+  }
+
+  // 2 turns ─ scan intermediate rows (including virtual -1 and ROWS)
+  for (let r = -1; r <= ROWS; r++) {
+    if (r === r1 || r === r2) continue;
+    if (passable(r, c1, er1, ec1, er2, ec2) && passable(r, c2, er1, ec1, er2, ec2)
+      && !lineBlocked(r1, c1, r,  c1, er1, ec1, er2, ec2)
+      && !lineBlocked(r,  c1, r,  c2, er1, ec1, er2, ec2)
+      && !lineBlocked(r,  c2, r2, c2, er1, ec1, er2, ec2))
+      return [[r1,c1],[r,c1],[r,c2],[r2,c2]];
+  }
+
+  return null; // no valid path
+}
+
+// ── Hint system ──────────────────────────────────────────────────────────────
+
+function showHint() {
+  if (hintsLeft <= 0) { showToast('No hints left!'); return; }
+
+  for (let r1 = 0; r1 < ROWS; r1++) {
+    for (let c1 = 0; c1 < COLS; c1++) {
+      if (!grid[r1][c1]) continue;
+      for (let r2 = 0; r2 < ROWS; r2++) {
+        for (let c2 = 0; c2 < COLS; c2++) {
+          if (r1 === r2 && c1 === c2) continue;
+          if (!grid[r2][c2]) continue;
+          if (grid[r1][c1] !== grid[r2][c2]) continue;
+          if (findPath(r1, c1, r2, c2)) {
+            hintsLeft--;
+            [getCell(r1,c1), getCell(r2,c2)].forEach(el => {
+              if (!el) return;
+              el.classList.add('hint');
+              setTimeout(() => el?.classList.remove('hint'), 2200);
+            });
+            return;
+          }
+        }
+      }
+    }
+  }
+  showToast('No moves available — try reshuffling!');
+}
+
+function showToast(msg) {
+  const el = document.createElement('div');
+  el.className = 'combo-popup';
+  el.textContent = msg;
+  el.style.left = '50%';
+  el.style.top = '50%';
+  el.style.transform = 'translateX(-50%)';
+  el.style.fontSize = '1rem';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1100);
+}
+
+// ── End game ─────────────────────────────────────────────────────────────────
+
+function endGame(win) {
+  const title = win ? '🎉 You Win!' : '⏰ Time Up!';
+  const msg = win
+    ? `Amazing! Score: ${score} | Time left: ${timeLeft}s`
+    : `Score: ${score} | Pairs matched: ${pairsFound} / ${TOTAL_PAIRS}`;
+  document.getElementById('overlayTitle').textContent = title;
+  document.getElementById('overlayMsg').textContent   = msg;
+  document.getElementById('overlay').classList.add('show');
+}
+
+// ── Boot ─────────────────────────────────────────────────────────────────────
+newGame();
+</script>
+</body>
+</html>
