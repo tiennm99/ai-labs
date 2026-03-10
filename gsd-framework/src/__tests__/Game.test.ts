@@ -1,7 +1,7 @@
 // Tests for src/game/Game.ts
 // TDD tests for Game class orchestrator
 
-import { describe, it, expect, vi, beforeEach, afterEach, Mock } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { Game } from '../game/Game';
 import { GameLoop } from '../game/GameLoop';
 import { TypedEventEmitter } from '../game/EventEmitter';
@@ -38,11 +38,11 @@ describe('Game', () => {
 
     // Mock requestAnimationFrame on globalThis
     let rafId = 0;
-    globalThis.requestAnimationFrame = vi.fn((cb: FrameRequestCallback): number => {
+    globalThis.requestAnimationFrame = vi.fn((_cb: FrameRequestCallback): number => {
       rafId++;
       return rafId;
     });
-    globalThis.cancelAnimationFrame = vi.fn((id: number) => {});
+    globalThis.cancelAnimationFrame = vi.fn((_id: number) => {});
 
     // Mock performance.now()
     let mockTime = 0;

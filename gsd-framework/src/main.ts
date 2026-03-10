@@ -1,28 +1,27 @@
 // Main entry point for the Pikachu Match game
-// Temporary placeholder - will be updated when CONFIG is available
+// This file initializes the Game class and starts the game loop
 
-// Get canvas element by id 'game'
-const canvas = document.getElementById('game') as HTMLCanvasElement;
-if (!canvas) {
-  throw new Error('Canvas element with id "game" not found');
-}
+import { Game } from './game/Game';
 
-// Get 2D context
-const ctx = canvas.getContext('2d');
-if (!ctx) {
-  throw new Error('Could not get 2D context from canvas');
-}
+let game: Game | null = null;
 
-// Set canvas size (hardcoded for now: 16 cols * 52, 10 rows * 52)
-// 52 = 48 (tile size) + 4 (gap)
-const canvasWidth = 16 * 52; // 832
-const canvasHeight = 10 * 52; // 520
-canvas.width = canvasWidth;
-canvas.height = canvasHeight;
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    game = new Game();
 
-// Fill with background color (hardcoded for now: '#1a1a2e')
-ctx.fillStyle = '#1a1a2e';
-ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    // Handle errors
+    game.events.on('error', (err) => {
+      console.error('Game error:', err);
+    });
 
-console.log('Pikachu Match game initialized');
-console.log(`Canvas size: ${canvasWidth}x${canvasHeight}`);
+    // Log tick events in development (comment out in production)
+    game.events.on('game:tick', (_data) => {
+      // Uncomment for debugging: console.log('Tick:', _data.deltaTime.toFixed(2), 'ms');
+    });
+
+    game.start();
+    console.log('Game initialized - Canvas should show with background color');
+  } catch (err) {
+    console.error('Failed to initialize game:', err);
+  }
+});
