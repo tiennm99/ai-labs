@@ -33,7 +33,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Project scaffolding with Vite + TypeScript + Canvas, config constants, and shared types
+- [x] 01-01-PLAN.md — Project scaffolding with Vite + TypeScript + Canvas, config constants, and shared types
 - [ ] 01-02-PLAN.md — Game loop with delta time, typed event emitter, and Tile model class
 - [ ] 01-03-PLAN.md — Game orchestrator class, main entry point, and human verification
 
@@ -126,7 +126,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Core Foundation | 0/3 | Planning complete | - |
+| 1. Core Foundation | 1/3 | In progress | 01-01 |
 | 2. Grid and Input | 0/3 | Not started | - |
 | 3. Core Matching Mechanics | 0/3 | Not started | - |
 | 4. Game State Management | 0/3 | Not started | - |
@@ -136,4 +136,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 ---
 *Roadmap created: 2026-03-10*
 *Granularity: standard*
-*Last updated: 2026-03-10 after Phase 1 planning*
+*Last updated: 2026-03-10 after 01-01-PLAN completion*
