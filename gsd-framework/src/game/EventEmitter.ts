@@ -6,7 +6,7 @@
 
 import { EventEmitter } from 'events';
 
-export class TypedEventEmitter<T extends Record<string, unknown>> {
+export class TypedEventEmitter<T extends object> {
   private emitter = new EventEmitter();
 
   /**

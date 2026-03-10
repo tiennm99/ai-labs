@@ -1,15 +1,15 @@
 // src/__tests__/GameLoop.test.ts - Unit tests for GameLoop class
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach, Mock } from 'vitest';
 import { GameLoop } from '../game/GameLoop';
 
 describe('GameLoop', () => {
   let gameLoop: GameLoop;
-  let updateCallback: ReturnType<typeof vi.fn>;
+  let updateCallback: Mock<(deltaTime: number) => void>;
   let originalRaf: typeof globalThis.requestAnimationFrame;
   let originalCancelRaf: typeof globalThis.cancelAnimationFrame;
 
   beforeEach(() => {
-    updateCallback = vi.fn();
+    updateCallback = vi.fn<(deltaTime: number) => void>();
     originalRaf = globalThis.requestAnimationFrame;
     originalCancelRaf = globalThis.cancelAnimationFrame;
 
@@ -51,9 +51,9 @@ describe('GameLoop', () => {
     it('should not start again if already running', () => {
       gameLoop = new GameLoop(updateCallback);
       gameLoop.start();
-      const callCount = (globalThis.requestAnimationFrame as ReturnType<typeof vi.fn>).mock.calls.length;
+      const callCount = (globalThis.requestAnimationFrame as Mock).mock.calls.length;
       gameLoop.start(); // Should be ignored
-      expect((globalThis.requestAnimationFrame as ReturnType<typeof vi.fn>).mock.calls.length).toBe(callCount);
+      expect((globalThis.requestAnimationFrame as Mock).mock.calls.length).toBe(callCount);
     });
   });
 
@@ -92,22 +92,23 @@ describe('GameLoop', () => {
     it('should call update with deltaTime when time has passed', () => {
       vi.useFakeTimers();
 
-      let capturedCallback: FrameRequestCallback | null = null;
+      const capturedCallbacks: FrameRequestCallback[] = [];
       globalThis.requestAnimationFrame = vi.fn((cb: FrameRequestCallback): number => {
-        capturedCallback = cb;
+        capturedCallbacks.push(cb);
         return 1;
       });
 
-      gameLoop = new GameLoop(updateCallback);
+      const callback = vi.fn<(deltaTime: number) => void>();
+      gameLoop = new GameLoop(callback);
       gameLoop.start();
 
       // Simulate a frame with enough time for one tick (~16.67ms)
-      if (capturedCallback) {
-        capturedCallback(20); // 20ms passed
+      if (capturedCallbacks.length > 0) {
+        capturedCallbacks[0](20); // 20ms passed
       }
 
       // One tick should have been called
-      expect(updateCallback).toHaveBeenCalledWith(1000 / 60);
+      expect(callback).toHaveBeenCalledWith(1000 / 60);
 
       vi.useRealTimers();
     });
@@ -115,21 +116,22 @@ describe('GameLoop', () => {
     it('should not call update when no time has passed', () => {
       vi.useFakeTimers();
 
-      let capturedCallback: FrameRequestCallback | null = null;
+      const capturedCallbacks: FrameRequestCallback[] = [];
       globalThis.requestAnimationFrame = vi.fn((cb: FrameRequestCallback): number => {
-        capturedCallback = cb;
+        capturedCallbacks.push(cb);
         return 1;
       });
 
-      gameLoop = new GameLoop(updateCallback);
+      const callback = vi.fn<(deltaTime: number) => void>();
+      gameLoop = new GameLoop(callback);
       gameLoop.start();
 
       // Simulate a frame with no time passed
-      if (capturedCallback) {
-        capturedCallback(0); // No time passed
+      if (capturedCallbacks.length > 0) {
+        capturedCallbacks[0](0); // No time passed
       }
 
-      expect(updateCallback).not.toHaveBeenCalled();
+      expect(callback).not.toHaveBeenCalled();
 
       vi.useRealTimers();
     });
@@ -157,23 +159,24 @@ describe('GameLoop', () => {
     it('should accumulate multiple ticks correctly', () => {
       vi.useFakeTimers();
 
-      let capturedCallback: FrameRequestCallback | null = null;
+      const capturedCallbacks: FrameRequestCallback[] = [];
       globalThis.requestAnimationFrame = vi.fn((cb: FrameRequestCallback): number => {
-        capturedCallback = cb;
+        capturedCallbacks.push(cb);
         return 1;
       });
 
-      gameLoop = new GameLoop(updateCallback);
+      const callback = vi.fn<(deltaTime: number) => void>();
+      gameLoop = new GameLoop(callback);
       gameLoop.start();
 
       // Simulate a frame with enough time for 3 ticks (~50ms)
-      if (capturedCallback) {
-        capturedCallback(50);
+      if (capturedCallbacks.length > 0) {
+        capturedCallbacks[0](50);
       }
 
       // Three ticks should have been called
-      expect(updateCallback).toHaveBeenCalledTimes(3);
-      expect(updateCallback).toHaveBeenCalledWith(1000 / 60);
+      expect(callback).toHaveBeenCalledTimes(3);
+      expect(callback).toHaveBeenCalledWith(1000 / 60);
 
       vi.useRealTimers();
     });
