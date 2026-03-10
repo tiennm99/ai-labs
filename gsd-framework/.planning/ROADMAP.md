@@ -30,12 +30,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Game loop runs at 60fps using requestAnimationFrame with delta time tracking
   3. Event system allows components to subscribe to and emit typed events
   4. Basic Tile model exists with properties for id, type, position, and cleared state
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: Project scaffolding with Vite + TypeScript + Canvas
-- [ ] 01-02: Game loop with delta time and event emitter
-- [ ] 01-03: Tile model and game configuration constants
+- [ ] 01-01-PLAN.md — Project scaffolding with Vite + TypeScript + Canvas, config constants, and shared types
+- [ ] 01-02-PLAN.md — Game loop with delta time, typed event emitter, and Tile model class
+- [ ] 01-03-PLAN.md — Game orchestrator class, main entry point, and human verification
 
 ### Phase 2: Grid and Input
 **Goal**: Players can see a grid of Pokemon tiles and interact with them via mouse and touch
@@ -126,7 +126,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Core Foundation | 0/3 | Not started | - |
+| 1. Core Foundation | 0/3 | Planning complete | - |
 | 2. Grid and Input | 0/3 | Not started | - |
 | 3. Core Matching Mechanics | 0/3 | Not started | - |
 | 4. Game State Management | 0/3 | Not started | - |
@@ -136,3 +136,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 ---
 *Roadmap created: 2026-03-10*
 *Granularity: standard*
+*Last updated: 2026-03-10 after Phase 1 planning*
