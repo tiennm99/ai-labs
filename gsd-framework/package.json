@@ -1,0 +1,31 @@
+{
+  "name": "gsd-framework",
+  "version": "1.0.0",
+  "description": "Pikachu Match - A tile-matching puzzle game built with Vite + TypeScript + Canvas",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:run": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tiennm99/gsd-framework.git"
+  },
+  "keywords": ["game", "puzzle", "canvas", "typescript", "vite"],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tiennm99/gsd-framework/issues"
+  },
+  "homepage": "https://github.com/tiennm99/gsd-framework#readme",
+  "devDependencies": {
+    "@types/node": "^25.4.0",
+    "@vitest/coverage-v8": "^4.0.18",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vitest": "^4.0.18"
+  }
+}
