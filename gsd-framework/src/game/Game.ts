@@ -1,19 +1,23 @@
 // src/game/Game.ts - Main game orchestrator class
 /**
  * Game is the main orchestrator that coordinates all game components.
- * It manages the canvas, game loop, and event system.
+ * It manages the canvas, game loop, event system, grid, and rendering.
  */
 
 import { GameLoop } from './GameLoop';
 import { TypedEventEmitter } from './EventEmitter';
 import { GameEvents } from '../types';
 import { CONFIG } from '../config';
+import { GridManager } from '../managers/GridManager';
+import { Renderer } from '../rendering/Renderer';
 
 export class Game {
   readonly canvas: HTMLCanvasElement;
   readonly ctx: CanvasRenderingContext2D;
   readonly loop: GameLoop;
   readonly events: TypedEventEmitter<GameEvents>;
+  readonly gridManager: GridManager;
+  readonly renderer: Renderer;
 
   constructor() {
     // Get canvas element
@@ -31,11 +35,24 @@ export class Game {
     // Initialize event emitter
     this.events = new TypedEventEmitter<GameEvents>();
 
+    // Initialize grid manager and create grid
+    this.gridManager = new GridManager(this.events);
+    this.gridManager.initializeGrid();
+
     // Setup canvas size and scale
     this.setupCanvas();
 
+    // Initialize renderer with canvas reference
+    this.renderer = new Renderer(this.ctx, this.gridManager);
+    this.renderer.setCanvas(this.canvas);
+
     // Create game loop with update callback
     this.loop = new GameLoop(this.update.bind(this));
+
+    // Listen for tilesSelected event (log for now - Phase 3 will handle matching logic)
+    this.events.on('tilesSelected', ({ tile1, tile2 }) => {
+      console.log('Two tiles selected:', tile1.id, tile2.id);
+    });
   }
 
   /**
@@ -96,8 +113,6 @@ export class Game {
    * Renders the game state to the canvas
    */
   private render(): void {
-    // Clear canvas with background color
-    this.ctx.fillStyle = CONFIG.colors.background;
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.renderer.render();
   }
 }
