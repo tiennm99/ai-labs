@@ -8,7 +8,7 @@ dist/
 *.log
 npm-debug.log*
 
-# Editor directories
+# Editor directories and IDEs
 .idea/
 .vscode/
 *.swp
@@ -33,10 +33,6 @@ coverage/
 
 # Git configs
 .gitconfig
-
-# IDE
-.idea/
-.vscode/
 
 # SSH/MCP configs
 .mcp.json

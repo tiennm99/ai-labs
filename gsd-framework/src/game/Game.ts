@@ -61,7 +61,10 @@ export class Game {
       const result = this.matchEngine.validateMatch(tile1, tile2);
 
       if (result.valid) {
-        // Successful match
+        // Successful match - draw path first
+        this.renderer.drawPath(result.path!);
+
+        // Emit tilesMatched event
         this.events.emit('tilesMatched', {
           tile1,
           tile2,
@@ -70,27 +73,32 @@ export class Game {
           score: result.score!
         });
 
-        // Clear tiles from board
-        this.gridManager.clearTiles([tile1, tile2]);
+        // Clear tiles from board after path animation completes
+        setTimeout(() => {
+          this.gridManager.clearTiles([tile1, tile2]);
+        }, 300); // Wait for path animation (300ms)
 
-        // Update score
+        // Update score immediately
         this.score += result.score!;
         this.updateScoreDisplay();
 
         // Emit score update event
         this.events.emit('game:score', { points: this.score });
       } else {
-        // Failed match
+        // Failed match - emit matchFailed event
         this.events.emit('matchFailed', {
           tile1,
           tile2,
           reason: result.reason || 'unknown'
         });
 
-        // Deselect after short delay
+        // Trigger shake animation for visual feedback
+        this.renderer.animateShake([tile1, tile2], result.reason || 'unknown');
+
+        // Deselect after shake animation completes
         setTimeout(() => {
           this.gridManager.deselectAll();
-        }, 200);
+        }, 200); // Wait for shake animation (200ms)
       }
     });
 

@@ -80,6 +80,8 @@ export class Renderer {
   private fadeAnimationStartTimes: Map<string, number> = new Map();
   private readonly FADE_DURATION = 100; // ms per CONTEXT.md
   private shakeAnimations: Map<string, ShakeAnimation> = new Map();
+  private pathAnimation: { path: TilePosition[], startTime: number } | null = null;
+  private readonly PATH_DISPLAY_DURATION = 300; // ms per CONTEXT.md
 
   constructor(ctx: CanvasRenderingContext2D, gridManager: GridManager) {
     this.ctx = ctx;
@@ -108,6 +110,9 @@ export class Renderer {
     // Center the grid within canvas
     const offsetX = (this.canvas.width - gridWidth) / 2;
     const offsetY = (this.canvas.height - gridHeight) / 2;
+
+    // Draw path animation if active
+    this.renderPathAnimation();
 
     // Get selected tiles for highlight rendering
     const selectedTiles = this.gridManager.selectedTilesList;
@@ -312,5 +317,79 @@ export class Renderer {
     }
 
     return offset;
+  }
+
+  /**
+   * Start path drawing animation
+   * @param path - Array of tile positions to draw connection line through
+   */
+  drawPath(path: TilePosition[]): void {
+    this.pathAnimation = {
+      path,
+      startTime: performance.now()
+    };
+  }
+
+  /**
+   * Render path animation if active
+   */
+  private renderPathAnimation(): void {
+    if (!this.pathAnimation) {
+      return;
+    }
+
+    const elapsed = performance.now() - this.pathAnimation.startTime;
+
+    // Check if animation is complete
+    if (elapsed >= this.PATH_DISPLAY_DURATION) {
+      this.pathAnimation = null;
+      return;
+    }
+
+    // Draw the path
+    this.drawPathLine(this.pathAnimation.path);
+  }
+
+  /**
+   * Draw connection line through tile centers
+   * @param path - Array of tile positions to connect
+   */
+  private drawPathLine(path: TilePosition[]): void {
+    if (path.length < 2) {
+      return;
+    }
+
+    // Calculate grid offset
+    const { size, gap } = CONFIG.tile;
+    const gridWidth = CONFIG.grid.cols * (size + gap) + gap;
+    const gridHeight = CONFIG.grid.rows * (size + gap) + gap;
+    const offsetX = (this.canvas.width - gridWidth) / 2;
+    const offsetY = (this.canvas.height - gridHeight) / 2;
+
+    // Set path style
+    this.ctx.strokeStyle = '#00ff00'; // Green color per CONTEXT.md
+    this.ctx.lineWidth = 3;
+    this.ctx.lineCap = 'round';
+    this.ctx.lineJoin = 'round';
+
+    // Begin path
+    this.ctx.beginPath();
+
+    // Move to first point center
+    const firstPoint = path[0];
+    const firstX = offsetX + firstPoint.col * (size + gap) + gap + size / 2;
+    const firstY = offsetY + firstPoint.row * (size + gap) + gap + size / 2;
+    this.ctx.moveTo(firstX, firstY);
+
+    // Line to each subsequent point center
+    for (let i = 1; i < path.length; i++) {
+      const point = path[i];
+      const x = offsetX + point.col * (size + gap) + gap + size / 2;
+      const y = offsetY + point.row * (size + gap) + gap + size / 2;
+      this.ctx.lineTo(x, y);
+    }
+
+    // Stroke path
+    this.ctx.stroke();
   }
 }
