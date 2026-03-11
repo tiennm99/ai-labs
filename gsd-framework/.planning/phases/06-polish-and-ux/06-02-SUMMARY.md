@@ -114,3 +114,8 @@ None - no external service configuration required.
 ---
 *Phase: 06-polish-and-ux*
 *Completed: 2026-03-11*
+
+## Self-Check: PASSED
+
+- [x] SUMMARY.md exists at `.planning/phases/06-polish-and-ux/06-02-SUMMARY.md`
+- [x] Commits exist: `f220fe4` (glow effect), `29ae674` (wire animateMatch), `51ed2f3` (integrate MatchAnimation), `ac1860d` (add animation constant), `4d8ceee` (metadata)
