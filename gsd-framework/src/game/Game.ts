@@ -259,6 +259,9 @@ export class Game {
     const x = (clientX - rect.left) * (this.canvas.width / rect.width / dpr);
     const y = (clientY - rect.top) * (this.canvas.height / rect.height / dpr);
 
+    // Add ripple effect at touch/click point
+    this.renderer.addRipple(x, y);
+
     // Find tile at coordinates
     const { size, gap } = CONFIG.tile;
     const col = Math.floor((x - gap) / (size + gap));
