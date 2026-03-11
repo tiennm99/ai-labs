@@ -20,10 +20,23 @@
       #game {
         border-radius: 8px;
       }
+      #score-display {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background-color: rgba(26, 26, 70, 0.9);
+        color: #eaeaea;
+        padding: 16px 24px;
+        border-radius: 8px;
+        font-size: 24px;
+        font-weight: bold;
+        z-index: 100;
+      }
     </style>
   </head>
   <body>
     <canvas id="game"></canvas>
+    <div id="score-display">Score: 0</div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
