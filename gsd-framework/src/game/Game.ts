@@ -10,6 +10,7 @@ import { GameEvents } from '../types';
 import { CONFIG } from '../config';
 import { GridManager } from '../managers/GridManager';
 import { Renderer } from '../rendering/Renderer';
+import { MatchEngine } from '../matching/MatchEngine';
 
 export class Game {
   readonly canvas: HTMLCanvasElement;
@@ -18,7 +19,9 @@ export class Game {
   readonly events: TypedEventEmitter<GameEvents>;
   readonly gridManager: GridManager;
   readonly renderer: Renderer;
+  readonly matchEngine: MatchEngine;
   private resizeTimeout: number | undefined;
+  private score = 0;
 
   constructor() {
     // Get canvas element
@@ -40,6 +43,9 @@ export class Game {
     this.gridManager = new GridManager(this.events);
     this.gridManager.initializeGrid();
 
+    // Initialize match engine
+    this.matchEngine = new MatchEngine(this.gridManager, this.events);
+
     // Setup canvas size and scale
     this.setupCanvas();
 
@@ -50,13 +56,56 @@ export class Game {
     // Create game loop with update callback
     this.loop = new GameLoop(this.update.bind(this));
 
-    // Listen for tilesSelected event (log for now - Phase 3 will handle matching logic)
+    // Listen for tilesSelected event and validate matches
     this.events.on('tilesSelected', ({ tile1, tile2 }) => {
-      console.log('Two tiles selected:', tile1.id, tile2.id);
+      const result = this.matchEngine.validateMatch(tile1, tile2);
+
+      if (result.valid) {
+        // Successful match
+        this.events.emit('tilesMatched', {
+          tile1,
+          tile2,
+          path: result.path!,
+          turns: result.turns!,
+          score: result.score!
+        });
+
+        // Clear tiles from board
+        this.gridManager.clearTiles([tile1, tile2]);
+
+        // Update score
+        this.score += result.score!;
+        this.updateScoreDisplay();
+
+        // Emit score update event
+        this.events.emit('game:score', { points: this.score });
+      } else {
+        // Failed match
+        this.events.emit('matchFailed', {
+          tile1,
+          tile2,
+          reason: result.reason || 'unknown'
+        });
+
+        // Deselect after short delay
+        setTimeout(() => {
+          this.gridManager.deselectAll();
+        }, 200);
+      }
     });
 
     // Setup input listeners
     this.setupInputListeners();
+  }
+
+  /**
+   * Update score display in HTML overlay
+   */
+  private updateScoreDisplay(): void {
+    const scoreDisplay = document.getElementById('score-display');
+    if (scoreDisplay) {
+      scoreDisplay.textContent = `Score: ${this.score}`;
+    }
   }
 
   /**

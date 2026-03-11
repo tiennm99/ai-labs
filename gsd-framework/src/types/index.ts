@@ -64,4 +64,6 @@ export interface GameEvents {
   'game:score': { points: number };
   'game:over': { won: boolean };
   'error': Error;
+  'tilesMatched': { tile1: Tile; tile2: Tile; path: TilePosition[]; turns: number; score: number };
+  'matchFailed': { tile1: Tile; tile2: Tile; reason: string };
 }
