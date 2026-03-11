@@ -120,6 +120,11 @@ All 55 responsive-related tests pass (6 pre-existing failures in unrelated test 
 - Canvas scales correctly on viewport resize
 - Touch/click coordinates map correctly regardless of scale
 
+## Self-Check: PASSED
+
+- [x] SUMMARY.md exists at `.planning/phases/06-polish-and-ux/06-04-SUMMARY.md`
+- [x] Commits exist: `2b40554` (docs), responsive scaling code in Game.ts
+
 ---
 *Phase: 06-polish-and-ux*
 *Completed: 2026-03-11*

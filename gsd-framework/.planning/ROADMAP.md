@@ -133,7 +133,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. Core Matching Mechanics | 3/3 | Complete   | 2026-03-11 |
 | 4. Game State Management | 5/5 | Complete | 04-00, 04-01, 04-02, 04-03, 04-04 |
 | 5. Board Generation and Recovery | 0/3 | Not started | - |
-| 6. Polish and UX | 0/4 | Planned | - |
+| 6. Polish and UX | 4/4 | In Progress | 06-01, 06-02, 06-03, 06-04 |
 
 ---
 *Roadmap created: 2026-03-10*
