@@ -63,12 +63,12 @@ Plans:
   3. Player sees score increase immediately after successful match
   4. Cleared tiles become empty space that allows paths to pass through
   5. Player can continue matching remaining tiles after each successful match
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 03-01: Path-finding algorithm with 3-line constraint
-- [ ] 03-02: Match engine and scoring system
-- [ ] 03-03: Visual feedback for matches (success and failure)
+- [ ] 03-01-PLAN.md — Path-finding algorithm with 3-line constraint (BFS with turn counting)
+- [ ] 03-02-PLAN.md — Match engine and scoring system (validation pipeline + score display)
+- [ ] 03-03-PLAN.md — Visual feedback for matches (success and failure shake animations)
 
 ### Phase 4: Game State Management
 **Goal**: Game detects and responds to win condition and no-moves state appropriately
@@ -127,8 +127,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Core Foundation | 3/3 | Complete | 01-01, 01-02, 01-03 |
-| 2. Grid and Input | 0/3 | Planning complete | 02-01, 02-02, 02-03 |
-| 3. Core Matching Mechanics | 0/3 | Not started | - |
+| 2. Grid and Input | 3/3 | Complete | 02-01, 02-02, 02-03 |
+| 3. Core Matching Mechanics | 1/3 | In Progress|  |
 | 4. Game State Management | 0/3 | Not started | - |
 | 5. Board Generation and Recovery | 0/3 | Not started | - |
 | 6. Polish and UX | 0/4 | Not started | - |
@@ -136,4 +136,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 ---
 *Roadmap created: 2026-03-10*
 *Granularity: standard*
-*Last updated: 2026-03-11 after Phase 2 planning*
+*Last updated: 2026-03-11 after Phase 3 planning*
