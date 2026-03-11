@@ -52,12 +52,39 @@ export interface MatchResult {
 }
 
 /**
+ * Represents a game state in the state machine
+ * String enum for better debugging and logging
+ */
+export enum GameState {
+  /** Waiting for player input */
+  IDLE = 'IDLE',
+  /** One tile selected, waiting for second tile */
+  SELECTING = 'SELECTING',
+  /** Processing match, input blocked */
+  MATCHING = 'MATCHING',
+  /** Game ended (win or no moves) */
+  GAME_OVER = 'GAME_OVER',
+}
+
+/**
+ * Represents a state transition event
+ * Emitted when game state changes
+ */
+export interface StateChangeEvent {
+  /** Previous state */
+  from: GameState;
+  /** New state */
+  to: GameState;
+}
+
+/**
  * Maps event names to their payload types
  * Used for type-safe event emission and handling
  */
 export interface GameEvents {
   'game:start': void;
   'game:tick': { deltaTime: number };
+  'game:stateChange': StateChangeEvent;
   'tilesSelected': { tile1: Tile; tile2: Tile };
   'tile:selected': { tile: Tile; row: number; col: number };
   'tile:cleared': { tile: Tile };

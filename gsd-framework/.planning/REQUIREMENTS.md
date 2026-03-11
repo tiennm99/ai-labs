@@ -16,8 +16,8 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **CORE-05**: Connected matching tiles disappear from the board
 - [x] **CORE-06**: Player receives points when tiles are matched and cleared
 - [x] **CORE-07**: Cleared tiles become passable space for future connections
-- [ ] **CORE-08**: Game detects when no valid moves remain on the board
-- [ ] **CORE-09**: Game detects win condition when all tiles are cleared
+- [x] **CORE-08**: Game detects when no valid moves remain on the board
+- [x] **CORE-09**: Game detects win condition when all tiles are cleared
 
 ### Board & Scoring
 
@@ -74,8 +74,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CORE-05 | Phase 3 | Complete |
 | CORE-06 | Phase 3 | Complete |
 | CORE-07 | Phase 3 | Complete |
-| CORE-08 | Phase 4 | Pending |
-| CORE-09 | Phase 4 | Pending |
+| CORE-08 | Phase 4 | Complete |
+| CORE-09 | Phase 4 | Complete |
 | BOARD-01 | Phase 5 | Pending |
 | BOARD-02 | Phase 3 | Complete |
 | UX-01 | Phase 6 | Pending |

@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Core Foundation** - Project setup, game loop, event system, and basic types
 - [x] **Phase 2: Grid and Input** - Rendered game board with clickable tiles
-- [x] **Phase 3: Core Matching Mechanics** - Path-finding algorithm and tile matching (completed 2026-03-11)
+- [x] **Phase 3: Core Matching Mechanics** - Path-finding algorithm and tile matching (completed 2026-03-11)
 - [ ] **Phase 4: Game State Management** - Win/lose detection and score tracking
 - [ ] **Phase 5: Board Generation and Recovery** - Solvable boards and shuffle feature
 - [ ] **Phase 6: Polish and UX** - Animations, mobile touch, and responsive design
@@ -66,9 +66,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Path-finding algorithm with 3-line constraint (BFS with turn counting)
-- [ ] 03-02-PLAN.md — Match engine and scoring system (validation pipeline + score display)
-- [ ] 03-03-PLAN.md — Visual feedback for matches (success and failure shake animations)
+- [x] 03-01-PLAN.md — Path-finding algorithm with 3-line constraint (BFS with turn counting)
+- [x] 03-02-PLAN.md — Match engine and scoring system (validation pipeline + score display)
+- [x] 03-03-PLAN.md — Visual feedback for matches (success and failure shake animations)
 
 ### Phase 4: Game State Management
 **Goal**: Game detects and responds to win condition and no-moves state appropriately
@@ -79,12 +79,12 @@ Plans:
   2. Game detects when no valid moves remain and notifies the player
   3. Game state machine handles transitions between idle, selected, matching, and game over states
   4. Player can restart the game after win or game over
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 04-01: State machine with game states and transitions
-- [ ] 04-02: Win/lose detection and game over handling
-- [ ] 04-03: Move detector for no-moves state
+- [ ] 04-01-PLAN.md — State machine with game states (IDLE, SELECTING, MATCHING, GAME_OVER) and transition validation
+- [ ] 04-02-PLAN.md — Win/lose detection with game over overlay and no-moves detector
+- [ ] 04-03-PLAN.md — Restart functionality with full game state reset
 
 ### Phase 5: Board Generation and Recovery
 **Goal**: Game generates solvable boards and provides shuffle when stuck
@@ -136,4 +136,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 ---
 *Roadmap created: 2026-03-10*
 *Granularity: standard*
-*Last updated: 2026-03-11 after Phase 3 planning*
+*Last updated: 2026-03-11 after Phase 4 planning*

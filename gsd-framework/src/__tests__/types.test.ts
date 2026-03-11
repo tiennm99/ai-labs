@@ -4,7 +4,8 @@
 // Test 3: GameEvents type defines event names and payloads
 
 import { describe, it, expect } from 'vitest';
-import type { TilePosition, Tile, GameEvents } from '../types';
+import type { TilePosition, Tile, GameEvents, StateChangeEvent } from '../types';
+import { GameState } from '../types';
 
 describe('Type Definitions', () => {
   describe('TilePosition', () => {
@@ -123,6 +124,43 @@ describe('Type Definitions', () => {
       type ErrorPayload = GameEvents['error'];
       const payload: ErrorPayload = new Error('Test error');
       expect(payload).toBeInstanceOf(Error);
+    });
+
+    it('should define game:stateChange event with StateChangeEvent', () => {
+      type StateChangePayload = GameEvents['game:stateChange'];
+      const payload: StateChangePayload = {
+        from: GameState.IDLE,
+        to: GameState.SELECTING
+      };
+      expect(payload.from).toBe(GameState.IDLE);
+      expect(payload.to).toBe(GameState.SELECTING);
+    });
+  });
+
+  describe('GameState', () => {
+    it('should have 4 string values', () => {
+      expect(GameState.IDLE).toBe('IDLE');
+      expect(GameState.SELECTING).toBe('SELECTING');
+      expect(GameState.MATCHING).toBe('MATCHING');
+      expect(GameState.GAME_OVER).toBe('GAME_OVER');
+    });
+
+    it('should have string enum values for debugging', () => {
+      expect(typeof GameState.IDLE).toBe('string');
+      expect(typeof GameState.SELECTING).toBe('string');
+      expect(typeof GameState.MATCHING).toBe('string');
+      expect(typeof GameState.GAME_OVER).toBe('string');
+    });
+  });
+
+  describe('StateChangeEvent', () => {
+    it('should have from and to properties of type GameState', () => {
+      const event: StateChangeEvent = {
+        from: GameState.IDLE,
+        to: GameState.SELECTING
+      };
+      expect(event.from).toBe(GameState.IDLE);
+      expect(event.to).toBe(GameState.SELECTING);
     });
   });
 });
