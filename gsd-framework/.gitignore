@@ -23,3 +23,36 @@ settings.local.json
 
 # Test coverage
 coverage/
+
+# Shell configs (should not be in repo)
+.bash_profile
+.bashrc
+.profile
+.zprofile
+.zshrc
+
+# Git configs
+.gitconfig
+
+# IDE
+.idea/
+.vscode/
+
+# SSH/MCP configs
+.mcp.json
+
+# Git artifacts (not to be tracked)
+HEAD
+config
+hooks
+objects
+refs
+
+# Ripgrep config
+.ripgreprc
+
+# Git submodules
+.gitmodules
+
+# Claude skills (local development)
+.claude/skills
