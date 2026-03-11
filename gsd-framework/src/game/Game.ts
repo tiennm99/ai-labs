@@ -73,6 +73,9 @@ export class Game {
         // Successful match - draw path first
         this.renderer.drawPath(result.path!);
 
+        // Start match animation (concurrent with path display)
+        this.renderer.animateMatch([tile1, tile2]);
+
         // Emit tilesMatched event
         this.events.emit('tilesMatched', {
           tile1,

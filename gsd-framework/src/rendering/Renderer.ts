@@ -197,9 +197,11 @@ export class Renderer {
   private fadeAnimationStartTimes: Map<string, number> = new Map();
   private readonly FADE_DURATION = 100; // ms per CONTEXT.md
   private shakeAnimations: Map<string, ShakeAnimation> = new Map();
+  private matchAnimations: Map<string, MatchAnimation> = new Map();
   private rippleAnimations: RippleAnimation[] = [];
   private pathAnimation: { path: TilePosition[], startTime: number } | null = null;
   private readonly PATH_DISPLAY_DURATION = 300; // ms per CONTEXT.md
+  private readonly MATCH_ANIMATION_DURATION = CONFIG.animation.matchDuration;
 
   constructor(ctx: CanvasRenderingContext2D, gridManager: GridManager) {
     this.ctx = ctx;
@@ -284,11 +286,32 @@ export class Renderer {
     const x = offsetX + tile.position.col * (CONFIG.tile.size + CONFIG.tile.gap) + CONFIG.tile.gap;
     const y = offsetY + tile.position.row * (CONFIG.tile.size + CONFIG.tile.gap) + CONFIG.tile.gap;
 
-    // Save context before applying shake
+    // Calculate tile center for match animation scaling
+    const centerX = x + CONFIG.tile.size / 2;
+    const centerY = y + CONFIG.tile.size / 2;
+
+    // Check for match animation
+    const matchAnimation = this.matchAnimations.get(tile.id);
+
+    // Save context before applying transforms
     ctx.save();
 
     // Apply shake offset
     ctx.translate(shakeOffset.x, shakeOffset.y);
+
+    // Apply match animation transforms if active
+    if (matchAnimation) {
+      const { scale, alpha } = matchAnimation.getScaleAndAlpha();
+      ctx.globalAlpha = alpha;
+      ctx.translate(centerX, centerY);
+      ctx.scale(scale, scale);
+      ctx.translate(-centerX, -centerY);
+
+      // Clean up completed animations
+      if (matchAnimation.isComplete()) {
+        this.matchAnimations.delete(tile.id);
+      }
+    }
 
     // Draw rounded rectangle background
     this.drawRoundedRect(ctx, x, y, CONFIG.tile.size, CONFIG.tile.size, CONFIG.tile.cornerRadius);
@@ -302,7 +325,7 @@ export class Renderer {
     ctx.textBaseline = 'middle';
     ctx.fillText(tile.emoji, x + CONFIG.tile.size / 2, y + CONFIG.tile.size / 2);
 
-    // Restore context after shake
+    // Restore context
     ctx.restore();
   }
 
@@ -418,6 +441,18 @@ export class Renderer {
       const animation = new ShakeAnimation(pattern);
       animation.start();
       this.shakeAnimations.set(tile.id, animation);
+    }
+  }
+
+  /**
+   * Start match animation for specified tiles
+   * @param tiles - Tiles to animate with scale+fade effect
+   */
+  animateMatch(tiles: Tile[]): void {
+    for (const tile of tiles) {
+      const animation = new MatchAnimation(this.MATCH_ANIMATION_DURATION);
+      animation.start();
+      this.matchAnimations.set(tile.id, animation);
     }
   }
 
