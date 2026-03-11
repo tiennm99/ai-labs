@@ -8,12 +8,78 @@ import { GridManager } from '../managers/GridManager';
 import { Tile } from '../models/Tile';
 import { CONFIG } from '../config';
 
+/**
+ * ShakeAnimation class for animating tile shake effects
+ * Used for visual feedback on failed matches
+ */
+class ShakeAnimation {
+  private startTime: number;
+  private readonly duration: number;
+  private readonly intensity: number;
+  private readonly pattern: 'horizontal' | 'circular';
+
+  constructor(pattern: 'horizontal' | 'circular', duration: number = 200, intensity: number = 5) {
+    this.startTime = 0;
+    this.duration = duration;
+    this.intensity = intensity;
+    this.pattern = pattern;
+  }
+
+  /**
+   * Start the shake animation
+   */
+  start(): void {
+    this.startTime = performance.now();
+  }
+
+  /**
+   * Get current shake offset based on elapsed time
+   * @returns { x, y } offset in pixels
+   */
+  getOffset(): { x: number; y: number } {
+    const elapsed = performance.now() - this.startTime;
+
+    // Animation complete - return zero offset
+    if (elapsed > this.duration) {
+      return { x: 0, y: 0 };
+    }
+
+    // Calculate decay (1 to 0 over duration)
+    const decay = 1 - (elapsed / this.duration);
+
+    // Calculate oscillation angle
+    const angle = elapsed * 0.05;
+
+    // Calculate offset based on pattern
+    if (this.pattern === 'horizontal') {
+      return {
+        x: Math.sin(angle) * this.intensity * decay,
+        y: 0
+      };
+    } else {
+      // Circular pattern
+      return {
+        x: Math.cos(angle) * this.intensity * decay,
+        y: Math.sin(angle) * this.intensity * decay
+      };
+    }
+  }
+
+  /**
+   * Check if animation is complete
+   */
+  isComplete(): boolean {
+    return performance.now() - this.startTime > this.duration;
+  }
+}
+
 export class Renderer {
   private ctx: CanvasRenderingContext2D;
   private gridManager: GridManager;
   private canvas: HTMLCanvasElement;
   private fadeAnimationStartTimes: Map<string, number> = new Map();
   private readonly FADE_DURATION = 100; // ms per CONTEXT.md
+  private shakeAnimations: Map<string, ShakeAnimation> = new Map();
 
   constructor(ctx: CanvasRenderingContext2D, gridManager: GridManager) {
     this.ctx = ctx;
@@ -83,9 +149,18 @@ export class Renderer {
     offsetX: number,
     offsetY: number
   ): void {
+    // Get shake offset if animation is active
+    const shakeOffset = this.getShakeOffset(tile);
+
     // Calculate tile position
     const x = offsetX + tile.position.col * (CONFIG.tile.size + CONFIG.tile.gap) + CONFIG.tile.gap;
     const y = offsetY + tile.position.row * (CONFIG.tile.size + CONFIG.tile.gap) + CONFIG.tile.gap;
+
+    // Save context before applying shake
+    ctx.save();
+
+    // Apply shake offset
+    ctx.translate(shakeOffset.x, shakeOffset.y);
 
     // Draw rounded rectangle background
     this.drawRoundedRect(ctx, x, y, CONFIG.tile.size, CONFIG.tile.size, CONFIG.tile.cornerRadius);
@@ -98,6 +173,9 @@ export class Renderer {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(tile.emoji, x + CONFIG.tile.size / 2, y + CONFIG.tile.size / 2);
+
+    // Restore context after shake
+    ctx.restore();
   }
 
   /**
@@ -198,5 +276,41 @@ export class Renderer {
    */
   setCanvas(canvas: HTMLCanvasElement): void {
     this.canvas = canvas;
+  }
+
+  /**
+   * Start shake animation for specified tiles
+   * @param tiles - Tiles to shake
+   * @param reason - Failure reason ('too-many-turns' → circular, else → horizontal)
+   */
+  animateShake(tiles: Tile[], reason: string): void {
+    const pattern = reason === 'too-many-turns' ? 'circular' : 'horizontal';
+
+    for (const tile of tiles) {
+      const animation = new ShakeAnimation(pattern);
+      animation.start();
+      this.shakeAnimations.set(tile.id, animation);
+    }
+  }
+
+  /**
+   * Get shake offset for a tile if it has an active animation
+   * @param tile - Tile to get offset for
+   * @returns { x, y } offset in pixels (0, 0 if no animation)
+   */
+  private getShakeOffset(tile: Tile): { x: number; y: number } {
+    const animation = this.shakeAnimations.get(tile.id);
+    if (!animation) {
+      return { x: 0, y: 0 };
+    }
+
+    const offset = animation.getOffset();
+
+    // Clean up completed animations
+    if (animation.isComplete()) {
+      this.shakeAnimations.delete(tile.id);
+    }
+
+    return offset;
   }
 }
