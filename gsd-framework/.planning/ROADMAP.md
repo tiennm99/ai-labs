@@ -113,13 +113,13 @@ Plans:
   2. Game responds accurately to touch input on mobile devices without lag
   3. Grid layout adapts responsively to phone and desktop screen sizes
   4. Connection path is drawn visually when a match succeeds
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 06-01: Tile match animations and visual effects
-- [ ] 06-02: Connection path visualization
-- [ ] 06-03: Mobile touch optimization
-- [ ] 06-04: Responsive grid layout refinements
+- [ ] 06-01-PLAN.md — Tile match animations with scale+fade effect (MatchAnimation class, CONFIG.animation.matchDuration)
+- [ ] 06-02-PLAN.md — Path glow effect and animation wiring (shadowBlur, animateMatch integration)
+- [ ] 06-03-PLAN.md — Mobile touch optimization (RippleAnimation, touch-action: none, ripple triggering)
+- [ ] 06-04-PLAN.md — Responsive canvas scaling (CSS transform, scale-down-only, aspect ratio preservation)
 
 ## Progress
 
@@ -133,9 +133,9 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. Core Matching Mechanics | 3/3 | Complete   | 2026-03-11 |
 | 4. Game State Management | 5/5 | Complete | 04-00, 04-01, 04-02, 04-03, 04-04 |
 | 5. Board Generation and Recovery | 0/3 | Not started | - |
-| 6. Polish and UX | 0/4 | Not started | - |
+| 6. Polish and UX | 0/4 | Planned | - |
 
 ---
 *Roadmap created: 2026-03-10*
 *Granularity: standard*
-*Last updated: 2026-03-11 after Phase 5 planning*
+*Last updated: 2026-03-11 after Phase 6 planning*
