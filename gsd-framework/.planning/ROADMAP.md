@@ -13,7 +13,7 @@ Build a minimal, playable tile-matching puzzle game where players connect matchi
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Core Foundation** - Project setup, game loop, event system, and basic types
-- [ ] **Phase 2: Grid and Input** - Rendered game board with clickable tiles
+- [x] **Phase 2: Grid and Input** - Rendered game board with clickable tiles
 - [ ] **Phase 3: Core Matching Mechanics** - Path-finding algorithm and tile matching
 - [ ] **Phase 4: Game State Management** - Win/lose detection and score tracking
 - [ ] **Phase 5: Board Generation and Recovery** - Solvable boards and shuffle feature
