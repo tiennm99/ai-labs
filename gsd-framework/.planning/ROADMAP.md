@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Core Foundation** - Project setup, game loop, event system, and basic types
 - [x] **Phase 2: Grid and Input** - Rendered game board with clickable tiles
 - [x] **Phase 3: Core Matching Mechanics** - Path-finding algorithm and tile matching (completed 2026-03-11)
-- [ ] **Phase 4: Game State Management** - Win/lose detection and score tracking
+- [x] **Phase 4: Game State Management** - Win/lose detection and score tracking
 - [ ] **Phase 5: Board Generation and Recovery** - Solvable boards and shuffle feature
 - [ ] **Phase 6: Polish and UX** - Animations, mobile touch, and responsive design
 
@@ -79,7 +79,7 @@ Plans:
   2. Game detects when no valid moves remain and notifies the player
   3. Game state machine handles transitions between idle, selected, matching, and game over states
   4. Player can restart the game after win or game over
-**Plans**: 3 plans
+**Plans**: 5 plans
 
 Plans:
 - [x] 04-00-PLAN.md — Phase 4 research and context
@@ -89,20 +89,20 @@ Plans:
 - [x] 04-04-PLAN.md — Restart functionality with full game state reset and score preservation
 
 ### Phase 5: Board Generation and Recovery
-**Goal**: Game generates solvable boards and provides shuffle when stuck
+**Goal**: Game generates solvable boards and provides automatic shuffle when stuck
 **Depends on**: Phase 4
 **Requirements**: BOARD-01
 **Success Criteria** (what must be TRUE):
   1. New game starts with a board that is guaranteed to be solvable
-  2. Player can trigger shuffle when no moves are available
+  2. Automatic shuffle triggers when no moves are available
   3. Shuffle redistributes remaining tiles while preserving pairs
-  4. Player sees shuffle button or prompt when stuck with no valid moves
-**Plans**: TBD
+  4. Player sees "Shuffling..." message when auto-shuffle occurs
+**Plans**: 3 plans
 
 Plans:
-- [ ] 05-01: Board generation with solvability validation
-- [ ] 05-02: Shuffle utility for redistributing tiles
-- [ ] 05-03: No-moves prompt and shuffle trigger
+- [ ] 05-01-PLAN.md — Random board generation with solvability verification (Fisher-Yates shuffle, max 100 attempts)
+- [ ] 05-02-PLAN.md — Shuffle utility for redistributing tile types (preserve positions, clear selection)
+- [ ] 05-03-PLAN.md — Auto-shuffle integration with overlay and game over fallback
 
 ### Phase 6: Polish and UX
 **Goal**: Game feels smooth and responsive with satisfying visual feedback on all devices
@@ -138,4 +138,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 ---
 *Roadmap created: 2026-03-10*
 *Granularity: standard*
-*Last updated: 2026-03-11 after Phase 4 completion*
+*Last updated: 2026-03-11 after Phase 5 planning*
