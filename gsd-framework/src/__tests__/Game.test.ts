@@ -412,4 +412,114 @@ describe('Game', () => {
       expect(document.getElementById('previous-score-display')).toBeDefined();
     });
   });
+
+  describe('restart() method', () => {
+    let mockOverlay: any;
+    let mockScoreDisplay: any;
+    let mockPreviousScoreDisplay: any;
+
+    beforeEach(() => {
+      mockOverlay = { style: { display: '' }, textContent: '' };
+      mockScoreDisplay = { style: {}, textContent: '' };
+      mockPreviousScoreDisplay = { style: { display: 'none' }, textContent: '' };
+
+      vi.stubGlobal('document', {
+        getElementById: vi.fn((id: string) => {
+          if (id === 'game') return mockCanvas;
+          if (id === 'score-display') return mockScoreDisplay;
+          if (id === 'previous-score-display') return mockPreviousScoreDisplay;
+          if (id === 'game-over-overlay') return mockOverlay;
+          return null;
+        }),
+      });
+
+      game = new Game();
+    });
+
+    it('should store current score as previousScore before reset', () => {
+      // Set a score
+      game['score'] = 500;
+
+      // Call restart
+      game.restart();
+
+      // Verify previousScore was stored
+      expect(game['previousScore']).toBe(500);
+    });
+
+    it('should call gridManager.initializeGrid() to regenerate tiles', () => {
+      const initializeGridSpy = vi.spyOn(game.gridManager, 'initializeGrid');
+
+      game.restart();
+
+      expect(initializeGridSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should reset score to 0 for new game', () => {
+      // Set a score
+      game['score'] = 500;
+
+      game.restart();
+
+      // Verify score is reset
+      expect(game['score']).toBe(0);
+    });
+
+    it('should call gameStateManager.reset() to transition to IDLE', () => {
+      const resetSpy = vi.spyOn(game.gameStateManager, 'reset');
+
+      game.restart();
+
+      expect(resetSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should hide game over overlay', () => {
+      // Show overlay first
+      mockOverlay.style.display = 'flex';
+
+      game.restart();
+
+      // Verify overlay is hidden
+      expect(mockOverlay.style.display).toBe('none');
+    });
+
+    it('should update previous score display with preserved score', () => {
+      // Set a score
+      game['score'] = 500;
+
+      game.restart();
+
+      // Verify previous score display is updated
+      expect(mockPreviousScoreDisplay.textContent).toBe('Previous: 500');
+      expect(mockPreviousScoreDisplay.style.display).toBe('block');
+    });
+
+    it('should hide previous score display if previousScore is 0', () => {
+      // Score is already 0
+      game['score'] = 0;
+
+      game.restart();
+
+      // Verify previous score display is hidden
+      expect(mockPreviousScoreDisplay.style.display).toBe('none');
+    });
+
+    it('should emit game:restart event', () => {
+      const emitSpy = vi.spyOn(game.events, 'emit');
+
+      game.restart();
+
+      expect(emitSpy).toHaveBeenCalledWith('game:restart', undefined as never);
+    });
+
+    it('should update current score display to 0', () => {
+      // Set a score
+      game['score'] = 500;
+
+      game.restart();
+
+      // Verify current score display shows 0
+      expect(mockScoreDisplay.textContent).toBe('Score: 0');
+    });
+  });
 });

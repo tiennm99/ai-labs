@@ -12,6 +12,7 @@ import { GridManager } from '../managers/GridManager';
 import { Renderer } from '../rendering/Renderer';
 import { MatchEngine } from '../matching/MatchEngine';
 import { GameStateManager, GameState } from '../state/GameStateManager';
+import { NoMovesDetector } from '../detection/NoMovesDetector';
 
 export class Game {
   readonly canvas: HTMLCanvasElement;
@@ -24,6 +25,7 @@ export class Game {
   readonly gameStateManager: GameStateManager;
   private resizeTimeout: number | undefined;
   private score = 0;
+  private previousScore = 0;
 
   constructor() {
     // Get canvas element
@@ -81,6 +83,15 @@ export class Game {
         // Clear tiles from board after path animation completes
         setTimeout(() => {
           this.gridManager.clearTiles([tile1, tile2]);
+
+          // Check for no-moves condition after tiles cleared
+          const grid = this.gridManager.getAllTiles();
+          const hasValidMoves = NoMovesDetector.hasValidMoves(grid);
+
+          if (!hasValidMoves && this.gameStateManager.getState() !== GameState.GAME_OVER) {
+            // No moves left - game over
+            this.handleGameOver(false);
+          }
         }, 300); // Wait for path animation (300ms)
 
         // Update score immediately
@@ -216,6 +227,11 @@ export class Game {
    * @param event - MouseEvent or TouchEvent
    */
   private handleInput(event: MouseEvent | TouchEvent): void {
+    // Block input if game is in GAME_OVER state
+    if (!this.gameStateManager.canSelectTile()) {
+      return;
+    }
+
     const rect = this.canvas.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
 
@@ -283,5 +299,71 @@ export class Game {
 
     // Emit game:over event
     this.events.emit('game:over', { won });
+
+    // Show game over overlay
+    this.showGameOverOverlay(won);
+  }
+
+  /**
+   * Show game over overlay with win/lose message
+   * @param won - Whether the player won (true) or lost (false)
+   */
+  private showGameOverOverlay(won: boolean): void {
+    const overlay = document.getElementById('game-over-overlay');
+    const message = document.getElementById('game-over-message');
+
+    if (overlay && message) {
+      message.textContent = won ? 'You Win!' : 'No moves left!';
+      overlay.style.display = 'flex';
+    }
+  }
+
+  /**
+   * Hide game over overlay
+   */
+  private hideGameOverOverlay(): void {
+    const overlay = document.getElementById('game-over-overlay');
+    if (overlay) {
+      overlay.style.display = 'none';
+    }
+  }
+
+  /**
+   * Update previous score display in HTML overlay
+   */
+  private updatePreviousScoreDisplay(): void {
+    const previousScoreDisplay = document.getElementById('previous-score-display');
+    if (previousScoreDisplay) {
+      previousScoreDisplay.textContent = `Previous: ${this.previousScore}`;
+      // Show the element if there's a previous score, hide if 0
+      previousScoreDisplay.style.display = this.previousScore > 0 ? 'block' : 'none';
+    }
+  }
+
+  /**
+   * Restart the game - reset grid, score, state, and UI
+   */
+  restart(): void {
+    // Store current score as previous score BEFORE reset
+    this.previousScore = this.score;
+
+    // Reset grid to initial state
+    this.gridManager.initializeGrid();
+
+    // Reset score to 0 for new game
+    this.score = 0;
+
+    // Reset state machine to IDLE
+    this.gameStateManager.reset();
+
+    // Hide game over overlay
+    this.hideGameOverOverlay();
+
+    // Update score displays (current = 0, previous = preserved)
+    this.updateScoreDisplay();
+    this.updatePreviousScoreDisplay();
+
+    // Emit restart event for extensibility (future listeners can subscribe)
+    this.events.emit('game:restart', undefined as never);
   }
 }

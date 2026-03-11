@@ -83,6 +83,7 @@ export interface StateChangeEvent {
  */
 export interface GameEvents {
   'game:start': void;
+  'game:restart': void;
   'game:tick': { deltaTime: number };
   'game:stateChange': StateChangeEvent;
   'tilesSelected': { tile1: Tile; tile2: Tile };
