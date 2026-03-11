@@ -24,4 +24,7 @@ export const CONFIG = {
     selection: '#e94560',
     text: '#eaeaea',
   },
+  animation: {
+    matchDuration: 250, // ms - scale+fade duration per CONTEXT.md
+  },
 } as const;
