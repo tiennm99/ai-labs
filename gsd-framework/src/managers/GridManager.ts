@@ -8,6 +8,7 @@ import { Tile } from '../models/Tile';
 import { TilePosition, GameEvents } from '../types';
 import { TypedEventEmitter } from '../game/EventEmitter';
 import { CONFIG } from '../config';
+import { NoMovesDetector } from '../detection/NoMovesDetector';
 
 export class GridManager {
   private tiles: Tile[][] = [];
@@ -20,20 +21,58 @@ export class GridManager {
   }
 
   /**
-   * Initialize the grid with tiles based on CONFIG dimensions
+   * Initialize the grid with randomized tiles and verify solvability
+   * Retries up to 100 times to find a solvable board
    */
   initializeGrid(): void {
-    this.tiles = [];
+    const maxAttempts = 100;
 
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      // Generate random board
+      this.generateRandomGrid();
+
+      // Verify solvability using existing NoMovesDetector
+      if (NoMovesDetector.hasValidMoves(this.tiles)) {
+        // Solvable board found
+        this.events.emit('board:generated', { solvable: true, attempts: attempt });
+        return;
+      }
+    }
+
+    // Fallback: accept last generated board (rely on auto-shuffle to recover)
+    console.warn('Board generation: max attempts reached, accepting board');
+    this.events.emit('board:generated', { solvable: false, attempts: maxAttempts });
+  }
+
+  /**
+   * Generate a randomized grid using Fisher-Yates shuffle
+   * Creates 16 types x 10 pairs = 160 tiles with random arrangement
+   */
+  private generateRandomGrid(): void {
+    // 1. Create flat array of tile types (16 types x 10 pairs = 160 tiles)
+    const types: number[] = [];
+    for (let type = 0; type < 16; type++) {
+      for (let pair = 0; pair < CONFIG.grid.pairsPerType; pair++) {
+        types.push(type);
+      }
+    }
+
+    // 2. Shuffle using Fisher-Yates algorithm
+    for (let i = types.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [types[i], types[j]] = [types[j], types[i]];
+    }
+
+    // 3. Place shuffled types in grid
+    this.tiles = [];
+    let typeIndex = 0;
     for (let row = 0; row < CONFIG.grid.rows; row++) {
       const rowTiles: Tile[] = [];
       for (let col = 0; col < CONFIG.grid.cols; col++) {
         const id = `tile-${row}-${col}`;
-        // Assign types 0-15 repeating to create pairs
-        const type = (row * CONFIG.grid.cols + col) % 16;
+        const type = types[typeIndex++];
         const position: TilePosition = { row, col };
-        const tile = new Tile(id, type, position);
-        rowTiles.push(tile);
+        rowTiles.push(new Tile(id, type, position));
       }
       this.tiles.push(rowTiles);
     }
@@ -128,5 +167,48 @@ export class GridManager {
    */
   getEvents(): TypedEventEmitter<GameEvents> {
     return this.events;
+  }
+
+  /**
+   * Shuffle remaining tiles by redistributing types while preserving positions
+   * Clears selection and emits events for UI feedback
+   */
+  shuffleTiles(): void {
+    // 1. Collect uncleared tiles and their positions
+    const unclearedTiles: Tile[] = [];
+
+    for (let row = 0; row < CONFIG.grid.rows; row++) {
+      for (let col = 0; col < CONFIG.grid.cols; col++) {
+        const tile = this.tiles[row][col];
+        if (!tile.cleared) {
+          unclearedTiles.push(tile);
+        }
+      }
+    }
+
+    const tilesRemaining = unclearedTiles.length;
+
+    // 2. Emit shuffling event before modification
+    this.events.emit('board:shuffling', { tilesRemaining });
+
+    // 3. Extract types from uncleared tiles
+    const types = unclearedTiles.map(t => t.type);
+
+    // 4. Shuffle types using Fisher-Yates
+    for (let i = types.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [types[i], types[j]] = [types[j], types[i]];
+    }
+
+    // 5. Reassign shuffled types back to tiles (positions preserved)
+    for (let i = 0; i < unclearedTiles.length; i++) {
+      unclearedTiles[i].type = types[i];
+    }
+
+    // 6. Clear selection to prevent stale references
+    this.deselectAll();
+
+    // 7. Emit shuffled event after completion
+    this.events.emit('board:shuffled', { tilesRemaining });
   }
 }
