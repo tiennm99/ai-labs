@@ -14,7 +14,13 @@
     "type": "git",
     "url": "git+https://github.com/tiennm99/gsd-framework.git"
   },
-  "keywords": ["game", "puzzle", "canvas", "typescript", "vite"],
+  "keywords": [
+    "game",
+    "puzzle",
+    "canvas",
+    "typescript",
+    "vite"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -27,5 +33,8 @@
     "typescript": "^5.9.3",
     "vite": "^7.3.1",
     "vitest": "^4.0.18"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.59.0"
   }
 }

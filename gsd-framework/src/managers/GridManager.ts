@@ -13,7 +13,7 @@ import { NoMovesDetector } from '../detection/NoMovesDetector';
 export class GridManager {
   private tiles: Tile[][] = [];
   private selectedTiles: Tile[] = [];
-  private events: TypedEventEmitter<GameEvents>;
+  public readonly events: TypedEventEmitter<GameEvents>;
 
   constructor(events?: TypedEventEmitter<GameEvents>) {
     // Allow optional events parameter for testing
