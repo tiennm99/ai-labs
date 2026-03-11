@@ -12,7 +12,7 @@ Build a minimal, playable tile-matching puzzle game where players connect matchi
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Core Foundation** - Project setup, game loop, event system, and basic types
+- [x] **Phase 1: Core Foundation** - Project setup, game loop, event system, and basic types
 - [ ] **Phase 2: Grid and Input** - Rendered game board with clickable tiles
 - [ ] **Phase 3: Core Matching Mechanics** - Path-finding algorithm and tile matching
 - [ ] **Phase 4: Game State Management** - Win/lose detection and score tracking
@@ -35,7 +35,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 Plans:
 - [x] 01-01-PLAN.md — Project scaffolding with Vite + TypeScript + Canvas, config constants, and shared types
 - [x] 01-02-PLAN.md — Game loop with delta time, typed event emitter, and Tile model class
-- [ ] 01-03-PLAN.md — Game orchestrator class, main entry point, and human verification
+- [x] 01-03-PLAN.md — Game orchestrator class, main entry point, and human verification
 
 ### Phase 2: Grid and Input
 **Goal**: Players can see a grid of Pokemon tiles and interact with them via mouse and touch
@@ -46,12 +46,12 @@ Plans:
   2. Player can click or tap a tile to select it (tile shows visual highlight)
   3. Player can click or tap a second tile to attempt a match (both tiles highlighted)
   4. Grid scales appropriately for different screen sizes (desktop and mobile)
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 02-01: Grid manager with 2D tile array and coordinate system
-- [ ] 02-02: Canvas renderer for drawing tiles and grid
-- [ ] 02-03: Input handler for mouse and touch events
+- [x] 02-01-PLAN.md — Grid manager with 2D tile array and selection state management
+- [x] 02-02-PLAN.md — Canvas renderer for drawing tiles and selection highlights with fade-in animations
+- [x] 02-03-PLAN.md — Input handler for mouse and touch events with coordinate-to-tile mapping
 
 ### Phase 3: Core Matching Mechanics
 **Goal**: Players can match and clear tiles by connecting them with valid paths (3 or fewer straight lines)
@@ -126,8 +126,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Core Foundation | 2/3 | In progress | 01-01, 01-02 |
-| 2. Grid and Input | 0/3 | Not started | - |
+| 1. Core Foundation | 3/3 | Complete | 01-01, 01-02, 01-03 |
+| 2. Grid and Input | 0/3 | Planning complete | 02-01, 02-02, 02-03 |
 | 3. Core Matching Mechanics | 0/3 | Not started | - |
 | 4. Game State Management | 0/3 | Not started | - |
 | 5. Board Generation and Recovery | 0/3 | Not started | - |
@@ -136,4 +136,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 ---
 *Roadmap created: 2026-03-10*
 *Granularity: standard*
-*Last updated: 2026-03-10 after 01-02-PLAN completion*
+*Last updated: 2026-03-11 after Phase 2 planning*

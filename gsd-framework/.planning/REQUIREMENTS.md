@@ -10,8 +10,8 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Core Mechanics
 
 - [x] **CORE-01**: Game displays a grid of Pokemon tiles arranged in rows and columns
-- [ ] **CORE-02**: Player can click/tap to select a tile (highlighted when selected)
-- [ ] **CORE-03**: Player can click/tap a second tile to attempt a match
+- [x] **CORE-02**: Player can click/tap to select a tile (highlighted when selected)
+- [x] **CORE-03**: Player can click/tap a second tile to attempt a match
 - [ ] **CORE-04**: Two matching tiles connect if a valid path exists with 3 or fewer straight lines
 - [ ] **CORE-05**: Connected matching tiles disappear from the board
 - [ ] **CORE-06**: Player receives points when tiles are matched and cleared
@@ -68,8 +68,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | CORE-01 | Phase 1 | Complete |
-| CORE-02 | Phase 2 | Pending |
-| CORE-03 | Phase 2 | Pending |
+| CORE-02 | Phase 2 | Complete |
+| CORE-03 | Phase 2 | Complete |
 | CORE-04 | Phase 3 | Pending |
 | CORE-05 | Phase 3 | Pending |
 | CORE-06 | Phase 3 | Pending |
