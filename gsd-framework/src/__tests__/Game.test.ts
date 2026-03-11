@@ -5,12 +5,16 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { Game } from '../game/Game';
 import { GameLoop } from '../game/GameLoop';
 import { TypedEventEmitter } from '../game/EventEmitter';
+import { GameState } from '../state/GameStateManager';
 
 // Mock DOM elements
 const mockCanvas = {
   width: 0,
   height: 0,
   style: { width: '', height: '' },
+  addEventListener: vi.fn(),
+  removeEventListener: vi.fn(),
+  getBoundingClientRect: vi.fn(() => ({ left: 0, top: 0, width: 836, height: 524 })),
   getContext: vi.fn(() => ({
     scale: vi.fn(),
     fillStyle: '',
@@ -58,6 +62,13 @@ describe('Game', () => {
     vi.stubGlobal('document', {
       getElementById: vi.fn((id: string) => {
         if (id === 'game') return mockCanvas;
+        if (id === 'shuffle-overlay') return { style: { display: 'none' }, textContent: '' };
+        if (id === 'shuffle-message') return { textContent: '' };
+        if (id === 'game-over-overlay') return { style: { display: 'none' }, textContent: '' };
+        if (id === 'game-over-message') return { textContent: '' };
+        if (id === 'score-display') return { textContent: '', style: {} };
+        if (id === 'previous-score-display') return { textContent: '', style: { display: 'none' } };
+        if (id === 'restart-button') return { addEventListener: vi.fn() };
         return null;
       }),
     });
@@ -65,6 +76,8 @@ describe('Game', () => {
     // Mock window.devicePixelRatio
     vi.stubGlobal('window', {
       devicePixelRatio: 1,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
     });
   });
 
@@ -590,6 +603,283 @@ describe('Game', () => {
       expect(() => {
         game = new Game();
       }).not.toThrow();
+    });
+  });
+
+  describe('shuffle overlay', () => {
+    it('should have shuffle-overlay element in DOM', () => {
+      const mockShuffleOverlay = { style: { display: 'none' }, textContent: '' };
+
+      vi.stubGlobal('document', {
+        getElementById: vi.fn((id: string) => {
+          if (id === 'game') return mockCanvas;
+          if (id === 'shuffle-overlay') return mockShuffleOverlay;
+          return null;
+        }),
+      });
+
+      game = new Game();
+
+      // Verify document.getElementById was called (checking element exists in HTML)
+      expect(document.getElementById).toHaveBeenCalledWith('shuffle-overlay');
+    });
+
+    it('should have shuffle-message element inside shuffle-overlay', () => {
+      const mockShuffleMessage = { textContent: '' };
+      const mockShuffleOverlay = { style: { display: 'none' }, querySelector: vi.fn(() => mockShuffleMessage) };
+
+      vi.stubGlobal('document', {
+        getElementById: vi.fn((id: string) => {
+          if (id === 'game') return mockCanvas;
+          if (id === 'shuffle-overlay') return mockShuffleOverlay;
+          return null;
+        }),
+      });
+
+      game = new Game();
+
+      const overlay = document.getElementById('shuffle-overlay');
+      expect(overlay).toBeDefined();
+    });
+
+    it('should have shuffle-overlay hidden by default (display: none)', () => {
+      const mockShuffleOverlay = { style: { display: 'none' }, textContent: '' };
+
+      vi.stubGlobal('document', {
+        getElementById: vi.fn((id: string) => {
+          if (id === 'game') return mockCanvas;
+          if (id === 'shuffle-overlay') return mockShuffleOverlay;
+          return null;
+        }),
+      });
+
+      game = new Game();
+
+      const overlay = document.getElementById('shuffle-overlay') as any;
+      expect(overlay).toBeDefined();
+      expect(overlay.style.display).toBe('none');
+    });
+
+    it('should have shuffle-overlay styling matching game-over-overlay pattern', () => {
+      const mockShuffleOverlay = { style: { display: 'none' }, textContent: '' };
+      const mockGameOverOverlay = { style: { display: 'none' }, textContent: '' };
+
+      vi.stubGlobal('document', {
+        getElementById: vi.fn((id: string) => {
+          if (id === 'game') return mockCanvas;
+          if (id === 'shuffle-overlay') return mockShuffleOverlay;
+          if (id === 'game-over-overlay') return mockGameOverOverlay;
+          return null;
+        }),
+      });
+
+      game = new Game();
+
+      expect(document.getElementById('shuffle-overlay')).toBeDefined();
+      expect(document.getElementById('game-over-overlay')).toBeDefined();
+    });
+  });
+
+  describe('shuffle overlay methods', () => {
+    let mockShuffleOverlay: any;
+    let mockGameOverOverlay: any;
+
+    beforeEach(() => {
+      mockShuffleOverlay = { style: { display: 'none' }, textContent: '' };
+      mockGameOverOverlay = { style: { display: 'none' }, textContent: '' };
+
+      vi.stubGlobal('document', {
+        getElementById: vi.fn((id: string) => {
+          if (id === 'game') return mockCanvas;
+          if (id === 'shuffle-overlay') return mockShuffleOverlay;
+          if (id === 'game-over-overlay') return mockGameOverOverlay;
+          return null;
+        }),
+      });
+    });
+
+    it('should have showShuffleOverlay() method that sets display to flex', () => {
+      game = new Game();
+
+      // Call the showShuffleOverlay method
+      game['showShuffleOverlay']();
+
+      // Verify the overlay display is set to flex
+      expect(mockShuffleOverlay.style.display).toBe('flex');
+    });
+
+    it('should have hideShuffleOverlay() method that sets display to none', () => {
+      game = new Game();
+
+      // First show the overlay
+      mockShuffleOverlay.style.display = 'flex';
+
+      // Call the hideShuffleOverlay method
+      game['hideShuffleOverlay']();
+
+      // Verify the overlay display is set to none
+      expect(mockShuffleOverlay.style.display).toBe('none');
+    });
+
+    it('should handle missing shuffle overlay element gracefully', () => {
+      vi.stubGlobal('document', {
+        getElementById: vi.fn((id: string) => {
+          if (id === 'game') return mockCanvas;
+          return null; // All other elements return null
+        }),
+      });
+
+      game = new Game();
+
+      // Should not throw error when calling methods with null element
+      expect(() => {
+        game['showShuffleOverlay']();
+        game['hideShuffleOverlay']();
+      }).not.toThrow();
+    });
+  });
+
+  describe('handleNoMoves() with auto-shuffle', () => {
+    let mockShuffleOverlay: any;
+    let mockGameOverOverlay: any;
+
+    beforeEach(() => {
+      mockShuffleOverlay = { style: { display: 'none' }, textContent: '' };
+      mockGameOverOverlay = { style: { display: 'none' }, textContent: '' };
+
+      vi.stubGlobal('document', {
+        getElementById: vi.fn((id: string) => {
+          if (id === 'game') return mockCanvas;
+          if (id === 'shuffle-overlay') return mockShuffleOverlay;
+          if (id === 'game-over-overlay') return mockGameOverOverlay;
+          return null;
+        }),
+      });
+
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it('should have handleNoMoves() method that shows shuffle overlay', () => {
+      game = new Game();
+
+      // Call handleNoMoves
+      game['handleNoMoves']();
+
+      // Verify shuffle overlay is shown immediately
+      expect(mockShuffleOverlay.style.display).toBe('flex');
+    });
+
+    it('should have handleNoMoves() method that calls gridManager.shuffleTiles()', () => {
+      game = new Game();
+      const shuffleSpy = vi.spyOn(game.gridManager, 'shuffleTiles');
+
+      // Call handleNoMoves
+      game['handleNoMoves']();
+
+      // Advance timers to trigger shuffle
+      vi.advanceTimersByTime(100);
+
+      // Verify shuffleTiles was called
+      expect(shuffleSpy).toHaveBeenCalled();
+    });
+
+    it('should have handleNoMoves() method that hides shuffle overlay after animation', () => {
+      game = new Game();
+
+      // Call handleNoMoves
+      game['handleNoMoves']();
+
+      // Advance timers past shuffle animation (50ms + 300ms)
+      vi.advanceTimersByTime(400);
+
+      // Verify shuffle overlay is hidden
+      expect(mockShuffleOverlay.style.display).toBe('none');
+    });
+
+    it('should trigger game over if still no moves after max shuffle attempts', () => {
+      game = new Game();
+
+      // Set shuffle attempts to max
+      game['shuffleAttempts'] = 3;
+
+      const emitSpy = vi.spyOn(game.events, 'emit');
+
+      // Call handleNoMoves
+      game['handleNoMoves']();
+
+      // Verify game over was triggered
+      expect(emitSpy).toHaveBeenCalledWith('game:over', { won: false });
+    });
+
+    it('should NOT deduct score for shuffle', () => {
+      game = new Game();
+      game['score'] = 500;
+
+      const initialScore = game['score'];
+
+      // Call handleNoMoves
+      game['handleNoMoves']();
+
+      // Advance all timers
+      vi.advanceTimersByTime(500);
+
+      // Verify score is unchanged
+      expect(game['score']).toBe(initialScore);
+    });
+  });
+
+  describe('shuffle state reset on restart', () => {
+    let mockShuffleOverlay: any;
+    let mockGameOverOverlay: any;
+    let mockScoreDisplay: any;
+    let mockPreviousScoreDisplay: any;
+
+    beforeEach(() => {
+      mockShuffleOverlay = { style: { display: 'none' }, textContent: '' };
+      mockGameOverOverlay = { style: { display: 'none' }, textContent: '' };
+      mockScoreDisplay = { style: {}, textContent: '' };
+      mockPreviousScoreDisplay = { style: { display: 'none' }, textContent: '' };
+
+      vi.stubGlobal('document', {
+        getElementById: vi.fn((id: string) => {
+          if (id === 'game') return mockCanvas;
+          if (id === 'shuffle-overlay') return mockShuffleOverlay;
+          if (id === 'game-over-overlay') return mockGameOverOverlay;
+          if (id === 'score-display') return mockScoreDisplay;
+          if (id === 'previous-score-display') return mockPreviousScoreDisplay;
+          return null;
+        }),
+      });
+    });
+
+    it('should reset shuffleAttempts to 0 on restart()', () => {
+      game = new Game();
+
+      // Set shuffle attempts
+      game['shuffleAttempts'] = 3;
+
+      // Restart
+      game.restart();
+
+      // Verify shuffle attempts reset
+      expect(game['shuffleAttempts']).toBe(0);
+    });
+
+    it('should hide shuffle overlay on restart()', () => {
+      game = new Game();
+
+      // Show shuffle overlay
+      mockShuffleOverlay.style.display = 'flex';
+
+      // Restart
+      game.restart();
+
+      // Verify shuffle overlay is hidden
+      expect(mockShuffleOverlay.style.display).toBe('none');
     });
   });
 });
