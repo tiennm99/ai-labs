@@ -381,4 +381,30 @@ describe('Renderer', () => {
       expect(mockCtx.strokeStyle).toBe('#00ff00');
     });
   });
+
+  describe('animateMatch', () => {
+    it('should create and start match animations for tiles', () => {
+      const tile = gridManager.getTileAt(0, 0);
+      if (tile) {
+        renderer.animateMatch([tile]);
+
+        // Verify animation was created (internal map has entry)
+        const animations = renderer['matchAnimations'];
+        expect(animations.has(tile.id)).toBe(true);
+      }
+    });
+
+    it('should support multiple tiles', () => {
+      const tile1 = gridManager.getTileAt(0, 0);
+      const tile2 = gridManager.getTileAt(0, 1);
+
+      if (tile1 && tile2) {
+        renderer.animateMatch([tile1, tile2]);
+
+        const animations = renderer['matchAnimations'];
+        expect(animations.has(tile1.id)).toBe(true);
+        expect(animations.has(tile2.id)).toBe(true);
+      }
+    });
+  });
 });
