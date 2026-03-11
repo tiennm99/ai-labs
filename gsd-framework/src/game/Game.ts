@@ -53,6 +53,9 @@ export class Game {
     this.events.on('tilesSelected', ({ tile1, tile2 }) => {
       console.log('Two tiles selected:', tile1.id, tile2.id);
     });
+
+    // Setup input listeners
+    this.setupInputListeners();
   }
 
   /**
@@ -114,5 +117,62 @@ export class Game {
    */
   private render(): void {
     this.renderer.render();
+  }
+
+  /**
+   * Setup mouse and touch event listeners for tile selection
+   */
+  public setupInputListeners(): void {
+    this.canvas.addEventListener('click', this.handleClick);
+    this.canvas.addEventListener('touchstart', this.handleTouch, { passive: true });
+  }
+
+  /**
+   * Handle click events on the canvas
+   */
+  private handleClick = (event: MouseEvent): void => {
+    this.handleInput(event);
+  };
+
+  /**
+   * Handle touch events on the canvas
+   */
+  private handleTouch = (event: TouchEvent): void => {
+    this.handleInput(event);
+  };
+
+  /**
+   * Handle input from mouse or touch events
+   * Converts screen coordinates to canvas coordinates and selects the tile at that position
+   * @param event - MouseEvent or TouchEvent
+   */
+  private handleInput(event: MouseEvent | TouchEvent): void {
+    const rect = this.canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+
+    // Extract client coordinates
+    let clientX: number, clientY: number;
+    if ('changedTouches' in event) {
+      clientX = event.changedTouches[0].clientX;
+      clientY = event.changedTouches[0].clientY;
+    } else {
+      clientX = event.clientX;
+      clientY = event.clientY;
+    }
+
+    // Convert to canvas coordinates
+    const x = (clientX - rect.left) * (this.canvas.width / rect.width / dpr);
+    const y = (clientY - rect.top) * (this.canvas.height / rect.height / dpr);
+
+    // Find tile at coordinates
+    const { size, gap } = CONFIG.tile;
+    const col = Math.floor((x - gap) / (size + gap));
+    const row = Math.floor((y - gap) / (size + gap));
+
+    // Get tile and select it
+    const tile = this.gridManager.getTileAt(row, col);
+    if (tile) {
+      this.gridManager.selectTile(tile);
+    }
   }
 }
