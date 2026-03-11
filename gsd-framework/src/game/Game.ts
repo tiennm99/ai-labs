@@ -65,8 +65,8 @@ export class Game {
     // Create game loop with update callback
     this.loop = new GameLoop(this.update.bind(this));
 
-    // Listen for tilesSelected event and validate matches
-    this.events.on('tilesSelected', ({ tile1, tile2 }) => {
+    // Listen for tilesSelected event from GridManager and validate matches
+    this.gridManager.events.on('tilesSelected', ({ tile1, tile2 }) => {
       const result = this.matchEngine.validateMatch(tile1, tile2);
 
       if (result.valid) {
