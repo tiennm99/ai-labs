@@ -18,6 +18,7 @@ export class Game {
   readonly events: TypedEventEmitter<GameEvents>;
   readonly gridManager: GridManager;
   readonly renderer: Renderer;
+  private resizeTimeout: number | undefined;
 
   constructor() {
     // Get canvas element
@@ -125,6 +126,7 @@ export class Game {
   public setupInputListeners(): void {
     this.canvas.addEventListener('click', this.handleClick);
     this.canvas.addEventListener('touchstart', this.handleTouch, { passive: true });
+    window.addEventListener('resize', this.handleResize);
   }
 
   /**
@@ -175,4 +177,16 @@ export class Game {
       this.gridManager.selectTile(tile);
     }
   }
+
+  /**
+   * Handle window resize events with debouncing
+   * Recalculates canvas size and re-renders after debounce delay
+   */
+  private handleResize = (): void => {
+    clearTimeout(this.resizeTimeout);
+    this.resizeTimeout = window.setTimeout(() => {
+      this.setupCanvas();
+      this.renderer.render();
+    }, 150); // 150ms debounce per RESEARCH.md
+  };
 }
