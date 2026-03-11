@@ -64,19 +64,19 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PEOPLE-02 | Phase 1 | Pending |
 | PEOPLE-03 | Phase 1 | Pending |
 | PEOPLE-04 | Phase 1 | Pending |
-| CALC-01 | Phase 1 | Pending |
-| CALC-02 | Phase 1 | Pending |
-| CALC-03 | Phase 1 | Pending |
-| CALC-04 | Phase 1 | Pending |
-| PERSIST-01 | Phase 2 | Pending |
-| PERSIST-02 | Phase 2 | Pending |
-| PERSIST-03 | Phase 2 | Pending |
+| CALC-01 | Phase 2 | Pending |
+| CALC-02 | Phase 2 | Pending |
+| CALC-03 | Phase 2 | Pending |
+| CALC-04 | Phase 2 | Pending |
+| PERSIST-01 | Phase 3 | Pending |
+| PERSIST-02 | Phase 3 | Pending |
+| PERSIST-03 | Phase 3 | Pending |
 
 **Coverage:**
 - v1 requirements: 11 total
 - Mapped to phases: 11
-- Unmapped: 0 ✓
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-11*
-*Last updated: 2026-03-11 after initial definition*
+*Last updated: 2026-03-11 after roadmap creation*
