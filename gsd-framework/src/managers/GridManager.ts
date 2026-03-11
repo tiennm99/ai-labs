@@ -110,6 +110,20 @@ export class GridManager {
   }
 
   /**
+   * Clear tiles (mark as cleared and emit events)
+   * @param tiles - Array of tiles to clear
+   */
+  clearTiles(tiles: Tile[]): void {
+    tiles.forEach(tile => {
+      tile.cleared = true;
+      this.events.emit('tile:cleared', { tile });
+    });
+
+    // Clear selection after clearing tiles
+    this.deselectAll();
+  }
+
+  /**
    * Get the event emitter for external subscription
    */
   getEvents(): TypedEventEmitter<GameEvents> {
