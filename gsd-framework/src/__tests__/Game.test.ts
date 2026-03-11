@@ -522,4 +522,74 @@ describe('Game', () => {
       expect(mockScoreDisplay.textContent).toBe('Score: 0');
     });
   });
+
+  describe('restart button click handler', () => {
+    let mockRestartButton: any;
+    let mockOverlay: any;
+    let mockScoreDisplay: any;
+    let mockPreviousScoreDisplay: any;
+
+    beforeEach(() => {
+      mockRestartButton = {
+        addEventListener: vi.fn(),
+      };
+      mockOverlay = { style: { display: '' }, textContent: '' };
+      mockScoreDisplay = { style: {}, textContent: '' };
+      mockPreviousScoreDisplay = { style: { display: 'none' }, textContent: '' };
+
+      vi.stubGlobal('document', {
+        getElementById: vi.fn((id: string) => {
+          if (id === 'game') return mockCanvas;
+          if (id === 'score-display') return mockScoreDisplay;
+          if (id === 'previous-score-display') return mockPreviousScoreDisplay;
+          if (id === 'game-over-overlay') return mockOverlay;
+          if (id === 'restart-button') return mockRestartButton;
+          return null;
+        }),
+      });
+
+      game = new Game();
+    });
+
+    it('should register click handler on restart button in constructor', () => {
+      // Verify addEventListener was called for restart button
+      expect(mockRestartButton.addEventListener).toHaveBeenCalledWith('click', expect.any(Function));
+    });
+
+    it('should call restart() when restart button is clicked', () => {
+      // Get the click handler that was registered
+      const clickHandler = mockRestartButton.addEventListener.mock.calls.find(
+        (call: any[]) => call[0] === 'click'
+      )[1];
+
+      // Mock the restart method
+      const restartSpy = vi.spyOn(game, 'restart');
+
+      // Simulate button click
+      clickHandler();
+
+      // Verify restart was called
+      expect(restartSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should find restart button element by ID', () => {
+      // Verify document.getElementById was called for restart-button
+      expect(document.getElementById).toHaveBeenCalledWith('restart-button');
+    });
+
+    it('should handle null restart button gracefully', () => {
+      // Test with null restart button
+      vi.stubGlobal('document', {
+        getElementById: vi.fn((id: string) => {
+          if (id === 'game') return mockCanvas;
+          return null; // All other elements return null
+        }),
+      });
+
+      // Should not throw error
+      expect(() => {
+        game = new Game();
+      }).not.toThrow();
+    });
+  });
 });

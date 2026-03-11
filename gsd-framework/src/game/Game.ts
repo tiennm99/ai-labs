@@ -125,6 +125,14 @@ export class Game {
     this.events.on('tile:cleared', () => {
       this.checkWinCondition();
     });
+
+    // Setup restart button handler
+    const restartButton = document.getElementById('restart-button');
+    if (restartButton) {
+      restartButton.addEventListener('click', () => {
+        this.restart();
+      });
+    }
   }
 
   /**
