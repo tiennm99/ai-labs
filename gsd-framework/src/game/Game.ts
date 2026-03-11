@@ -11,6 +11,7 @@ import { CONFIG } from '../config';
 import { GridManager } from '../managers/GridManager';
 import { Renderer } from '../rendering/Renderer';
 import { MatchEngine } from '../matching/MatchEngine';
+import { GameStateManager, GameState } from '../state/GameStateManager';
 
 export class Game {
   readonly canvas: HTMLCanvasElement;
@@ -20,6 +21,7 @@ export class Game {
   readonly gridManager: GridManager;
   readonly renderer: Renderer;
   readonly matchEngine: MatchEngine;
+  readonly gameStateManager: GameStateManager;
   private resizeTimeout: number | undefined;
   private score = 0;
 
@@ -45,6 +47,9 @@ export class Game {
 
     // Initialize match engine
     this.matchEngine = new MatchEngine(this.gridManager, this.events);
+
+    // Initialize game state manager
+    this.gameStateManager = new GameStateManager(this.events);
 
     // Setup canvas size and scale
     this.setupCanvas();
@@ -104,6 +109,11 @@ export class Game {
 
     // Setup input listeners
     this.setupInputListeners();
+
+    // Listen for tile:cleared events to check win condition
+    this.events.on('tile:cleared', () => {
+      this.checkWinCondition();
+    });
   }
 
   /**
@@ -246,4 +256,32 @@ export class Game {
       this.renderer.render();
     }, 150); // 150ms debounce per RESEARCH.md
   };
+
+  /**
+   * Check win condition - triggers game over when all tiles are cleared
+   */
+  private checkWinCondition(): void {
+    // Get all tiles from grid
+    const tiles = this.gridManager.getAllTiles();
+
+    // Count uncleared tiles
+    const unclearedTiles = tiles.flat().filter(tile => !tile.cleared);
+
+    // If no tiles remain, player wins!
+    if (unclearedTiles.length === 0) {
+      this.handleGameOver(true);
+    }
+  }
+
+  /**
+   * Handle game over - transition state and emit event
+   * @param won - Whether the player won (true) or lost (false)
+   */
+  private handleGameOver(won: boolean): void {
+    // Transition to GAME_OVER state
+    this.gameStateManager.transitionTo(GameState.GAME_OVER);
+
+    // Emit game:over event
+    this.events.emit('game:over', { won });
+  }
 }

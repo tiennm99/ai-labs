@@ -208,4 +208,68 @@ describe('Game', () => {
       vi.stubGlobal('window', { devicePixelRatio: 1 });
     });
   });
+
+  describe('win condition detection', () => {
+    it('should detect win condition when all tiles are cleared', () => {
+      game = new Game();
+
+      // Mock game:over event emission
+      const emitSpy = vi.spyOn(game.events, 'emit');
+
+      // Get all tiles and mark them as cleared
+      const tiles = game.gridManager.getAllTiles();
+      tiles.flat().forEach(tile => {
+        tile.cleared = true;
+      });
+
+      // Trigger win condition check by emitting tile:cleared event
+      game.events.emit('tile:cleared', { tile: tiles[0][0] });
+
+      // Verify game:over event was emitted with won=true
+      expect(emitSpy).toHaveBeenCalledWith('game:over', { won: true });
+    });
+
+    it('should not trigger win condition when tiles remain', () => {
+      game = new Game();
+
+      // Mock game:over event emission
+      const emitSpy = vi.spyOn(game.events, 'emit');
+
+      // Get all tiles and mark all but one as cleared
+      const tiles = game.gridManager.getAllTiles();
+      tiles.flat().forEach((tile, index) => {
+        if (index < tiles.flat().length - 1) {
+          tile.cleared = true;
+        }
+      });
+
+      // Trigger win condition check by emitting tile:cleared event
+      game.events.emit('tile:cleared', { tile: tiles[0][0] });
+
+      // Verify game:over event was NOT emitted
+      expect(emitSpy).not.toHaveBeenCalledWith('game:over', { won: true });
+    });
+
+    it('should count uncleared tiles correctly', () => {
+      game = new Game();
+
+      // Get all tiles
+      const tiles = game.gridManager.getAllTiles();
+
+      // Initially, no tiles should be cleared
+      const unclearedInitial = tiles.flat().filter(tile => !tile.cleared);
+      expect(unclearedInitial.length).toBe(160); // 16x10 grid
+
+      // Clear half the tiles
+      tiles.flat().forEach((tile, index) => {
+        if (index % 2 === 0) {
+          tile.cleared = true;
+        }
+      });
+
+      // Count uncleared tiles
+      const unclearedAfter = tiles.flat().filter(tile => !tile.cleared);
+      expect(unclearedAfter.length).toBe(80);
+    });
+  });
 });
