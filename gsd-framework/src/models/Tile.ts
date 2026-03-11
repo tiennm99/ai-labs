@@ -21,7 +21,7 @@ export class Tile implements TileInterface {
    */
   constructor(
     public readonly id: string,
-    public readonly type: number,
+    public type: number,  // Not readonly - needed for shuffle operation
     public readonly position: TilePosition
   ) {}
 

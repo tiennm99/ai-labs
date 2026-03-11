@@ -9,8 +9,8 @@ dist/
 npm-debug.log*
 
 # Editor directories and IDEs
-.idea/
-.vscode/
+.idea
+.vscode
 *.swp
 *.swo
 

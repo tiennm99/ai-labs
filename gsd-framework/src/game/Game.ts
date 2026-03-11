@@ -26,6 +26,8 @@ export class Game {
   private resizeTimeout: number | undefined;
   private score = 0;
   private previousScore = 0;
+  private readonly MAX_SHUFFLE_ATTEMPTS = 3;
+  private shuffleAttempts = 0;
 
   constructor() {
     // Get canvas element
@@ -89,8 +91,8 @@ export class Game {
           const hasValidMoves = NoMovesDetector.hasValidMoves(grid);
 
           if (!hasValidMoves && this.gameStateManager.getState() !== GameState.GAME_OVER) {
-            // No moves left - game over
-            this.handleGameOver(false);
+            // No moves left - trigger auto-shuffle
+            this.handleNoMoves();
           }
         }, 300); // Wait for path animation (300ms)
 
@@ -337,6 +339,66 @@ export class Game {
   }
 
   /**
+   * Show shuffle overlay with "Shuffling..." message
+   */
+  private showShuffleOverlay(): void {
+    const overlay = document.getElementById('shuffle-overlay');
+    if (overlay) {
+      overlay.style.display = 'flex';
+    }
+  }
+
+  /**
+   * Hide shuffle overlay
+   */
+  private hideShuffleOverlay(): void {
+    const overlay = document.getElementById('shuffle-overlay');
+    if (overlay) {
+      overlay.style.display = 'none';
+    }
+  }
+
+  /**
+   * Handle no-moves condition with automatic shuffle
+   * Shuffles up to MAX_SHUFFLE_ATTEMPTS times before game over
+   */
+  private handleNoMoves(): void {
+    // Check if we've exceeded max shuffle attempts
+    if (this.shuffleAttempts >= this.MAX_SHUFFLE_ATTEMPTS) {
+      // Truly stuck - game over
+      this.handleGameOver(false);
+      return;
+    }
+
+    // Increment shuffle attempts
+    this.shuffleAttempts++;
+
+    // Show shuffle overlay
+    this.showShuffleOverlay();
+
+    // Wait for animation (300-500ms per CONTEXT.md)
+    setTimeout(() => {
+      // Perform shuffle
+      this.gridManager.shuffleTiles();
+
+      // Hide overlay after brief display
+      setTimeout(() => {
+        this.hideShuffleOverlay();
+
+        // Check if shuffle produced valid moves
+        const grid = this.gridManager.getAllTiles();
+        const hasValidMoves = NoMovesDetector.hasValidMoves(grid);
+
+        if (!hasValidMoves) {
+          // Still no moves - try again (recursive)
+          this.handleNoMoves();
+        }
+        // If valid moves exist, game continues naturally
+      }, 300); // Shuffle animation duration (300ms minimum)
+    }, 50); // Brief delay before shuffle starts
+  }
+
+  /**
    * Update previous score display in HTML overlay
    */
   private updatePreviousScoreDisplay(): void {
@@ -364,8 +426,12 @@ export class Game {
     // Reset state machine to IDLE
     this.gameStateManager.reset();
 
-    // Hide game over overlay
+    // Reset shuffle attempts for new game
+    this.shuffleAttempts = 0;
+
+    // Hide all overlays
     this.hideGameOverOverlay();
+    this.hideShuffleOverlay();
 
     // Update score displays (current = 0, previous = preserved)
     this.updateScoreDisplay();
