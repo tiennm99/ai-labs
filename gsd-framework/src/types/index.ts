@@ -94,4 +94,7 @@ export interface GameEvents {
   'error': Error;
   'tilesMatched': { tile1: Tile; tile2: Tile; path: TilePosition[]; turns: number; score: number };
   'matchFailed': { tile1: Tile; tile2: Tile; reason: string };
+  'board:generated': { solvable: boolean; attempts: number };
+  'board:shuffling': { tilesRemaining: number };
+  'board:shuffled': { tilesRemaining: number };
 }

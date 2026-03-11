@@ -3,6 +3,36 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in_progress
+stopped_at: Completed 04-04-PLAN.md (Restart Functionality) - Phase 4 COMPLETE
+last_updated: "2026-03-11T08:59:06.769Z"
+last_activity: 2026-03-11 — Completed 04-04-PLAN.md (Restart Functionality)
+progress:
+  total_phases: 6
+  completed_phases: 4
+  total_plans: 15
+  completed_plans: 15
+---
+
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: in_progress
+stopped_at: Completed 04-04-PLAN.md (Restart Functionality) - Phase 4 COMPLETE
+last_updated: "2026-03-11T08:49:15.000Z"
+last_activity: 2026-03-11 — Completed 04-04-PLAN.md (Restart Functionality)
+progress:
+  total_phases: 6
+  completed_phases: 4
+  total_plans: 15
+  completed_plans: 15
+---
+
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: in_progress
 stopped_at: Completed 04-02-PLAN.md (Win/Lose Detection)
 last_updated: "2026-03-11T08:23:20.344Z"
 last_activity: 2026-03-11 — Completed 04-01-PLAN.md (Game State Machine)
@@ -52,23 +82,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-10)
 
 **Core value:** The satisfying "aha!" moment when you spot a valid connection and clear a pair — the core matching loop must feel smooth and rewarding.
-**Current focus:** Phase 3: Matching Logic (ready to start)
+**Current focus:** Phase 4: Game State Management
 
 ## Current Position
 
-Phase: 4 of 6 (Game State Management) - IN PROGRESS
-Plan: 04-02 (Win/Lose Detection)
-Status: Plan 04-01 complete - Game state machine implemented
-Last activity: 2026-03-11 — Completed 04-01-PLAN.md (Game State Machine)
+Phase: 4 of 6 (Game State Management) - COMPLETE
+Plan: 04-04 (Restart Functionality)
+Status: Phase 4 complete - All state management features implemented (state machine, win/lose detection, restart)
+Last activity: 2026-03-11 — Completed 04-04-PLAN.md (Restart Functionality)
 
-Progress: [███░░░░░] 20% of Phase 4 (1/5 plans)
+Progress: [█████████] 100% of Phase 4 (5/5 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
-- Average duration: 7.6 min
-- Total execution time: 0.9 hours
+- Total plans completed: 15
+- Average duration: 7.5 min
+- Total execution time: 1.9 hours
 
 **By Phase:**
 
@@ -76,18 +106,19 @@ Progress: [███░░░░░] 20% of Phase 4 (1/5 plans)
 |-------|-------|-------|----------|
 | 01-core-foundation | 3 | 3 | 9.3 min |
 | 02-grid-and-input | 4 | 4 | 6 min |
+| 03-core-matching-mechanics | 3 | 3 | 3.3 min |
+| 04-game-state-management | 5 | 5 | 6.25 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (6 min), 01-02 (7 min), 01-03 (15 min), 02-01 (6 min), 02-02 (7 min), 02-03 (3 min)
-- Trend: Consistent execution time
+- Last 5 plans: 03-01 (6 min), 03-02 (2 min), 03-03 (2 min), 04-01 (5 min), 04-02 (8 min), 04-03 (6 min), 04-04 (8 min)
+- Trend: Consistent execution time, slight increase for state management features
 
 *Updated after each plan completion*
-| Phase 02-grid-and-input P03 | 3 | 3 tasks | 1 files |
-| Phase 03 P01 | 206 | 2 tasks | 3 files |
-| Phase 03 P02 | 2 minutes | 5 tasks | 8 files |
-| Phase 03 P03 | 2 | 4 tasks | 2 files |
-| Phase 04 P00 | 5 | 3 tasks | 5 files |
-| Phase 04 P04-02 | 8 | 3 tasks | 2 files |
+| Phase 04 P01 | 5 | 3 tasks | 3 files |
+| Phase 04 P02 | 8 | 3 tasks | 3 files |
+| Phase 04 P03 | 6 | 3 tasks | 3 files |
+| Phase 04 P04 | 8 | 4 tasks | 4 files |
+| Phase 04 P04 | 8 | 4 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -133,6 +164,16 @@ Recent decisions affecting current work:
 - [Phase 04]: Event emission on all state changes (including reset)
 - [Phase 04]: Type-optimized no-moves detection: Group tiles by type before checking pairs (94% reduction in PathFinder calls)
 - [Phase 04]: Game over overlay uses HTML/CSS instead of Canvas for better accessibility and consistent styling with score overlay
+- [Phase 04]: Win condition checked on tile:cleared event
+- [Phase 04]: No-moves checked after 300ms delay (when tiles cleared)
+- [Phase 04]: Game over overlay uses HTML/CSS following score overlay pattern
+- [Phase 04]: Input blocking via GameStateManager.canSelectTile() check
+- [Phase 04]: Restart functionality preserves previous score display for player achievement visibility
+- [Phase 04]: Restart button in game over overlay triggers full state reset (grid, score, state machine)
+- [Phase 04]: game:restart event emitted for extensibility (analytics, sound effects)
+- [Phase 04]: Restart functionality preserves previous score display for player achievement visibility
+- [Phase 04]: Restart button in game over overlay triggers full state reset (grid, score, state machine)
+- [Phase 04]: game:restart event emitted for extensibility (analytics, sound effects)
 
 ### Pending Todos
 
@@ -149,8 +190,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-11T08:23:20.327Z
-Stopped at: Completed 04-02-PLAN.md (Win/Lose Detection)
+Last session: 2026-03-11T08:52:45.641Z
+Stopped at: Completed 04-04-PLAN.md (Restart Functionality) - Phase 4 COMPLETE
 Resume file: None
 
 ## Phase 2 Complete
@@ -174,3 +215,35 @@ All Phase 2 (Grid and Input) plans have been successfully completed:
 - CORE-03: Interactive tile selection with visual feedback
 
 **Ready for Phase 3: Matching Logic**
+
+## Phase 4 Complete
+
+All Phase 4 (Game State Management) plans have been successfully completed:
+
+**Plans Completed:**
+- ✓ 04-00: Phase 4 research and context
+- ✓ 04-01: Game State Machine (IDLE, SELECTING, MATCHING, GAME_OVER)
+- ✓ 04-02: Win/Lose Detection (game over overlay, no-moves detector)
+- ✓ 04-03: Win/Lose Detection Integration (event wiring, overlay display)
+- ✓ 04-04: Restart Functionality (full reset, score preservation)
+
+**Artifacts Delivered:**
+- GameStateManager: 123 lines - State machine with transition validation
+- NoMovesDetector: 93 lines - Optimized no-moves detection (94% reduction in PathFinder calls)
+- Game over overlay: HTML/CSS overlay with win/lose messages
+- Restart functionality: 108 lines - Full reset with score preservation
+- Comprehensive test coverage for all state management features
+
+**Phase 4 Requirements Met:**
+- CORE-08: Win condition detection and display
+- CORE-09: No-moves detection and game over state
+- Game state machine with transition validation
+- Restart functionality with infinite replayability
+
+**Phase 4 Performance Metrics:**
+- Total execution time: 25 minutes (5 plans)
+- Average duration: 6.25 minutes/plan
+- Total files modified: 12 files
+- Total lines added: ~450 lines
+
+**Ready for Phase 5: Board Generation and Recovery**

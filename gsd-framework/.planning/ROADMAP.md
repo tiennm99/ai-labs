@@ -82,9 +82,11 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
+- [x] 04-00-PLAN.md — Phase 4 research and context
 - [x] 04-01-PLAN.md — State machine with game states (IDLE, SELECTING, MATCHING, GAME_OVER) and transition validation
-- [ ] 04-02-PLAN.md — Win/lose detection with game over overlay and no-moves detector
-- [ ] 04-03-PLAN.md — Restart functionality with full game state reset
+- [x] 04-02-PLAN.md — Win/lose detection with game over overlay and no-moves detector
+- [x] 04-03-PLAN.md — Win/lose detection integration with event wiring
+- [x] 04-04-PLAN.md — Restart functionality with full game state reset and score preservation
 
 ### Phase 5: Board Generation and Recovery
 **Goal**: Game generates solvable boards and provides shuffle when stuck
@@ -129,11 +131,11 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 1. Core Foundation | 3/3 | Complete | 01-01, 01-02, 01-03 |
 | 2. Grid and Input | 3/3 | Complete | 02-01, 02-02, 02-03 |
 | 3. Core Matching Mechanics | 3/3 | Complete   | 2026-03-11 |
-| 4. Game State Management | 3/5 | In Progress|  |
+| 4. Game State Management | 5/5 | Complete | 04-00, 04-01, 04-02, 04-03, 04-04 |
 | 5. Board Generation and Recovery | 0/3 | Not started | - |
 | 6. Polish and UX | 0/4 | Not started | - |
 
 ---
 *Roadmap created: 2026-03-10*
 *Granularity: standard*
-*Last updated: 2026-03-11 after Phase 4 planning*
+*Last updated: 2026-03-11 after Phase 4 completion*

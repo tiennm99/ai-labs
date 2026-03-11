@@ -135,6 +135,18 @@ describe('Type Definitions', () => {
       expect(payload.from).toBe(GameState.IDLE);
       expect(payload.to).toBe(GameState.SELECTING);
     });
+
+    it('should define board:shuffling event with tilesRemaining', () => {
+      type ShufflingPayload = GameEvents['board:shuffling'];
+      const payload: ShufflingPayload = { tilesRemaining: 50 };
+      expect(payload.tilesRemaining).toBe(50);
+    });
+
+    it('should define board:shuffled event with tilesRemaining', () => {
+      type ShuffledPayload = GameEvents['board:shuffled'];
+      const payload: ShuffledPayload = { tilesRemaining: 50 };
+      expect(payload.tilesRemaining).toBe(50);
+    });
   });
 
   describe('GameState', () => {
