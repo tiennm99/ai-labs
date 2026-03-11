@@ -16,9 +16,11 @@
         align-items: center;
         min-height: 100vh;
         background-color: #1a1a2e;
+        overflow: hidden; /* Prevent scroll */
       }
       #game {
         border-radius: 8px;
+        touch-action: none; /* Prevent all touch gestures */
       }
       #score-display {
         position: absolute;
