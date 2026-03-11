@@ -26,6 +26,7 @@ export interface Tile {
 export interface GameEvents {
   'game:start': void;
   'game:tick': { deltaTime: number };
+  'tilesSelected': { tile1: Tile; tile2: Tile };
   'tile:selected': { tile: Tile; row: number; col: number };
   'tile:cleared': { tile: Tile };
   'game:score': { points: number };
