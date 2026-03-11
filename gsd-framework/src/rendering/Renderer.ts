@@ -6,6 +6,7 @@
 
 import { GridManager } from '../managers/GridManager';
 import { Tile } from '../models/Tile';
+import { TilePosition } from '../types';
 import { CONFIG } from '../config';
 
 /**
@@ -73,6 +74,46 @@ class ShakeAnimation {
   }
 }
 
+/**
+ * RippleAnimation class for touch feedback effect
+ * Creates expanding circle at touch point
+ */
+class RippleAnimation {
+  private startTime: number;
+  private readonly x: number;
+  private readonly y: number;
+  private readonly duration: number = 300;
+  private readonly maxRadius: number = 40;
+
+  constructor(x: number, y: number) {
+    this.startTime = performance.now();
+    this.x = x;
+    this.y = y;
+  }
+
+  /**
+   * Render ripple and return whether animation is still active
+   * @returns true if still animating, false if complete
+   */
+  render(ctx: CanvasRenderingContext2D): boolean {
+    const elapsed = performance.now() - this.startTime;
+    if (elapsed > this.duration) return false;
+
+    const progress = elapsed / this.duration;
+    const radius = this.maxRadius * progress;
+    const alpha = 0.3 * (1 - progress); // Fade out
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, radius, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(233, 69, 96, ${alpha})`; // Selection color
+    ctx.fill();
+    ctx.restore();
+
+    return true;
+  }
+}
+
 export class Renderer {
   private ctx: CanvasRenderingContext2D;
   private gridManager: GridManager;
@@ -80,6 +121,7 @@ export class Renderer {
   private fadeAnimationStartTimes: Map<string, number> = new Map();
   private readonly FADE_DURATION = 100; // ms per CONTEXT.md
   private shakeAnimations: Map<string, ShakeAnimation> = new Map();
+  private rippleAnimations: RippleAnimation[] = [];
   private pathAnimation: { path: TilePosition[], startTime: number } | null = null;
   private readonly PATH_DISPLAY_DURATION = 300; // ms per CONTEXT.md
 
@@ -113,6 +155,11 @@ export class Renderer {
 
     // Draw path animation if active
     this.renderPathAnimation();
+
+    // Draw ripple animations
+    this.rippleAnimations = this.rippleAnimations.filter(ripple =>
+      ripple.render(this.ctx)
+    );
 
     // Get selected tiles for highlight rendering
     const selectedTiles = this.gridManager.selectedTilesList;
@@ -296,6 +343,15 @@ export class Renderer {
       animation.start();
       this.shakeAnimations.set(tile.id, animation);
     }
+  }
+
+  /**
+   * Add ripple effect at touch/click coordinates
+   * @param x - Canvas X coordinate
+   * @param y - Canvas Y coordinate
+   */
+  addRipple(x: number, y: number): void {
+    this.rippleAnimations.push(new RippleAnimation(x, y));
   }
 
   /**
