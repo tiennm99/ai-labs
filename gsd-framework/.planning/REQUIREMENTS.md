@@ -27,7 +27,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Visual & UX
 
 - [ ] **UX-01**: Matched tiles animate before disappearing
-- [ ] **UX-02**: Game responds to touch input on mobile devices
+- [x] **UX-02**: Game responds to touch input on mobile devices
 - [ ] **UX-03**: Grid layout is responsive (works on phone and desktop)
 
 ## v2 Requirements
@@ -79,7 +79,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | BOARD-01 | Phase 5 | Pending |
 | BOARD-02 | Phase 3 | Complete |
 | UX-01 | Phase 6 | Pending |
-| UX-02 | Phase 6 | Pending |
+| UX-02 | Phase 6 | Complete |
 | UX-03 | Phase 6 | Pending |
 
 **Coverage:**
