@@ -13,16 +13,16 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **CORE-02**: Player can click/tap to select a tile (highlighted when selected)
 - [x] **CORE-03**: Player can click/tap a second tile to attempt a match
 - [x] **CORE-04**: Two matching tiles connect if a valid path exists with 3 or fewer straight lines
-- [ ] **CORE-05**: Connected matching tiles disappear from the board
-- [ ] **CORE-06**: Player receives points when tiles are matched and cleared
-- [ ] **CORE-07**: Cleared tiles become passable space for future connections
+- [x] **CORE-05**: Connected matching tiles disappear from the board
+- [x] **CORE-06**: Player receives points when tiles are matched and cleared
+- [x] **CORE-07**: Cleared tiles become passable space for future connections
 - [ ] **CORE-08**: Game detects when no valid moves remain on the board
 - [ ] **CORE-09**: Game detects win condition when all tiles are cleared
 
 ### Board & Scoring
 
 - [ ] **BOARD-01**: Player can shuffle remaining tiles when no moves available
-- [ ] **BOARD-02**: Score is displayed and updates in real-time
+- [x] **BOARD-02**: Score is displayed and updates in real-time
 
 ### Visual & UX
 
@@ -71,13 +71,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CORE-02 | Phase 2 | Complete |
 | CORE-03 | Phase 2 | Complete |
 | CORE-04 | Phase 3 | Complete |
-| CORE-05 | Phase 3 | Pending |
-| CORE-06 | Phase 3 | Pending |
-| CORE-07 | Phase 3 | Pending |
+| CORE-05 | Phase 3 | Complete |
+| CORE-06 | Phase 3 | Complete |
+| CORE-07 | Phase 3 | Complete |
 | CORE-08 | Phase 4 | Pending |
 | CORE-09 | Phase 4 | Pending |
 | BOARD-01 | Phase 5 | Pending |
-| BOARD-02 | Phase 3 | Pending |
+| BOARD-02 | Phase 3 | Complete |
 | UX-01 | Phase 6 | Pending |
 | UX-02 | Phase 6 | Pending |
 | UX-03 | Phase 6 | Pending |
