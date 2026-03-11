@@ -11,12 +11,13 @@ import { GameState } from '../state/GameStateManager';
 const mockCanvas = {
   width: 0,
   height: 0,
-  style: { width: '', height: '' },
+  style: { width: '', height: '', transform: '', transformOrigin: '' },
   addEventListener: vi.fn(),
   removeEventListener: vi.fn(),
   getBoundingClientRect: vi.fn(() => ({ left: 0, top: 0, width: 836, height: 524 })),
   getContext: vi.fn(() => ({
     scale: vi.fn(),
+    setTransform: vi.fn(),
     fillStyle: '',
     fillRect: vi.fn(),
   })),
@@ -34,6 +35,8 @@ describe('Game', () => {
     mockCanvas.height = 0;
     mockCanvas.style.width = '';
     mockCanvas.style.height = '';
+    mockCanvas.style.transform = '';
+    mockCanvas.style.transformOrigin = '';
 
     // Save originals
     originalRaf = globalThis.requestAnimationFrame;
@@ -73,9 +76,11 @@ describe('Game', () => {
       }),
     });
 
-    // Mock window.devicePixelRatio
+    // Mock window.devicePixelRatio and dimensions for responsive scaling
     vi.stubGlobal('window', {
       devicePixelRatio: 1,
+      innerWidth: 1200,  // Large viewport (no scaling needed)
+      innerHeight: 800,
       addEventListener: vi.fn(),
       removeEventListener: vi.fn(),
     });
@@ -205,8 +210,14 @@ describe('Game', () => {
 
   describe('device pixel ratio handling', () => {
     it('should scale canvas by device pixel ratio', () => {
-      // Set a custom device pixel ratio
-      vi.stubGlobal('window', { devicePixelRatio: 2 });
+      // Set a custom device pixel ratio with viewport dimensions
+      vi.stubGlobal('window', {
+        devicePixelRatio: 2,
+        innerWidth: 1200,
+        innerHeight: 800,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      });
 
       game = new Game();
 
@@ -219,6 +230,151 @@ describe('Game', () => {
 
       // Reset
       vi.stubGlobal('window', { devicePixelRatio: 1 });
+    });
+  });
+
+  describe('responsive scaling', () => {
+    it('should not scale canvas on large viewport (no scaling needed)', () => {
+      // Large viewport - no scaling needed
+      vi.stubGlobal('window', {
+        devicePixelRatio: 1,
+        innerWidth: 1200,
+        innerHeight: 800,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      });
+
+      game = new Game();
+
+      // Canvas should be at native size with scale(1)
+      expect(mockCanvas.style.width).toBe('836px');
+      expect(mockCanvas.style.height).toBe('524px');
+      expect(mockCanvas.style.transform).toBe('scale(1)');
+      expect(mockCanvas.style.transformOrigin).toBe('center center');
+    });
+
+    it('should scale down canvas on narrow viewport', () => {
+      // Narrow viewport - needs scaling
+      vi.stubGlobal('window', {
+        devicePixelRatio: 1,
+        innerWidth: 600,  // Smaller than native 836px + 40px padding
+        innerHeight: 800,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      });
+
+      game = new Game();
+
+      // Canvas should be scaled down
+      // viewportWidth (600-40=560) / nativeWidth (836) = 0.67
+      const expectedScale = (600 - 40) / 836;
+      expect(mockCanvas.style.transform).toBe(`scale(${expectedScale})`);
+      expect(mockCanvas.style.transformOrigin).toBe('center center');
+      // Native canvas size should remain unchanged
+      expect(mockCanvas.width).toBe(836);
+      expect(mockCanvas.height).toBe(524);
+    });
+
+    it('should scale down canvas on short viewport', () => {
+      // Short viewport - needs scaling
+      vi.stubGlobal('window', {
+        devicePixelRatio: 1,
+        innerWidth: 1200,
+        innerHeight: 400,  // Smaller than native 524px + 80px padding
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      });
+
+      game = new Game();
+
+      // Canvas should be scaled down based on height constraint
+      // viewportHeight (400-80=320) / nativeHeight (524) = 0.61
+      const expectedScale = (400 - 80) / 524;
+      expect(mockCanvas.style.transform).toBe(`scale(${expectedScale})`);
+      expect(mockCanvas.style.transformOrigin).toBe('center center');
+    });
+
+    it('should use smaller scale when both dimensions are constrained', () => {
+      // Both narrow and short viewport
+      vi.stubGlobal('window', {
+        devicePixelRatio: 1,
+        innerWidth: 500,
+        innerHeight: 400,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      });
+
+      game = new Game();
+
+      // Should use the smaller scale factor
+      const scaleByWidth = (500 - 40) / 836;  // 0.55
+      const scaleByHeight = (400 - 80) / 524; // 0.61
+      const expectedScale = Math.min(scaleByWidth, scaleByHeight);
+      expect(mockCanvas.style.transform).toBe(`scale(${expectedScale})`);
+    });
+
+    it('should never scale up beyond native size', () => {
+      // Very large viewport - should not scale up
+      vi.stubGlobal('window', {
+        devicePixelRatio: 1,
+        innerWidth: 2000,
+        innerHeight: 1500,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      });
+
+      game = new Game();
+
+      // Scale should be capped at 1
+      expect(mockCanvas.style.transform).toBe('scale(1)');
+      expect(mockCanvas.style.width).toBe('836px');
+      expect(mockCanvas.style.height).toBe('524px');
+    });
+
+    it('should preserve aspect ratio during scaling', () => {
+      // Narrow viewport
+      vi.stubGlobal('window', {
+        devicePixelRatio: 1,
+        innerWidth: 600,
+        innerHeight: 800,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      });
+
+      game = new Game();
+
+      // Canvas CSS dimensions should maintain aspect ratio
+      // Native aspect ratio: 836 / 524 = 1.595
+      const nativeAspectRatio = 836 / 524;
+      const cssWidth = parseFloat(mockCanvas.style.width);
+      const cssHeight = parseFloat(mockCanvas.style.height);
+      const cssAspectRatio = cssWidth / cssHeight;
+
+      expect(cssAspectRatio).toBeCloseTo(nativeAspectRatio, 2);
+    });
+
+    it('should use CSS transform for scaling (not canvas dimensions)', () => {
+      // Narrow viewport
+      vi.stubGlobal('window', {
+        devicePixelRatio: 1,
+        innerWidth: 600,
+        innerHeight: 800,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      });
+
+      game = new Game();
+
+      // Canvas internal dimensions should remain at native size
+      expect(mockCanvas.width).toBe(836);  // Native width
+      expect(mockCanvas.height).toBe(524); // Native height
+
+      // CSS dimensions should be native size (scaled via transform)
+      expect(mockCanvas.style.width).toBe('836px');
+      expect(mockCanvas.style.height).toBe('524px');
+
+      // Transform should handle the scaling
+      expect(mockCanvas.style.transform).toMatch(/^scale\(0\.\d+\)$/);
     });
   });
 

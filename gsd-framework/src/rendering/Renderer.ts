@@ -114,6 +114,82 @@ class RippleAnimation {
   }
 }
 
+/**
+ * MatchAnimation class for animating tile match effects
+ * Creates a satisfying "pop" effect with scale+fade when tiles are matched
+ */
+export class MatchAnimation {
+  private startTime: number;
+  private readonly duration: number;
+
+  constructor(duration: number = 250) {
+    this.startTime = 0;
+    this.duration = duration;
+  }
+
+  /**
+   * Start the match animation
+   */
+  start(): void {
+    this.startTime = performance.now();
+  }
+
+  /**
+   * Easing function for "pop" feel - overshoots slightly then settles
+   * @param t - Progress value (0-1)
+   */
+  private easeOutBack(t: number): number {
+    const c1 = 1.70158;
+    const c3 = c1 + 1;
+    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+  }
+
+  /**
+   * Easing function for smooth fade
+   * @param t - Progress value (0-1)
+   */
+  private easeInQuad(t: number): number {
+    return t * t;
+  }
+
+  /**
+   * Get current scale and alpha values based on elapsed time
+   * @returns { scale, alpha } values for rendering
+   */
+  getScaleAndAlpha(): { scale: number; alpha: number } {
+    const elapsed = performance.now() - this.startTime;
+
+    // Animation complete - return zero values
+    if (elapsed > this.duration) {
+      return { scale: 0, alpha: 0 };
+    }
+
+    const progress = elapsed / this.duration;
+
+    // Scale phases: grow (0-50%) then shrink (50-100%)
+    let scale: number;
+    if (progress < 0.5) {
+      // Grow phase: easeOutBack for "pop" feel
+      scale = 1 + 0.2 * this.easeOutBack(progress * 2);
+    } else {
+      // Shrink phase: linear shrink from 1.2 to 0
+      scale = 1.2 * (1 - (progress - 0.5) * 2);
+    }
+
+    // Alpha: linear fade using easeInQuad
+    const alpha = 1 - this.easeInQuad(progress);
+
+    return { scale, alpha };
+  }
+
+  /**
+   * Check if animation is complete
+   */
+  isComplete(): boolean {
+    return performance.now() - this.startTime > this.duration;
+  }
+}
+
 export class Renderer {
   private ctx: CanvasRenderingContext2D;
   private gridManager: GridManager;
@@ -422,6 +498,13 @@ export class Renderer {
     const offsetX = (this.canvas.width - gridWidth) / 2;
     const offsetY = (this.canvas.height - gridHeight) / 2;
 
+    // Save context state before applying glow
+    this.ctx.save();
+
+    // Set glow effect for path visibility
+    this.ctx.shadowColor = '#00ff00'; // Green glow
+    this.ctx.shadowBlur = 15; // Glow intensity per RESEARCH.md
+
     // Set path style
     this.ctx.strokeStyle = '#00ff00'; // Green color per CONTEXT.md
     this.ctx.lineWidth = 3;
@@ -447,5 +530,8 @@ export class Renderer {
 
     // Stroke path
     this.ctx.stroke();
+
+    // Restore context state after drawing
+    this.ctx.restore();
   }
 }

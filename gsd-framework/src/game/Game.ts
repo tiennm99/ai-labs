@@ -148,26 +148,42 @@ export class Game {
   }
 
   /**
-   * Sets up canvas dimensions and handles device pixel ratio for sharp rendering
+   * Sets up canvas dimensions with responsive scaling
+   * Scales down to fit viewport on small screens, never scales up
    */
   private setupCanvas(): void {
     const { cols, rows } = CONFIG.grid;
     const { size, gap } = CONFIG.tile;
     const dpr = window.devicePixelRatio || 1;
 
-    // Calculate logical canvas size
-    const width = cols * (size + gap) + gap;
-    const height = rows * (size + gap) + gap;
+    // Calculate native canvas size
+    const nativeWidth = cols * (size + gap) + gap;  // 832px
+    const nativeHeight = rows * (size + gap) + gap; // 528px
 
-    // Set actual canvas size (accounting for device pixel ratio)
-    this.canvas.width = width * dpr;
-    this.canvas.height = height * dpr;
+    // Get viewport dimensions (with padding for UI elements)
+    const viewportWidth = window.innerWidth - 40;  // 20px padding each side
+    const viewportHeight = window.innerHeight - 80; // Space for score display
 
-    // Set display size (CSS)
-    this.canvas.style.width = `${width}px`;
-    this.canvas.style.height = `${height}px`;
+    // Calculate scale (scale down only, never up)
+    let scale = 1;
+    if (viewportWidth < nativeWidth || viewportHeight < nativeHeight) {
+      const scaleByWidth = viewportWidth / nativeWidth;
+      const scaleByHeight = viewportHeight / nativeHeight;
+      scale = Math.min(scaleByWidth, scaleByHeight, 1);
+    }
 
-    // Scale context to account for device pixel ratio
+    // Set canvas internal size (with DPR for sharp rendering)
+    this.canvas.width = nativeWidth * dpr;
+    this.canvas.height = nativeHeight * dpr;
+
+    // Set display size via CSS (native size, scaled with transform)
+    this.canvas.style.width = `${nativeWidth}px`;
+    this.canvas.style.height = `${nativeHeight}px`;
+    this.canvas.style.transform = `scale(${scale})`;
+    this.canvas.style.transformOrigin = 'center center';
+
+    // Scale context for DPR (reset first to avoid accumulation)
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.scale(dpr, dpr);
   }
 
