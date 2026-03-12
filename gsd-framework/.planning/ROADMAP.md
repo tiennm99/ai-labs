@@ -27,10 +27,14 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. User can add items with name and price to the bill
   3. User can assign any item to one or more specific people
   4. User can mark an item as "shared" to split it across selected people
-**Plans**: TBD
+**Plans**: 5 plans in 4 waves
 
 Plans:
-- [ ] 01-01: [To be defined during planning]
+- [ ] 01-01: Test infrastructure (Vitest + test stubs for all requirements)
+- [ ] 01-02: Core data layer (currency utils + billStore with CRUD)
+- [ ] 01-03: People UI (PersonForm + PeopleList)
+- [ ] 01-04: Items UI (ItemForm + ItemsList + ItemAssign)
+- [ ] 01-05: Integration checkpoint (human verification)
 
 ### Phase 2: Calculation & Results
 **Goal**: Users can see exactly who owes what with tip applied
@@ -66,6 +70,6 @@ Phases execute in numeric order: 1 -> 2 -> 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Bill Entry & Assignment | 0/TBD | Not started | - |
+| 1. Bill Entry & Assignment | 0/5 | Not started | - |
 | 2. Calculation & Results | 0/TBD | Not started | - |
 | 3. Bill History | 0/TBD | Not started | - |
