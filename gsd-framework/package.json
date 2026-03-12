@@ -11,10 +11,13 @@
     "test:run": "vitest run"
   },
   "devDependencies": {
+    "@preact/preset-vite": "^2.8.0",
     "jsdom": "^28.1.0",
+    "vite": "^5.0.0",
     "vitest": "^4.0.18"
   },
   "dependencies": {
-    "@preact/signals": "^2.8.2"
+    "@preact/signals": "^2.8.2",
+    "preact": "^10.19.0"
   }
 }
