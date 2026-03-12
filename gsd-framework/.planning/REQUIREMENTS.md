@@ -9,10 +9,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### People & Items
 
-- [ ] **PEOPLE-01**: User can add people to the bill by name
-- [ ] **PEOPLE-02**: User can add items with name and price
-- [ ] **PEOPLE-03**: User can assign items to specific people
-- [ ] **PEOPLE-04**: User can mark items as "shared" to split across selected people
+- [x] **PEOPLE-01**: User can add people to the bill by name
+- [x] **PEOPLE-02**: User can add items with name and price
+- [x] **PEOPLE-03**: User can assign items to specific people
+- [x] **PEOPLE-04**: User can mark items as "shared" to split across selected people
 
 ### Calculations
 
@@ -60,10 +60,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PEOPLE-01 | Phase 1 | Pending |
-| PEOPLE-02 | Phase 1 | Pending |
-| PEOPLE-03 | Phase 1 | Pending |
-| PEOPLE-04 | Phase 1 | Pending |
+| PEOPLE-01 | Phase 1 | Complete |
+| PEOPLE-02 | Phase 1 | Complete |
+| PEOPLE-03 | Phase 1 | Complete |
+| PEOPLE-04 | Phase 1 | Complete |
 | CALC-01 | Phase 2 | Pending |
 | CALC-02 | Phase 2 | Pending |
 | CALC-03 | Phase 2 | Pending |

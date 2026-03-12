@@ -30,7 +30,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 5 plans in 4 waves
 
 Plans:
-- [ ] 01-01: Test infrastructure (Vitest + test stubs for all requirements)
+- [x] 01-01: Test infrastructure (Vitest + test stubs for all requirements)
 - [ ] 01-02: Core data layer (currency utils + billStore with CRUD)
 - [ ] 01-03: People UI (PersonForm + PeopleList)
 - [ ] 01-04: Items UI (ItemForm + ItemsList + ItemAssign)
@@ -70,6 +70,6 @@ Phases execute in numeric order: 1 -> 2 -> 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Bill Entry & Assignment | 0/5 | Not started | - |
+| 1. Bill Entry & Assignment | 1/5 | In progress | 01-01 |
 | 2. Calculation & Results | 0/TBD | Not started | - |
 | 3. Bill History | 0/TBD | Not started | - |
