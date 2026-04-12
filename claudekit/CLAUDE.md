@@ -12,7 +12,7 @@ npm run test:watch   # Run tests in watch mode
 npx vitest run src/fruits.test.js   # Run a single test file
 ```
 
-No vite.config or vitest.config files — both use defaults.
+`vite.config.js` sets `base` for GitHub Pages deployment. No vitest.config — uses defaults.
 
 ## Architecture
 
