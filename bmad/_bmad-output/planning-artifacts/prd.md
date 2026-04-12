@@ -1,5 +1,5 @@
 ---
-stepsCompleted: ['step-01-init', 'step-02-discovery', 'step-02b-vision', 'step-02c-executive-summary', 'step-03-success', 'step-04-journeys', 'step-05-domain-skipped', 'step-06-innovation-skipped', 'step-07-project-type']
+stepsCompleted: ['step-01-init', 'step-02-discovery', 'step-02b-vision', 'step-02c-executive-summary', 'step-03-success', 'step-04-journeys', 'step-05-domain-skipped', 'step-06-innovation-skipped', 'step-07-project-type', 'step-08-scoping']
 inputDocuments:
   - '_bmad-output/brainstorming/brainstorming-session-2026-04-12-001.md'
 workflowType: 'prd'
@@ -172,3 +172,56 @@ Single-page application (SPA) — a self-contained puzzle game with no routing, 
 - No analytics or tracking
 - All state management via Svelte reactivity + localStorage
 - Static site deployment (GitHub Pages)
+
+## Project Scoping & Phased Development
+
+### MVP Strategy & Philosophy
+
+**MVP Approach:** Experience MVP — deliver the core 2048 gameplay loop (slide, merge, score, win/lose) with enough polish to feel complete. A player should be able to play a full game from start to finish on desktop.
+
+**Resource Requirements:** Solo developer, ~1-2 weeks of focused work.
+
+### MVP Feature Set (Phase 1)
+
+**Core User Journey Supported:** First-Time Player (Journey 1)
+
+**Must-Have Capabilities:**
+- 4x4 grid rendering with Svelte components
+- Tile spawning (2 at start, 1 per move, 90/10 probability)
+- Slide mechanics in 4 directions with correct merge order
+- Once-per-move merge rule enforced
+- Score tracking (current score, updated on merge)
+- Game over detection (no moves available)
+- Win detection (2048 tile created) with overlay
+- New Game button to restart
+- Keyboard input (arrow keys)
+- Tile colors matching original (12-tier system)
+
+### Post-MVP Features
+
+**Phase 2 (Growth):**
+- Best score persistence (localStorage)
+- Full game state persistence (survive page refresh)
+- "Keep playing" mode after winning
+- Touch/swipe input for mobile
+- WASD and Vim key support
+- Slide animation (100ms CSS transition)
+- New tile pop animation (200ms)
+- Merge bounce animation (200ms)
+- Score "+N" float animation
+
+**Phase 3 (Polish & Ship):**
+- Responsive layout (500px → 280px at 520px breakpoint)
+- Tile glow effects on 128+ values
+- Dynamic font sizing (55/45/35px)
+- Win/lose overlay fade animation (800ms)
+- GitHub Pages deployment
+- Final color and timing polish
+
+### Risk Mitigation Strategy
+
+**Technical Risks:** Merge algorithm correctness — mitigate by implementing game logic as pure JS module, testable independently from UI. Reference original source code for edge cases.
+
+**Market Risks:** None — this is a learning project, not a product launch.
+
+**Resource Risks:** Minimal — solo project with well-defined scope. If time is short, Phase 3 polish can be deferred indefinitely since the game is fully playable after Phase 2.
