@@ -99,7 +99,7 @@ function drawFruitCircle(ctx, fruit, x, y, radius) {
   ctx.font = `bold ${Math.max(10, r * 0.6)}px sans-serif`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText(fruit.name.slice(0, 2), x, y);
+  ctx.fillText(fruit.tier + 1, x, y);
 }
 
 function drawFruits(ctx, bodies) {

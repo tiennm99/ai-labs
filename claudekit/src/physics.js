@@ -1,7 +1,6 @@
 import Matter from 'matter-js';
 import { FRUITS } from './fruits.js';
 import {
-  CANVAS_WIDTH,
   CONTAINER_WIDTH,
   CONTAINER_HEIGHT,
   CONTAINER_X,
@@ -23,6 +22,7 @@ export function createWalls() {
   const wallHeight = CONTAINER_HEIGHT;
   const wallY = CONTAINER_Y + CONTAINER_HEIGHT / 2;
 
+  const floorX = CONTAINER_X + CONTAINER_WIDTH / 2;
   const floorY = CONTAINER_Y + CONTAINER_HEIGHT + WALL_THICKNESS / 2;
   const floorWidth = CONTAINER_WIDTH + WALL_THICKNESS * 2;
 
@@ -30,7 +30,7 @@ export function createWalls() {
 
   const leftWall = Bodies.rectangle(leftX, wallY, WALL_THICKNESS, wallHeight, wallOptions);
   const rightWall = Bodies.rectangle(rightX, wallY, WALL_THICKNESS, wallHeight, wallOptions);
-  const floor = Bodies.rectangle(CANVAS_WIDTH / 2, floorY, floorWidth, WALL_THICKNESS, wallOptions);
+  const floor = Bodies.rectangle(floorX, floorY, floorWidth, WALL_THICKNESS, wallOptions);
 
   return [leftWall, rightWall, floor];
 }
