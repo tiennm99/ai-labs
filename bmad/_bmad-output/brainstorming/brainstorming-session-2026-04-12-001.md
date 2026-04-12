@@ -7,7 +7,7 @@ selected_approach: 'user-selected'
 techniques_used: ['First Principles Thinking', 'Mind Mapping', 'Morphological Analysis']
 ideas_generated: []
 context_file: ''
-techniques_completed: ['First Principles Thinking', 'Mind Mapping']
+techniques_completed: ['First Principles Thinking', 'Mind Mapping', 'Morphological Analysis']
 ---
 
 # Brainstorming Session Results
@@ -108,3 +108,31 @@ techniques_completed: ['First Principles Thinking', 'Mind Mapping']
 4. Input — Keyboard (3 schemes), touch/swipe, modifier blocking, restart
 5. UI/UX — Score displays, buttons, overlays, intro text, responsive layout
 6. Infrastructure — localStorage persistence, responsive (500px/280px), build & deploy
+
+### Morphological Analysis
+
+**Tech Stack Decision Matrix:**
+
+| Parameter | Options Considered | **Decision** | Rationale |
+|-----------|-------------------|-------------|-----------|
+| Language | Vanilla JS, TypeScript | **Vanilla JS** | Personal preference |
+| Framework | None, Vue, Svelte, Preact | **Svelte** | Compiles to vanilla JS, minimal boilerplate, built-in reactivity, excellent Vite integration |
+| Rendering | DOM + CSS, Canvas | **DOM + CSS** | Matches original, simpler, CSS transitions for animations |
+| Styling | Plain CSS, Tailwind, SCSS | **Tailwind CSS** | Utility-first, fast styling, good DX |
+| Animations | CSS transitions, JS, Hybrid | **CSS transitions** | Matches original approach (100ms slide, 200ms pop/bounce) |
+| Build Tool | None, Vite, Webpack | **Vite** | Fast HMR, first-class Svelte support, simple config |
+| Deployment | GitHub Pages, Vercel, Netlify | **GitHub Pages** | Free, already on GitHub, simple static hosting |
+| Project Structure | Single file, Multi-module | **Multi-module** | Svelte components for clean separation |
+
+**Final Tech Stack:**
+- **Svelte** + **Vanilla JS** + **Tailwind CSS** + **Vite** + **GitHub Pages**
+
+**Proposed Component Structure:**
+- `App.svelte` — Main layout (title, scores, grid container, footer)
+- `Grid.svelte` — 4x4 grid background cells
+- `Tile.svelte` — Individual tile with color, animation, positioning
+- `ScoreBoard.svelte` — Current score + best score with "+N" animation
+- `GameMessage.svelte` — Win/lose overlay with buttons
+- `game.js` — Core game logic (grid state, move, merge, spawn, win/lose detection)
+- `input.js` — Keyboard and touch/swipe handler
+- `storage.js` — localStorage persistence (game state + best score)
