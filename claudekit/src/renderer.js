@@ -8,6 +8,8 @@ import {
   CONTAINER_HEIGHT,
   WALL_THICKNESS,
   DANGER_LINE_Y,
+  PANEL_WIDTH,
+  PANEL_GAP,
 } from './constants.js';
 
 export function createCanvas() {
@@ -81,30 +83,30 @@ function drawDangerLine(ctx) {
   ctx.restore();
 }
 
+function drawFruitCircle(ctx, fruit, x, y, radius) {
+  const r = radius ?? fruit.radius;
+
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.fillStyle = fruit.color;
+  ctx.fill();
+
+  ctx.strokeStyle = darkenColor(fruit.color, 0.2);
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = `bold ${Math.max(10, r * 0.6)}px sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(fruit.name.slice(0, 2), x, y);
+}
+
 function drawFruits(ctx, bodies) {
   for (const body of bodies) {
     if (body.fruitTier === undefined || body.removing) continue;
-
     const fruit = FRUITS[body.fruitTier];
-    const { x, y } = body.position;
-
-    // Circle
-    ctx.beginPath();
-    ctx.arc(x, y, fruit.radius, 0, Math.PI * 2);
-    ctx.fillStyle = fruit.color;
-    ctx.fill();
-
-    // Darker border
-    ctx.strokeStyle = darkenColor(fruit.color, 0.2);
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    // Label
-    ctx.fillStyle = '#FFFFFF';
-    ctx.font = `bold ${Math.max(10, fruit.radius * 0.6)}px sans-serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(fruit.name.slice(0, 2), x, y);
+    drawFruitCircle(ctx, fruit, body.position.x, body.position.y);
   }
 }
 
@@ -118,13 +120,7 @@ function drawNextFruitPreview(ctx, state) {
   ctx.save();
   ctx.globalAlpha = state.isDropCooldown ? 0.3 : 0.7;
 
-  ctx.beginPath();
-  ctx.arc(x, y, fruit.radius, 0, Math.PI * 2);
-  ctx.fillStyle = fruit.color;
-  ctx.fill();
-  ctx.strokeStyle = darkenColor(fruit.color, 0.2);
-  ctx.lineWidth = 2;
-  ctx.stroke();
+  drawFruitCircle(ctx, fruit, x, y);
 
   // Drop guide line
   if (!state.isDropCooldown) {
@@ -143,9 +139,9 @@ function drawNextFruitPreview(ctx, state) {
 function drawNextFruitPanel(ctx, state) {
   if (state.isGameOver) return;
 
-  const panelX = CONTAINER_X + CONTAINER_WIDTH + WALL_THICKNESS + 10;
+  const panelX = CONTAINER_X + CONTAINER_WIDTH + WALL_THICKNESS + PANEL_GAP;
   const panelY = CONTAINER_Y;
-  const panelSize = 60;
+  const panelSize = PANEL_WIDTH;
 
   ctx.fillStyle = '#FFFDF5';
   ctx.strokeStyle = '#8B7355';
@@ -166,13 +162,7 @@ function drawNextFruitPanel(ctx, state) {
   const cx = panelX + panelSize / 2;
   const cy = panelY + 46;
 
-  ctx.beginPath();
-  ctx.arc(cx, cy, previewRadius, 0, Math.PI * 2);
-  ctx.fillStyle = fruit.color;
-  ctx.fill();
-  ctx.strokeStyle = darkenColor(fruit.color, 0.2);
-  ctx.lineWidth = 2;
-  ctx.stroke();
+  drawFruitCircle(ctx, fruit, cx, cy, previewRadius);
 }
 
 function drawScore(ctx, score) {
@@ -180,7 +170,7 @@ function drawScore(ctx, score) {
   ctx.font = 'bold 28px sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'top';
-  ctx.fillText(`Score: ${score}`, CANVAS_WIDTH / 2, 10);
+  ctx.fillText(`Score: ${score}`, CONTAINER_X + CONTAINER_WIDTH / 2, 10);
 }
 
 function drawGameOverOverlay(ctx, score) {

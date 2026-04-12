@@ -1,13 +1,21 @@
 // Game dimensions
-export const CANVAS_WIDTH = 500;
-export const CANVAS_HEIGHT = 700;
+export const WALL_THICKNESS = 10;
 
 export const CONTAINER_WIDTH = 400;
 export const CONTAINER_HEIGHT = 600;
-export const CONTAINER_X = (CANVAS_WIDTH - CONTAINER_WIDTH) / 2;
-export const CONTAINER_Y = CANVAS_HEIGHT - CONTAINER_HEIGHT - 20;
 
-export const WALL_THICKNESS = 10;
+// NEXT fruit panel sits to the right of the container
+export const PANEL_WIDTH = 60;
+export const PANEL_GAP = 12;
+
+// Canvas sized to fit: padding + container + walls + gap + panel + padding
+const PADDING = 20;
+export const CANVAS_WIDTH = PADDING + WALL_THICKNESS + CONTAINER_WIDTH + WALL_THICKNESS + PANEL_GAP + PANEL_WIDTH + PADDING;
+export const CANVAS_HEIGHT = 700;
+
+// Container is positioned so the panel fits to its right
+export const CONTAINER_X = PADDING + WALL_THICKNESS;
+export const CONTAINER_Y = CANVAS_HEIGHT - CONTAINER_HEIGHT - 20;
 
 // Danger line: ~50px below the top of the container walls
 export const DANGER_LINE_Y = CONTAINER_Y + 50;
