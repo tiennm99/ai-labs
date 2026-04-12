@@ -3,6 +3,7 @@ import {
   createWalls,
   createFruitBody,
   addToWorld,
+  removeFromWorld,
   getAllBodies,
   stepEngine,
 } from './physics.js';
@@ -12,10 +13,15 @@ import { clampX } from './input.js';
 import { FRUITS, getRandomDroppableTier } from './fruits.js';
 import {
   CANVAS_WIDTH,
+  CONTAINER_X,
+  CONTAINER_WIDTH,
   CONTAINER_Y,
+  CONTAINER_HEIGHT,
   DANGER_LINE_Y,
   DROP_COOLDOWN_MS,
   NEW_FRUIT_GRACE_MS,
+  PHYSICS_STEP_MS,
+  MAX_SUB_STEPS,
 } from './constants.js';
 
 export class Game {
@@ -25,6 +31,7 @@ export class Game {
     this.mergeHandler = null;
     this.state = null;
     this.lastTime = 0;
+    this.accumulator = 0;
     this.animFrameId = null;
     this.cooldownTimer = null;
     this.init();
@@ -60,8 +67,21 @@ export class Game {
     this.lastTime = time;
 
     if (!this.state.isGameOver) {
-      stepEngine(this.engine, delta);
-      this.mergeHandler.flushMerges();
+      // Fixed-step sub-stepping: accumulate time and run physics in
+      // consistent small steps to prevent tunneling through walls/floor.
+      this.accumulator += delta;
+      const maxAccumulated = PHYSICS_STEP_MS * MAX_SUB_STEPS;
+      if (this.accumulator > maxAccumulated) {
+        this.accumulator = maxAccumulated;
+      }
+
+      while (this.accumulator >= PHYSICS_STEP_MS) {
+        stepEngine(this.engine, PHYSICS_STEP_MS);
+        this.mergeHandler.flushMerges();
+        this.accumulator -= PHYSICS_STEP_MS;
+      }
+
+      this.removeEscapedBodies();
       this.checkGameOver();
     }
 
@@ -91,6 +111,22 @@ export class Game {
     this.cooldownTimer = setTimeout(() => {
       this.state.isDropCooldown = false;
     }, DROP_COOLDOWN_MS);
+  }
+
+  removeEscapedBodies() {
+    const bodies = getAllBodies(this.engine);
+    const margin = 100;
+    const minX = CONTAINER_X - margin;
+    const maxX = CONTAINER_X + CONTAINER_WIDTH + margin;
+    const maxY = CONTAINER_Y + CONTAINER_HEIGHT + margin;
+
+    for (const body of bodies) {
+      if (body.fruitTier === undefined || body.isStatic) continue;
+      const { x, y } = body.position;
+      if (x < minX || x > maxX || y > maxY) {
+        removeFromWorld(this.engine, body);
+      }
+    }
   }
 
   checkGameOver() {

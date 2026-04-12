@@ -15,11 +15,16 @@ export const DANGER_LINE_Y = CONTAINER_Y + 50;
 // Physics
 export const GRAVITY = { x: 0, y: 1.5 };
 export const FRUIT_BODY_OPTIONS = {
-  restitution: 0.2,
-  friction: 0.5,
-  frictionAir: 0.01,
-  density: 0.001,
+  restitution: 0.3,
+  friction: 0.3,
+  frictionAir: 0.02,
+  frictionStatic: 0.5,
+  density: 0.003,
 };
+
+// Fixed physics step: run sub-steps at this interval to prevent tunneling
+export const PHYSICS_STEP_MS = 1000 / 60; // ~16.67ms
+export const MAX_SUB_STEPS = 5; // cap sub-steps to avoid spiral of death
 
 // Timing
 export const DROP_COOLDOWN_MS = 500;

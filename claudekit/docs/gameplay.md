@@ -7,20 +7,22 @@
 
 ## Fruit Chain
 
-Cherry → Strawberry → Grapes → Dekopon → Persimmon → Apple → Pear → Peach → Pineapple → Melon → Watermelon
+Cherry → Strawberry → Grape → Dekopon → Persimmon → Apple → Pear → Peach → Pineapple → Melon → Watermelon
 
 | Tier | Fruit | Radius | Color | Merge Points |
 |------|-------|--------|-------|-------------|
 | 0 | Cherry | 12px | Red | 1 |
-| 1 | Strawberry | 16px | Light Red | 3 |
-| 2 | Grapes | 20px | Purple | 6 |
-| 3 | Dekopon | 26px | Orange | 10 |
-| 4 | Persimmon | 32px | Dark Orange | 15 |
-| 5 | Apple | 36px | Red | 21 |
-| 6 | Pear | 42px | Green-Yellow | 28 |
-| 7 | Peach | 48px | Peach | 36 |
-| 8 | Pineapple | 57px | Yellow | 45 |
-| 9 | Melon | 64px | Green | 55 |
-| 10 | Watermelon | 77px | Dark Green | 66 |
+| 1 | Strawberry | 17px | Pink-Red | 3 |
+| 2 | Grape | 21px | Purple | 6 |
+| 3 | Dekopon | 29px | Orange | 10 |
+| 4 | Persimmon | 33px | Orange-Red | 15 |
+| 5 | Apple | 37px | Red | 21 |
+| 6 | Pear | 44px | Yellow-Green | 28 |
+| 7 | Peach | 50px | Peach | 36 |
+| 8 | Pineapple | 67px | Yellow | 45 |
+| 9 | Melon | 83px | Green | 55 |
+| 10 | Watermelon | 100px | Dark Green | 66 |
+
+Radii are scaled from the [community-standard values](https://github.com/TomboFry/suika-game) (24–192px) to fit the 400px container. Points match the Nintendo Switch scoring.
 
 Only the 5 smallest fruits (Cherry through Persimmon) appear as drop candidates. When two Watermelons merge, they disappear and award 66 bonus points.
