@@ -1,5 +1,5 @@
 ---
-stepsCompleted: ['step-01-init', 'step-02-discovery', 'step-02b-vision', 'step-02c-executive-summary', 'step-03-success']
+stepsCompleted: ['step-01-init', 'step-02-discovery', 'step-02b-vision', 'step-02c-executive-summary', 'step-03-success', 'step-04-journeys']
 inputDocuments:
   - '_bmad-output/brainstorming/brainstorming-session-2026-04-12-001.md'
 workflowType: 'prd'
@@ -90,3 +90,49 @@ Not applicable — this is a personal exploration/learning project with no busin
 - Deploy to GitHub Pages
 - Tile glow effects on 128+ values
 - Polish: exact color matching, font sizing tiers, overlay fade timing
+
+## User Journeys
+
+### Journey 1: First-Time Player — Discovery
+
+**Persona:** Alex, a casual gamer who heard about 2048 and wants to try it.
+
+**Opening Scene:** Alex finds the game link and opens it in their browser. They see a clean grid with two tiles and the instruction "Join the numbers and get to the 2048 tile!"
+
+**Rising Action:** Alex presses arrow keys and watches tiles slide and merge. They quickly grasp the mechanic — same numbers combine. They experiment with strategies, building tiles toward 64, then 128. The score climbs. They start to feel the tension of a filling board.
+
+**Climax:** Alex gets a 512 tile and the board is getting tight. Every move matters. They make a wrong slide — the board fills up. Game over. The score is saved as their best. They immediately hit "New Game."
+
+**Resolution:** Alex is hooked. The "one more try" loop kicks in. They now have a best score to beat and understand the strategy needed to push further.
+
+### Journey 2: Returning Player — Chasing the Win
+
+**Persona:** Alex returns the next day, opens the game.
+
+**Opening Scene:** The game loads their previous in-progress game from localStorage. Their best score shows in the corner. They pick up where they left off.
+
+**Rising Action:** Alex plays more deliberately now. They keep high tiles in a corner, build chains. They reach 1024. The glow effect on the tile signals they're close.
+
+**Climax:** Two 1024 tiles sit adjacent. Alex merges them — 2048 appears. "You win!" overlay fades in. Alex sees the "Keep going" button.
+
+**Resolution:** Alex clicks "Keep going" to see how far they can push it. The score keeps climbing. Eventually the board fills — game over with a new best score. Satisfaction.
+
+### Journey 3: Mobile Player — On the Go
+
+**Persona:** Sam opens the game on their phone during a commute.
+
+**Opening Scene:** The responsive layout fits the phone screen. Sam swipes up — tiles slide. The touch controls feel natural.
+
+**Rising Action:** Sam plays with quick swipes, building tiles. The animations are smooth even on mobile. Score updates with each merge.
+
+**Climax:** A bump on the train causes an accidental swipe. The board fills up. Game over.
+
+**Resolution:** Sam hits "New Game" and starts fresh. The best score persists. Quick, satisfying gameplay that fits a commute perfectly.
+
+### Journey Requirements Summary
+
+| Journey | Capabilities Revealed |
+|---------|----------------------|
+| First-Time Player | Grid rendering, tile mechanics, keyboard input, score display, game over detection, New Game button |
+| Returning Player | localStorage persistence, best score tracking, win detection, "Keep going" mode, tile glow effects |
+| Mobile Player | Responsive layout, touch/swipe input, smooth animations on mobile, state persistence |
