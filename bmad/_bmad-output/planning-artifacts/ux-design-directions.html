@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2048 Clone - Design Direction</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    background: #faf8ef;
+    color: #776e65;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  /* === HEADER === */
+  .header {
+    width: 500px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+
+  .title { font-size: 80px; font-weight: 800; line-height: 1; }
+
+  .scores {
+    display: flex;
+    gap: 8px;
+  }
+
+  .score-box {
+    background: #bbada0;
+    border-radius: 3px;
+    padding: 10px 25px;
+    text-align: center;
+    min-width: 80px;
+  }
+
+  .score-label {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #eee4da;
+    letter-spacing: 0.5px;
+  }
+
+  .score-value {
+    font-size: 25px;
+    font-weight: 700;
+    color: #f9f6f2;
+  }
+
+  /* === SUBTITLE === */
+  .subtitle-row {
+    width: 500px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+
+  .subtitle { font-size: 18px; }
+  .subtitle strong { font-weight: 700; }
+
+  .new-game-btn {
+    background: #8f7a66;
+    color: #f9f6f2;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .new-game-btn:hover { background: #9f8b77; }
+
+  /* === GRID === */
+  .grid-container {
+    width: 500px;
+    height: 500px;
+    background: #bbada0;
+    border-radius: 6px;
+    padding: 15px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 15px;
+    position: relative;
+  }
+
+  .cell {
+    background: #cdc1b4;
+    border-radius: 3px;
+  }
+
+  /* === TILES === */
+  .tile {
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    user-select: none;
+  }
+
+  .tile-2    { background: #eee4da; color: #776e65; font-size: 55px; }
+  .tile-4    { background: #ede0c8; color: #776e65; font-size: 55px; }
+  .tile-8    { background: #f2b179; color: #f9f6f2; font-size: 55px; }
+  .tile-16   { background: #f59563; color: #f9f6f2; font-size: 45px; }
+  .tile-32   { background: #f67c5f; color: #f9f6f2; font-size: 45px; }
+  .tile-64   { background: #f65e3b; color: #f9f6f2; font-size: 45px; }
+  .tile-128  { background: #edcf72; color: #f9f6f2; font-size: 35px; box-shadow: 0 0 30px 10px rgba(243,215,116,0.25); }
+  .tile-256  { background: #edcc61; color: #f9f6f2; font-size: 35px; box-shadow: 0 0 30px 10px rgba(243,215,116,0.32); }
+  .tile-512  { background: #edc850; color: #f9f6f2; font-size: 35px; box-shadow: 0 0 30px 10px rgba(243,215,116,0.4); }
+  .tile-1024 { background: #edc53f; color: #f9f6f2; font-size: 25px; box-shadow: 0 0 30px 10px rgba(243,215,116,0.48); }
+  .tile-2048 { background: #edc22e; color: #f9f6f2; font-size: 25px; box-shadow: 0 0 30px 10px rgba(243,215,116,0.56); }
+  .tile-super{ background: #3c3a32; color: #f9f6f2; font-size: 25px; }
+
+  /* === GAME OVER OVERLAY === */
+  .overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s;
+  }
+
+  .overlay.game-over { background: rgba(238, 228, 218, 0.73); }
+  .overlay.win { background: rgba(237, 194, 46, 0.5); }
+
+  .overlay-message {
+    font-size: 60px;
+    font-weight: 700;
+    color: #776e65;
+  }
+
+  .win .overlay-message { color: #f9f6f2; }
+
+  /* === DESIGN DIRECTION TABS === */
+  .direction-tabs {
+    width: 500px;
+    margin-top: 40px;
+    border-top: 2px solid #bbada0;
+    padding-top: 20px;
+  }
+
+  .direction-tabs h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+
+  .tab-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .tab-btn {
+    background: #bbada0;
+    color: #f9f6f2;
+    border: none;
+    border-radius: 3px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .tab-btn.active { background: #8f7a66; }
+
+  .state-desc {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #eee4da;
+    border-radius: 6px;
+  }
+
+  .state-desc strong { color: #776e65; }
+
+  /* === MOBILE === */
+  @media (max-width: 520px) {
+    .header, .subtitle-row, .grid-container, .direction-tabs { width: 280px; }
+    .grid-container { height: 280px; gap: 10px; padding: 10px; }
+    .title { font-size: 45px; }
+    .score-box { padding: 6px 12px; min-width: 55px; }
+    .score-label { font-size: 10px; }
+    .score-value { font-size: 16px; }
+    .subtitle { font-size: 13px; }
+    .new-game-btn { padding: 6px 12px; font-size: 13px; }
+    .tile-2, .tile-4, .tile-8 { font-size: 30px; }
+    .tile-16, .tile-32, .tile-64 { font-size: 25px; }
+    .tile-128, .tile-256, .tile-512 { font-size: 20px; }
+    .tile-1024, .tile-2048, .tile-super { font-size: 14px; }
+    .overlay-message { font-size: 35px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="title">2048</div>
+  <div class="scores">
+    <div class="score-box">
+      <div class="score-label">Score</div>
+      <div class="score-value" id="score">7832</div>
+    </div>
+    <div class="score-box">
+      <div class="score-label">Best</div>
+      <div class="score-value">21504</div>
+    </div>
+  </div>
+</div>
+
+<!-- Subtitle -->
+<div class="subtitle-row">
+  <div class="subtitle">Join the numbers and get to the <strong>2048 tile!</strong></div>
+  <button class="new-game-btn" onclick="showState('midgame')">New Game</button>
+</div>
+
+<!-- Grid -->
+<div class="grid-container" id="grid">
+  <!-- Cells and tiles injected by JS -->
+</div>
+
+<!-- Design Direction Controls -->
+<div class="direction-tabs">
+  <h2>Game States Preview</h2>
+  <div class="tab-row">
+    <button class="tab-btn active" onclick="showState('midgame')">Mid-Game</button>
+    <button class="tab-btn" onclick="showState('early')">Early Game</button>
+    <button class="tab-btn" onclick="showState('neardeath')">Near Death</button>
+    <button class="tab-btn" onclick="showState('gameover')">Game Over</button>
+    <button class="tab-btn" onclick="showState('win')">Win!</button>
+  </div>
+  <div class="state-desc" id="state-desc">
+    <strong>Mid-Game:</strong> Player has built momentum. Multiple tile tiers visible, showing the color progression from beige (2-4) through orange (8-32) to gold (128+). Grid has breathing room — tension is building but not critical.
+  </div>
+</div>
+
+<script>
+const states = {
+  early: {
+    grid: [
+      [0,0,2,0],
+      [0,4,0,0],
+      [0,0,2,0],
+      [0,0,0,0]
+    ],
+    score: 8,
+    desc: '<strong>Early Game:</strong> Two starting tiles plus one move. Clean grid, low numbers, maximum possibility. The warm cream background and subtle tile colors create a calm, inviting start.'
+  },
+  midgame: {
+    grid: [
+      [256,64,8,2],
+      [128,32,4,0],
+      [16,8,2,0],
+      [4,2,0,0]
+    ],
+    score: 7832,
+    desc: '<strong>Mid-Game:</strong> Player has built momentum. Multiple tile tiers visible, showing the color progression from beige (2-4) through orange (8-32) to gold (128+). Grid has breathing room — tension is building but not critical.'
+  },
+  neardeath: {
+    grid: [
+      [512,128,64,16],
+      [32,16,8,4],
+      [8,4,2,64],
+      [2,32,4,0]
+    ],
+    score: 14280,
+    desc: '<strong>Near Death:</strong> 15 of 16 cells filled. One empty space left. Every move is critical. The visual density of the board — dark tiles everywhere — signals danger without any explicit warning text.'
+  },
+  gameover: {
+    grid: [
+      [512,128,64,16],
+      [32,16,8,4],
+      [8,4,2,64],
+      [2,32,4,8]
+    ],
+    score: 14312,
+    desc: '<strong>Game Over:</strong> Board full, no merges possible. The translucent overlay dims the board (rgba white at 73% opacity). "Game over!" message is large and unmissable. Try Again button is prominent.',
+    overlay: 'gameover'
+  },
+  win: {
+    grid: [
+      [2048,256,64,8],
+      [128,32,16,4],
+      [8,4,2,0],
+      [2,0,0,0]
+    ],
+    score: 28456,
+    desc: '<strong>Win!</strong> The 2048 tile achieved. Gold overlay celebrates the moment. "You win!" in bold white. "Keep going" button invites continued play. The 2048 tile glows with maximum intensity.',
+    overlay: 'win'
+  }
+};
+
+function renderGrid(state) {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+
+  // Remove existing overlay
+  const existingOverlay = grid.querySelector('.overlay');
+  if (existingOverlay) existingOverlay.remove();
+
+  for (let r = 0; r < 4; r++) {
+    for (let c = 0; c < 4; c++) {
+      const val = state.grid[r][c];
+      const cell = document.createElement('div');
+      if (val === 0) {
+        cell.className = 'cell';
+      } else {
+        const tierClass = val >= 4096 ? 'tile-super' : `tile-${val}`;
+        cell.className = `cell tile ${tierClass}`;
+        cell.textContent = val;
+      }
+      grid.appendChild(cell);
+    }
+  }
+
+  // Add overlay if needed
+  if (state.overlay) {
+    const overlay = document.createElement('div');
+    overlay.className = `overlay ${state.overlay === 'win' ? 'win' : 'game-over'}`;
+    overlay.innerHTML = `
+      <div class="overlay-message">${state.overlay === 'win' ? 'You win!' : 'Game over!'}</div>
+      <button class="new-game-btn">${state.overlay === 'win' ? 'Keep going' : 'Try again'}</button>
+    `;
+    grid.appendChild(overlay);
+    // Trigger animation
+    requestAnimationFrame(() => {
+      overlay.style.opacity = '1';
+      overlay.style.pointerEvents = 'auto';
+    });
+  }
+
+  document.getElementById('score').textContent = state.score;
+  document.getElementById('state-desc').innerHTML = state.desc;
+}
+
+function showState(name) {
+  renderGrid(states[name]);
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// Initial render
+showState('midgame');
+</script>
+
+</body>
+</html>
