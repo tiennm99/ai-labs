@@ -1,4 +1,10 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(claudekit *)",
+      "Bash(claudekit-hooks *)"
+    ]
+  },
   "hooks": {
     "PreToolUse": [
       {
