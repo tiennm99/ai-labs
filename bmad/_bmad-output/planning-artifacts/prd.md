@@ -1,5 +1,5 @@
 ---
-stepsCompleted: ['step-01-init', 'step-02-discovery', 'step-02b-vision', 'step-02c-executive-summary', 'step-03-success', 'step-04-journeys', 'step-05-domain-skipped', 'step-06-innovation-skipped']
+stepsCompleted: ['step-01-init', 'step-02-discovery', 'step-02b-vision', 'step-02c-executive-summary', 'step-03-success', 'step-04-journeys', 'step-05-domain-skipped', 'step-06-innovation-skipped', 'step-07-project-type']
 inputDocuments:
   - '_bmad-output/brainstorming/brainstorming-session-2026-04-12-001.md'
 workflowType: 'prd'
@@ -136,3 +136,39 @@ Not applicable — this is a personal exploration/learning project with no busin
 | First-Time Player | Grid rendering, tile mechanics, keyboard input, score display, game over detection, New Game button |
 | Returning Player | localStorage persistence, best score tracking, win detection, "Keep going" mode, tile glow effects |
 | Mobile Player | Responsive layout, touch/swipe input, smooth animations on mobile, state persistence |
+
+## Web App Specific Requirements
+
+### Project-Type Overview
+
+Single-page application (SPA) — a self-contained puzzle game with no routing, no server-side rendering, and no SEO requirements. The entire game runs client-side with Svelte + Vite.
+
+### Technical Architecture Considerations
+
+- **SPA vs MPA:** SPA — single page, no navigation needed
+- **Browser Support:** Modern evergreen browsers (Chrome, Firefox, Safari, Edge). No IE11 support needed.
+- **SEO:** Not required — this is a game, not content. No SSR/SSG needed.
+- **Real-time:** No server communication. All game logic runs client-side.
+- **Accessibility:** Basic keyboard support inherently provided through arrow key controls. Focus management for overlays (win/lose messages).
+
+### Responsive Design
+
+- **Desktop:** 500px game container width, centered layout
+- **Mobile:** 280px game container at viewport width < 520px
+- **Touch:** Single-finger swipe support with 10px minimum threshold
+- **Breakpoint:** Single breakpoint at 520px (matching original)
+
+### Performance Targets
+
+- **Initial load:** < 1s (small bundle — Svelte compiles away, minimal JS)
+- **Animation framerate:** 60fps for all CSS transitions
+- **Input latency:** < 16ms response to keyboard/touch events
+- **Bundle size:** < 50KB gzipped (Svelte + Tailwind purged)
+
+### Implementation Considerations
+
+- No backend, API, or database
+- No authentication or user accounts
+- No analytics or tracking
+- All state management via Svelte reactivity + localStorage
+- Static site deployment (GitHub Pages)
