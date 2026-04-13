@@ -36,7 +36,7 @@
   {/each}
 
   <!-- Tiles -->
-  {#each tiles as tile (tile.id || `${tile.row}-${tile.col}`)}
-    <Tile value={tile.value} row={tile.row} col={tile.col} />
+  {#each tiles as tile (tile.id)}
+    <Tile value={tile.value} row={tile.row} col={tile.col} isNew={tile.isNew} isMerged={tile.isMerged} />
   {/each}
 </div>

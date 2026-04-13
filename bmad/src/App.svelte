@@ -6,10 +6,20 @@
   import { GRID_SIZE } from './lib/constants.js';
   import { getDirectionFromKey } from './lib/input-handler.js';
   import { saveGameState, loadGameState, saveBestScore, loadBestScore, clearGameState } from './lib/storage.js';
+  import { createTilesFromGrid, computeTilesAfterMove, resetTracker } from './lib/tile-tracker.js';
 
+  const SLIDE_DURATION = 100;
   const savedState = loadGameState();
   let gameState = $state(savedState || initGame());
   let bestScore = $state(Math.max(loadBestScore(), savedState?.score || 0));
+  let tiles = $state(createTilesFromGrid(gameState.grid));
+  let isAnimating = $state(false);
+  let queuedDirection = $state(null);
+  let reducedMotion = $state(false);
+
+  if (typeof window !== 'undefined') {
+    reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
 
   $effect(() => {
     saveGameState(gameState);
@@ -22,28 +32,40 @@
     saveBestScore(bestScore);
   });
 
-  let tiles = $derived.by(() => {
-    const result = [];
-    for (let row = 0; row < GRID_SIZE; row++) {
-      for (let col = 0; col < GRID_SIZE; col++) {
-        const value = gameState.grid[row][col];
-        if (value !== 0) {
-          result.push({ value, row, col });
-        }
-      }
-    }
-    return result;
-  });
-
   let overlayType = $derived.by(() => {
     if (gameState.won && !gameState.keepPlaying) return 'win';
     if (isGameOver(gameState)) return 'gameover';
     return null;
   });
 
+  function executeMove(direction) {
+    if (overlayType === 'gameover') return;
+
+    const prevGrid = gameState.grid;
+    const newState = move(gameState, direction);
+    if (newState === gameState) return;
+
+    tiles = computeTilesAfterMove(tiles, prevGrid, newState.grid, direction);
+    gameState = newState;
+
+    if (reducedMotion) return;
+
+    isAnimating = true;
+    setTimeout(() => {
+      isAnimating = false;
+      if (queuedDirection) {
+        const next = queuedDirection;
+        queuedDirection = null;
+        executeMove(next);
+      }
+    }, SLIDE_DURATION);
+  }
+
   function handleNewGame() {
     clearGameState();
+    resetTracker();
     gameState = initGame();
+    tiles = createTilesFromGrid(gameState.grid);
   }
 
   function handleKeepGoing() {
@@ -55,12 +77,12 @@
     if (!direction) return;
     event.preventDefault();
 
-    if (overlayType === 'gameover') return;
-
-    const newState = move(gameState, direction);
-    if (newState !== gameState) {
-      gameState = newState;
+    if (isAnimating) {
+      queuedDirection = direction;
+      return;
     }
+
+    executeMove(direction);
   }
 </script>
 

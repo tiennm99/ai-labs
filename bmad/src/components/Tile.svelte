@@ -1,7 +1,7 @@
 <script>
   import { TILE_COLORS } from '../lib/constants.js';
 
-  let { value, row, col } = $props();
+  let { value, row, col, isNew = false, isMerged = false } = $props();
 
   let colors = $derived(TILE_COLORS[value] || TILE_COLORS.super);
 
@@ -18,6 +18,7 @@
     width: {CELL_SIZE}px;
     height: {CELL_SIZE}px;
     transform: translate({x}px, {y}px);
+    transition: transform 100ms ease-in-out;
     background: {colors.bg};
     color: {colors.text};
     font-size: 55px;

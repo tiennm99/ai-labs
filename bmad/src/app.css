@@ -21,3 +21,10 @@ body {
   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
   margin: 0;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+  }
+}
