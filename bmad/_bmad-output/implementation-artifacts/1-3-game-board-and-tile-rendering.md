@@ -1,6 +1,6 @@
 # Story 1.3: Game Board & Tile Rendering
 
-Status: review
+Status: done
 
 ## Story
 

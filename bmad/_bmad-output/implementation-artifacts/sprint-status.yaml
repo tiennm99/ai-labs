@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-04-13
-last_updated: 2026-04-13T01:00:00
+last_updated: 2026-04-13T22:21:00
 project: try-bmad
 project_key: NOKEY
 tracking_system: file-system
@@ -43,18 +43,18 @@ story_location: _bmad-output/implementation-artifacts
 
 development_status:
   # Epic 1: Play a Complete Game (Desktop)
-  epic-1: in-progress
-  1-1-project-scaffold-and-dev-environment: review
-  1-2-game-logic-module: review
-  1-3-game-board-and-tile-rendering: review
-  1-4-game-header-score-display-and-new-game-button: review
-  1-5-keyboard-input-and-interactive-gameplay: review
-  1-6-win-and-game-over-overlays: review
+  epic-1: done
+  1-1-project-scaffold-and-dev-environment: done
+  1-2-game-logic-module: done
+  1-3-game-board-and-tile-rendering: done
+  1-4-game-header-score-display-and-new-game-button: done
+  1-5-keyboard-input-and-interactive-gameplay: done
+  1-6-win-and-game-over-overlays: done
   epic-1-retrospective: optional
 
   # Epic 2: Save Progress & Keep Playing
-  epic-2: backlog
-  2-1-best-score-tracking: backlog
+  epic-2: in-progress
+  2-1-best-score-tracking: ready-for-dev
   2-2-game-state-persistence: backlog
   2-3-keep-playing-mode: backlog
   epic-2-retrospective: optional

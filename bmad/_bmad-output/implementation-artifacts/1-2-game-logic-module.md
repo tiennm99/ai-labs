@@ -1,6 +1,6 @@
 # Story 1.2: Game Logic Module
 
-Status: review
+Status: done
 
 ## Story
 
