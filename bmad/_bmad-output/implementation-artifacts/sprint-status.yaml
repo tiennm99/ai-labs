@@ -44,7 +44,7 @@ story_location: _bmad-output/implementation-artifacts
 development_status:
   # Epic 1: Play a Complete Game (Desktop)
   epic-1: in-progress
-  1-1-project-scaffold-and-dev-environment: ready-for-dev
+  1-1-project-scaffold-and-dev-environment: review
   1-2-game-logic-module: backlog
   1-3-game-board-and-tile-rendering: backlog
   1-4-game-header-score-display-and-new-game-button: backlog

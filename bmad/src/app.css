@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Clear Sans';
+  src: url('/fonts/ClearSans-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clear Sans';
+  src: url('/fonts/ClearSans-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  background: #faf8ef;
+  font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+}
