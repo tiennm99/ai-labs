@@ -55,7 +55,7 @@ development_status:
   # Epic 2: Save Progress & Keep Playing
   epic-2: in-progress
   2-1-best-score-tracking: done
-  2-2-game-state-persistence: backlog
+  2-2-game-state-persistence: done
   2-3-keep-playing-mode: backlog
   epic-2-retrospective: optional
 

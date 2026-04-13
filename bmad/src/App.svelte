@@ -5,14 +5,21 @@
   import { initGame, move, isGameOver } from './lib/game-logic.js';
   import { GRID_SIZE } from './lib/constants.js';
   import { getDirectionFromKey } from './lib/input-handler.js';
+  import { saveGameState, loadGameState, saveBestScore, loadBestScore, clearGameState } from './lib/storage.js';
 
-  let gameState = $state(initGame());
-  let bestScore = $state(0);
+  const savedState = loadGameState();
+  let gameState = $state(savedState || initGame());
+  let bestScore = $state(Math.max(loadBestScore(), savedState?.score || 0));
+
+  $effect(() => {
+    saveGameState(gameState);
+  });
 
   $effect(() => {
     if (gameState.score > bestScore) {
       bestScore = gameState.score;
     }
+    saveBestScore(bestScore);
   });
 
   let tiles = $derived.by(() => {
@@ -35,6 +42,7 @@
   });
 
   function handleNewGame() {
+    clearGameState();
     gameState = initGame();
   }
 
