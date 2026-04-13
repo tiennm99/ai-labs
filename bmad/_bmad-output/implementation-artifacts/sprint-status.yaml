@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-04-13
-last_updated: 2026-04-13T22:47:00
+last_updated: 2026-04-13T22:55:00
 project: try-bmad
 project_key: NOKEY
 tracking_system: file-system
@@ -60,12 +60,12 @@ development_status:
   epic-2-retrospective: optional
 
   # Epic 3: Smooth Animations & Game Feel
-  epic-3: in-progress
+  epic-3: done
   3-1-tile-slide-animation: done
-  3-2-tile-spawn-pop-animation: backlog
-  3-3-tile-merge-bounce-animation: backlog
-  3-4-score-float-animation: backlog
-  3-5-win-and-game-over-overlay-fade-animation: backlog
+  3-2-tile-spawn-pop-animation: done
+  3-3-tile-merge-bounce-animation: done
+  3-4-score-float-animation: done
+  3-5-win-and-game-over-overlay-fade-animation: done
   epic-3-retrospective: optional
 
   # Epic 4: Mobile & Multi-Input Support

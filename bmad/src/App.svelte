@@ -13,6 +13,7 @@
   let gameState = $state(savedState || initGame());
   let bestScore = $state(Math.max(loadBestScore(), savedState?.score || 0));
   let tiles = $state(createTilesFromGrid(gameState.grid));
+  let scoreDelta = $state(0);
   let isAnimating = $state(false);
   let queuedDirection = $state(null);
   let reducedMotion = $state(false);
@@ -45,6 +46,7 @@
     const newState = move(gameState, direction);
     if (newState === gameState) return;
 
+    scoreDelta = newState.score - gameState.score;
     tiles = computeTilesAfterMove(tiles, prevGrid, newState.grid, direction);
     gameState = newState;
 
@@ -92,7 +94,7 @@
   <header>
     <div class="flex items-center justify-between mb-2">
       <h1 class="text-[80px] font-bold leading-none" style="color: #776e65;">2048</h1>
-      <ScoreBoard score={gameState.score} {bestScore} />
+      <ScoreBoard score={gameState.score} {bestScore} {scoreDelta} />
     </div>
     <div class="flex items-center justify-between mb-4">
       <p class="text-[18px]" style="color: #776e65;">Join the numbers and get to the <strong>2048 tile!</strong></p>

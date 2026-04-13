@@ -10,6 +10,12 @@
 
   let x = $derived(col * (CELL_SIZE + GAP));
   let y = $derived(row * (CELL_SIZE + GAP));
+
+  let animation = $derived(
+    isNew ? 'tile-pop 200ms ease-in-out' :
+    isMerged ? 'tile-merge 200ms ease-in-out' :
+    'none'
+  );
 </script>
 
 <div
@@ -19,6 +25,7 @@
     height: {CELL_SIZE}px;
     transform: translate({x}px, {y}px);
     transition: transform 100ms ease-in-out;
+    animation: {animation};
     background: {colors.bg};
     color: {colors.text};
     font-size: 55px;

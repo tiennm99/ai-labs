@@ -8,7 +8,7 @@
 {#if type}
   <div
     class="absolute inset-0 flex flex-col items-center justify-center z-10 rounded-[6px]"
-    style="background: {bgColor};"
+    style="background: {bgColor}; animation: overlay-fade 800ms ease-in-out;"
     role="alertdialog"
     aria-modal="true"
     aria-label={message}
