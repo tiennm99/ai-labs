@@ -1,6 +1,6 @@
 # Story 2.1: Best Score Tracking
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -15,17 +15,17 @@ so that I have a motivational anchor and can track my all-time progress.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Add bestScore state to App.svelte (AC: #1, #2)
-  - [ ] Add `let bestScore = $state(0);` as a new reactive state variable
-  - [ ] Add `$effect` that watches `gameState.score` — when it exceeds `bestScore`, update `bestScore`
-  - [ ] Replace hardcoded `bestScore={0}` with `bestScore={bestScore}` in the ScoreBoard prop
+- [x] Task 1: Add bestScore state to App.svelte (AC: #1, #2)
+  - [x] Add `let bestScore = $state(0);` as a new reactive state variable
+  - [x] Add `$effect` that watches `gameState.score` — when it exceeds `bestScore`, update `bestScore`
+  - [x] Replace hardcoded `bestScore={0}` with `bestScore={bestScore}` in the ScoreBoard prop
 
-- [ ] Task 2: Preserve bestScore across New Game (AC: #2)
-  - [ ] Verify that `handleNewGame()` resets `gameState` via `initGame()` but does NOT reset `bestScore`
-  - [ ] `bestScore` is a separate `$state` variable, not part of `gameState` — it survives `initGame()` by design
+- [x] Task 2: Preserve bestScore across New Game (AC: #2)
+  - [x] Verify that `handleNewGame()` resets `gameState` via `initGame()` but does NOT reset `bestScore`
+  - [x] `bestScore` is a separate `$state` variable, not part of `gameState` — it survives `initGame()` by design
 
-- [ ] Task 3: Verify existing tests still pass
-  - [ ] Run `npx vitest run` — all 38 existing tests must pass (no game-logic.js changes)
+- [x] Task 3: Verify existing tests still pass
+  - [x] Run `npx vitest run` — all 38 existing tests must pass (no game-logic.js changes)
 
 ## Dev Notes
 
@@ -98,8 +98,18 @@ This story is intentionally minimal:
 
 ### Agent Model Used
 
+Claude Opus 4.6 (1M context)
+
 ### Debug Log References
 
 ### Completion Notes List
 
+- Added `bestScore` as separate `$state(0)` in App.svelte — independent from gameState
+- Added `$effect` watching `gameState.score` to update bestScore when exceeded
+- Replaced hardcoded `bestScore={0}` prop with reactive `{bestScore}`
+- bestScore survives New Game by design — `handleNewGame()` only resets `gameState`
+- All 38 existing tests pass — no game-logic.js changes needed
+
 ### File List
+
+- src/App.svelte (modified — added bestScore state, effect, and prop binding)

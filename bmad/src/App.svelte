@@ -7,6 +7,13 @@
   import { getDirectionFromKey } from './lib/input-handler.js';
 
   let gameState = $state(initGame());
+  let bestScore = $state(0);
+
+  $effect(() => {
+    if (gameState.score > bestScore) {
+      bestScore = gameState.score;
+    }
+  });
 
   let tiles = $derived.by(() => {
     const result = [];
@@ -55,7 +62,7 @@
   <header>
     <div class="flex items-center justify-between mb-2">
       <h1 class="text-[80px] font-bold leading-none" style="color: #776e65;">2048</h1>
-      <ScoreBoard score={gameState.score} bestScore={0} />
+      <ScoreBoard score={gameState.score} {bestScore} />
     </div>
     <div class="flex items-center justify-between mb-4">
       <p class="text-[18px]" style="color: #776e65;">Join the numbers and get to the <strong>2048 tile!</strong></p>
