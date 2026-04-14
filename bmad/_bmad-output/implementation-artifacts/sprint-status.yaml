@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-04-13
-last_updated: 2026-04-13T22:55:00
+last_updated: 2026-04-14
 project: try-bmad
 project_key: NOKEY
 tracking_system: file-system
@@ -69,10 +69,10 @@ development_status:
   epic-3-retrospective: optional
 
   # Epic 4: Mobile & Multi-Input Support
-  epic-4: backlog
-  4-1-wasd-and-vim-keyboard-support: backlog
-  4-2-touch-and-swipe-input: backlog
-  4-3-responsive-layout: backlog
+  epic-4: done
+  4-1-wasd-and-vim-keyboard-support: done
+  4-2-touch-and-swipe-input: done
+  4-3-responsive-layout: done
   epic-4-retrospective: optional
 
   # Epic 5: Visual Polish & Deployment

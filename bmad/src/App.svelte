@@ -4,7 +4,7 @@
   import GameMessage from './components/GameMessage.svelte';
   import { initGame, move, isGameOver } from './lib/game-logic.js';
   import { GRID_SIZE } from './lib/constants.js';
-  import { getDirectionFromKey } from './lib/input-handler.js';
+  import { getDirectionFromKey, getDirectionFromSwipe } from './lib/input-handler.js';
   import { saveGameState, loadGameState, saveBestScore, loadBestScore, clearGameState } from './lib/storage.js';
   import { createTilesFromGrid, computeTilesAfterMove, resetTracker } from './lib/tile-tracker.js';
 
@@ -74,6 +74,29 @@
     gameState = { ...gameState, keepPlaying: true, won: true };
   }
 
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  function handleTouchStart(event) {
+    touchStartX = event.touches[0].clientX;
+    touchStartY = event.touches[0].clientY;
+  }
+
+  function handleTouchEnd(event) {
+    const endX = event.changedTouches[0].clientX;
+    const endY = event.changedTouches[0].clientY;
+    const direction = getDirectionFromSwipe(touchStartX, touchStartY, endX, endY);
+    if (!direction) return;
+    event.preventDefault();
+
+    if (isAnimating) {
+      queuedDirection = direction;
+      return;
+    }
+
+    executeMove(direction);
+  }
+
   function handleKeydown(event) {
     const direction = getDirectionFromKey(event.key);
     if (!direction) return;
@@ -93,7 +116,7 @@
 <main class="max-w-[500px] mx-auto px-2 pt-6" role="application">
   <header>
     <div class="flex items-center justify-between mb-2">
-      <h1 class="text-[80px] font-bold leading-none" style="color: #776e65;">2048</h1>
+      <h1 class="font-bold leading-none" style="color: #776e65; font-size: var(--title-size);">2048</h1>
       <ScoreBoard score={gameState.score} {bestScore} {scoreDelta} />
     </div>
     <div class="flex items-center justify-between mb-4">
@@ -107,7 +130,7 @@
       </button>
     </div>
   </header>
-  <div class="relative">
+  <div class="relative" ontouchstart={handleTouchStart} ontouchend={handleTouchEnd}>
     <Grid {tiles} />
     <GameMessage type={overlayType} onKeepGoing={handleKeepGoing} onNewGame={handleNewGame} />
   </div>

@@ -3,19 +3,15 @@
   import { GRID_SIZE } from '../lib/constants.js';
 
   let { tiles = [] } = $props();
-
-  const GAP = 15;
-  const CELL_SIZE = 106.25;
-  const CONTAINER_SIZE = GRID_SIZE * CELL_SIZE + (GRID_SIZE + 1) * GAP;
 </script>
 
 <div
   class="relative mx-auto rounded-[6px]"
   style="
-    width: {CONTAINER_SIZE}px;
-    height: {CONTAINER_SIZE}px;
+    width: var(--container-size);
+    height: var(--container-size);
     background: #bbada0;
-    padding: {GAP}px;
+    padding: var(--grid-padding);
   "
   role="grid"
   aria-label="Game board"
@@ -27,9 +23,9 @@
     <div
       class="absolute rounded-[3px]"
       style="
-        width: {CELL_SIZE}px;
-        height: {CELL_SIZE}px;
-        transform: translate({col * (CELL_SIZE + GAP)}px, {row * (CELL_SIZE + GAP)}px);
+        width: var(--cell-size);
+        height: var(--cell-size);
+        transform: translate(calc({col} * (var(--cell-size) + var(--grid-gap))), calc({row} * (var(--cell-size) + var(--grid-gap))));
         background: #cdc1b4;
       "
     ></div>

@@ -5,11 +5,14 @@
 
   let colors = $derived(TILE_COLORS[value] || TILE_COLORS.super);
 
-  const GAP = 15;
-  const CELL_SIZE = 106.25;
-
-  let x = $derived(col * (CELL_SIZE + GAP));
-  let y = $derived(row * (CELL_SIZE + GAP));
+  let digitCount = $derived(String(value).length);
+  let fontSize = $derived(
+    digitCount <= 1 ? 'var(--tile-font-1)' :
+    digitCount === 2 ? 'var(--tile-font-2)' :
+    digitCount === 3 ? 'var(--tile-font-3)' :
+    digitCount === 4 ? 'var(--tile-font-4)' :
+    'var(--tile-font-5)'
+  );
 
   let animation = $derived(
     isNew ? 'tile-pop 200ms ease-in-out' :
@@ -21,14 +24,14 @@
 <div
   class="absolute flex items-center justify-center font-bold rounded-[3px]"
   style="
-    width: {CELL_SIZE}px;
-    height: {CELL_SIZE}px;
-    transform: translate({x}px, {y}px);
+    width: var(--cell-size);
+    height: var(--cell-size);
+    transform: translate(calc({col} * (var(--cell-size) + var(--grid-gap))), calc({row} * (var(--cell-size) + var(--grid-gap))));
     transition: transform 100ms ease-in-out;
     animation: {animation};
     background: {colors.bg};
     color: {colors.text};
-    font-size: 55px;
+    font-size: {fontSize};
   "
   role="gridcell"
   aria-label="Tile: {value}"

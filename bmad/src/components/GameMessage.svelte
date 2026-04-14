@@ -13,7 +13,7 @@
     aria-modal="true"
     aria-label={message}
   >
-    <p class="text-[60px] font-bold mb-4" style="color: #776e65;">{message}</p>
+    <p class="font-bold mb-4" style="color: #776e65; font-size: var(--overlay-msg-size);">{message}</p>
     {#if type === 'win'}
       <div class="flex gap-2">
         <button

@@ -16,6 +16,38 @@
   font-display: swap;
 }
 
+:root {
+  --grid-gap: 15px;
+  --grid-padding: 15px;
+  --cell-size: 106.25px;
+  --container-size: 500px;
+  --title-size: 80px;
+  --score-value-size: 25px;
+  --overlay-msg-size: 60px;
+  --tile-font-1: 55px;
+  --tile-font-2: 45px;
+  --tile-font-3: 35px;
+  --tile-font-4: 25px;
+  --tile-font-5: 15px;
+}
+
+@media (max-width: 520px) {
+  :root {
+    --grid-gap: 10px;
+    --grid-padding: 10px;
+    --cell-size: 57.5px;
+    --container-size: 280px;
+    --title-size: 45px;
+    --score-value-size: 16px;
+    --overlay-msg-size: 35px;
+    --tile-font-1: 30px;
+    --tile-font-2: 25px;
+    --tile-font-3: 20px;
+    --tile-font-4: 14px;
+    --tile-font-5: 10px;
+  }
+}
+
 body {
   background: #faf8ef;
   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
