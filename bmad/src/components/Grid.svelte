@@ -25,7 +25,7 @@
       style="
         width: var(--cell-size);
         height: var(--cell-size);
-        transform: translate(calc({col} * (var(--cell-size) + var(--grid-gap))), calc({row} * (var(--cell-size) + var(--grid-gap))));
+        translate: calc({col} * (var(--cell-size) + var(--grid-gap))) calc({row} * (var(--cell-size) + var(--grid-gap)));
         background: #cdc1b4;
       "
     ></div>

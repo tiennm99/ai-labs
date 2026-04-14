@@ -28,8 +28,8 @@
   style="
     width: var(--cell-size);
     height: var(--cell-size);
-    transform: translate(calc({col} * (var(--cell-size) + var(--grid-gap))), calc({row} * (var(--cell-size) + var(--grid-gap))));
-    transition: transform 100ms ease-in-out;
+    translate: calc({col} * (var(--cell-size) + var(--grid-gap))) calc({row} * (var(--cell-size) + var(--grid-gap)));
+    transition: translate 100ms ease-in-out;
     animation: {animation};
     background: {colors.bg};
     color: {colors.text};
