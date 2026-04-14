@@ -2,6 +2,7 @@
   import Grid from './components/Grid.svelte';
   import ScoreBoard from './components/ScoreBoard.svelte';
   import GameMessage from './components/GameMessage.svelte';
+  import { untrack } from 'svelte';
   import { initGame, move, isGameOver } from './lib/game-logic.js';
   import { GRID_SIZE } from './lib/constants.js';
   import { getDirectionFromKey, getDirectionFromSwipe } from './lib/input-handler.js';
@@ -27,9 +28,14 @@
   });
 
   $effect(() => {
-    if (gameState.score > bestScore) {
-      bestScore = gameState.score;
+    const score = gameState.score;
+    const best = untrack(() => bestScore);
+    if (score > best) {
+      bestScore = score;
     }
+  });
+
+  $effect(() => {
     saveBestScore(bestScore);
   });
 

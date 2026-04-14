@@ -1,4 +1,6 @@
 <script>
+  import { untrack } from 'svelte';
+
   let { score = 0, bestScore = 0, scoreDelta = 0 } = $props();
 
   let floats = $state([]);
@@ -7,7 +9,10 @@
   $effect(() => {
     if (scoreDelta > 0) {
       const id = ++floatId;
-      floats = [...floats, { id, value: scoreDelta }];
+      const delta = scoreDelta;
+      untrack(() => {
+        floats = [...floats, { id, value: delta }];
+      });
       setTimeout(() => {
         floats = floats.filter(f => f.id !== id);
       }, 600);
