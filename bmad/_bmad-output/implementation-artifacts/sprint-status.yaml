@@ -76,8 +76,8 @@ development_status:
   epic-4-retrospective: optional
 
   # Epic 5: Visual Polish & Deployment
-  epic-5: backlog
-  5-1-tile-glow-effects: backlog
-  5-2-dynamic-tile-font-sizing: backlog
-  5-3-github-pages-deployment: backlog
+  epic-5: done
+  5-1-tile-glow-effects: done
+  5-2-dynamic-tile-font-sizing: done
+  5-3-github-pages-deployment: done
   epic-5-retrospective: optional

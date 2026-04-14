@@ -14,6 +14,8 @@
     'var(--tile-font-5)'
   );
 
+  let glow = $derived(value >= 128 ? '0 0 30px 10px rgba(243, 215, 116, 0.4)' : 'none');
+
   let animation = $derived(
     isNew ? 'tile-pop 200ms ease-in-out' :
     isMerged ? 'tile-merge 200ms ease-in-out' :
@@ -32,6 +34,7 @@
     background: {colors.bg};
     color: {colors.text};
     font-size: {fontSize};
+    box-shadow: {glow};
   "
   role="gridcell"
   aria-label="Tile: {value}"
