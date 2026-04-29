@@ -57,16 +57,15 @@ Tracked work, organized by component then priority (P0 highest → P4 lowest). S
   **Priority:** P3
   **What:** Currently uses Unicode (∠AMB, °) which renders fine in Be Vietnam Pro. Switch to KaTeX when notation gets richer (cung, đường tròn (O), etc.).
 
-## Module 1 — Lớp 7 Tam giác bằng nhau (weekend 3)
+## Module 1 — Lớp 7 Tam giác bằng nhau
 
-- **SSS / SAS / ASA / AAS / cạnh huyền-góc nhọn / cạnh huyền-cạnh góc vuông detectors**
-  **Priority:** P1
-  **What:** Pure geometry functions in `src/geom-engine/congruence.ts`. Use `EPSILON_LEN = 0.5`. Color-pair highlighting + green "Hai tam giác bằng nhau" badge.
-  **Note:** Rigid-motion overlay animation EXPLICITLY DROPPED per autoplan (was scope creep).
+- **SAS / ASA / AAS / cạnh huyền-góc nhọn / cạnh huyền-cạnh góc vuông toggles**
+  **Priority:** P2
+  **What:** SSS shipped in v0.0.3.0. Add the other 5 cases as toggles on the same canvas — toggling switches which sides/angles get the matched encoding and which detector runs.
 
-- **SGK tick-mark encoding**
-  **Priority:** P1
-  **What:** 1/2/3 ticks for matching sides, 1/2/3 arcs for matching angles. Always paired with the 3-color palette (#D7263D / #1B998B / #F46036). Per Design Decision D3 — single largest a11y + pedagogical unlock.
+- **More worked examples (Module 1)**
+  **Priority:** P3
+  **What:** v0.0.3.0 ships 1 example. SGK textbook has many. Add 2 more.
 
 ## Module 2 — Lớp 8 Tam giác đồng dạng (weekend 4)
 
@@ -151,3 +150,5 @@ Tracked work, organized by component then priority (P0 highest → P4 lowest). S
 
 - **Drag M around circle, project to circle constraint** — `src/components/inscribed-angle.ts` + `src/geom-engine/circle.ts:projectToCircle`. **Completed:** v0.0.2.0 (2026-04-29)
 - **TheoremCanvas primitive first cut** — vanilla TS in Astro `<script>` tag, AbortController teardown on `astro:before-swap`. **Completed:** v0.0.2.0 (2026-04-29). Note: built directly in Astro rather than as a single HTML prototype first; the inscribed-angle pattern proved the shape, and the next module (lớp 7 / 8) will reuse this pattern.
+- **SSS detector** — `src/geom-engine/triangle.ts:congruentSSS` with position-strict semantics. 10 unit tests including symmetry and EPSILON tolerance. **Completed:** v0.0.3.0 (2026-04-30)
+- **SGK tick-mark encoding** — 1/2/3 ticks paired with the locked 3-color palette, rendered live during drag. Wired in Module 1 (Tam giác bằng nhau). **Completed:** v0.0.3.0 (2026-04-30). Tick rendering helper in `src/components/congruence-sss.ts:renderTicks` is reusable for future modules.

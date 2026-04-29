@@ -1,0 +1,121 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { t } from '~/i18n';
+
+const copy = t();
+const m = copy.module1;
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<BaseLayout title={`${m.title} — ${copy.site.title}`} description={m.intro}>
+  <main class="mx-auto max-w-prose px-5 py-6">
+    <nav class="mb-4 text-sm">
+      <a href={baseUrl}>{m.backToHub}</a>
+    </nav>
+
+    <header class="mb-6">
+      <div class="text-sm uppercase tracking-wide" style="color:#888">{m.grade}</div>
+      <h1 class="mb-2">{m.title}</h1>
+      <p>{m.intro}</p>
+    </header>
+
+    <section class="mb-2 flex flex-wrap items-center justify-between gap-3">
+      <p class="text-sm m-0" style="color:#666">{m.instruction}</p>
+      <span
+        data-badge="congruent"
+        class="rounded-full px-3 py-1 text-sm font-medium"
+        style="background:#1B998B; color:white; display:none"
+        role="status"
+        aria-live="polite"
+      >✓ {m.congruentBadge}</span>
+    </section>
+
+    <section class="mb-6">
+      <svg
+        id="congruence-canvas"
+        viewBox="0 0 400 300"
+        preserveAspectRatio="xMidYMid meet"
+        class="block w-full mx-auto"
+        style="max-width:640px; touch-action:none; aspect-ratio:4/3; background:#FAFAFA; border-radius:8px"
+        role="img"
+        aria-label={m.instruction}
+      >
+        <line data-side="ab" x1="60" y1="80" x2="180" y2="80" stroke="#444" stroke-width="2"></line>
+        <line data-side="bc" x1="180" y1="80" x2="120" y2="220" stroke="#444" stroke-width="2"></line>
+        <line data-side="ca" x1="120" y1="220" x2="60" y2="80" stroke="#444" stroke-width="2"></line>
+
+        <line data-side="apbp" x1="220" y1="80" x2="340" y2="80" stroke="#444" stroke-width="2"></line>
+        <line data-side="bpcp" x1="340" y1="80" x2="280" y2="220" stroke="#444" stroke-width="2"></line>
+        <line data-side="cpap" x1="280" y1="220" x2="220" y2="80" stroke="#444" stroke-width="2"></line>
+
+        <g data-ticks="ab"></g>
+        <g data-ticks="bc"></g>
+        <g data-ticks="ca"></g>
+        <g data-ticks="apbp"></g>
+        <g data-ticks="bpcp"></g>
+        <g data-ticks="cpap"></g>
+
+        <text data-vertex-label="a" x="44" y="70" font-size="14" font-weight="700" fill="#444">A</text>
+        <text data-vertex-label="b" x="192" y="70" font-size="14" font-weight="700" fill="#444">B</text>
+        <text data-vertex-label="c" x="116" y="242" font-size="14" font-weight="700" fill="#444">C</text>
+        <text data-vertex-label="ap" x="204" y="70" font-size="14" font-weight="700" fill="#444">A&#39;</text>
+        <text data-vertex-label="bp" x="352" y="70" font-size="14" font-weight="700" fill="#444">B&#39;</text>
+        <text data-vertex-label="cp" x="276" y="242" font-size="14" font-weight="700" fill="#444">C&#39;</text>
+
+        <circle data-vertex="a" cx="60" cy="80" r="10" fill="#444" stroke="#FFFFFF" stroke-width="2" tabindex="0" style="cursor:grab"></circle>
+        <circle data-vertex="b" cx="180" cy="80" r="10" fill="#444" stroke="#FFFFFF" stroke-width="2" tabindex="0" style="cursor:grab"></circle>
+        <circle data-vertex="c" cx="120" cy="220" r="10" fill="#444" stroke="#FFFFFF" stroke-width="2" tabindex="0" style="cursor:grab"></circle>
+        <circle data-vertex="ap" cx="220" cy="80" r="10" fill="#444" stroke="#FFFFFF" stroke-width="2" tabindex="0" style="cursor:grab"></circle>
+        <circle data-vertex="bp" cx="340" cy="80" r="10" fill="#444" stroke="#FFFFFF" stroke-width="2" tabindex="0" style="cursor:grab"></circle>
+        <circle data-vertex="cp" cx="280" cy="220" r="10" fill="#444" stroke="#FFFFFF" stroke-width="2" tabindex="0" style="cursor:grab"></circle>
+      </svg>
+    </section>
+
+    <section class="mb-6">
+      <h2 class="mb-2 text-base">{m.lengthsTitle}</h2>
+      <table class="w-full text-sm tabular-nums">
+        <thead>
+          <tr style="border-bottom:1px solid #ddd">
+            <th class="text-left py-1 font-medium" style="color:#666">{m.tabSide}</th>
+            <th class="text-right py-1 font-medium" style="color:#666">△ABC</th>
+            <th class="text-right py-1 font-medium" style="color:#666">△A&#39;B&#39;C&#39;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #f0f0f0">
+            <td class="py-1"><span style="color:#D7263D; font-weight:700">|</span> AB / A&#39;B&#39;</td>
+            <td class="text-right" style="color:#D7263D"><span data-readout-side="ab">—</span></td>
+            <td class="text-right" style="color:#D7263D"><span data-readout-side="apbp">—</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #f0f0f0">
+            <td class="py-1"><span style="color:#1B998B; font-weight:700">| |</span> BC / B&#39;C&#39;</td>
+            <td class="text-right" style="color:#1B998B"><span data-readout-side="bc">—</span></td>
+            <td class="text-right" style="color:#1B998B"><span data-readout-side="bpcp">—</span></td>
+          </tr>
+          <tr>
+            <td class="py-1"><span style="color:#F46036; font-weight:700">| | |</span> CA / C&#39;A&#39;</td>
+            <td class="text-right" style="color:#F46036"><span data-readout-side="ca">—</span></td>
+            <td class="text-right" style="color:#F46036"><span data-readout-side="cpap">—</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="mb-6">
+      <h2 class="mb-2">{m.theoremTitle}</h2>
+      <p class="rounded-lg p-4" style="background:#F4F4F4">{m.theoremStatement}</p>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="mb-2">{m.exampleTitle}</h2>
+      <p>{m.exampleBody}</p>
+    </section>
+
+    <footer class="border-t border-neutral-200 pt-4 text-sm" style="color:#888">{m.nextTeaser}</footer>
+  </main>
+</BaseLayout>
+
+<script>
+  import { setupCongruenceSSS } from '~/components/congruence-sss';
+  setupCongruenceSSS('#congruence-canvas');
+</script>

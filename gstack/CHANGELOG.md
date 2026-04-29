@@ -2,6 +2,25 @@
 
 All notable changes to **Hình Học Sống** are documented here. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versioning: 4-digit MAJOR.MINOR.PATCH.MICRO per gstack.
 
+## [0.0.3.0] - 2026-04-30
+
+### Added
+
+- **Module 1 (lớp 7): Tam giác bằng nhau (SSS)** — second interactive theorem demo, live at `/lop-7/tam-giac-bang-nhau/`.
+  - Two side-by-side triangles ABC and A′B′C′ in a 400×300 viewBox. All 6 vertices independently draggable via Pointer Events + setPointerCapture per vertex. Drag-clamping keeps every vertex inside the canvas (16-px padding) so the triangles never escape view.
+  - SGK-correct encoding per autoplan Decision D3 — color and tick marks paired: AB/A′B′ in pair1 #D7263D with **1 tick**, BC/B′C′ in pair2 #1B998B with **2 ticks**, CA/C′A′ in pair3 #F46036 with **3 ticks**. Tick marks are perpendicular SVG line segments rendered at the midpoint of each side, redrawn live during drag. This is both a11y-correct (color is never the only signal) and matches what every Vietnamese textbook does.
+  - Live side-length readout table — six values, color-keyed to the matching tick-pair colors.
+  - Green pill badge "Hai tam giác bằng nhau (c.c.c)" appears whenever all 3 corresponding side pairs match within `EPSILON_LEN = 0.5` viewBox units. ARIA-live polite so screen readers announce the moment the triangles become congruent.
+- `src/geom-engine/triangle.ts` — third pure module: `triangle()`, `sides()`, `congruentSSS()` with position-strict semantics (AB↔A′B′, etc., not arbitrary permutations — preserves the SGK label-correspondence convention).
+- 10 new unit tests including translation invariance, similar-not-congruent rejection, EPSILON tolerance, position-strict label correspondence (permuted side-length sets are NOT counted as congruent), and symmetry of the relation.
+- Hub landing page: lớp 7 card now links to the module with "Khám phá" status.
+
+### Notes
+
+- Per autoplan: rigid-motion overlay animation EXPLICITLY DROPPED from MVP (was scope creep — rotation+reflection interpolation = days, not hours). The green badge + tick-mark color match is the entire success state.
+- SAS / ASA / AAS / cạnh huyền-góc nhọn / cạnh huyền-cạnh góc vuông toggles deferred — SSS alone validates the canvas + tick-mark + badge pattern. Other cases land in v0.0.5.0+ as toggles on the same canvas.
+- Worked examples count: 1 (autoplan called for 3). Same posture as Module 3 — content additions don't gate the killer-demo ship.
+
 ## [0.0.2.0] - 2026-04-29
 
 ### Added

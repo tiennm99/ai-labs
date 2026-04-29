@@ -15,8 +15,8 @@ export const vi = {
       title: 'Lớp 7',
       hero: 'Tam giác bằng nhau',
       blurb: 'SSS, SAS, ASA — kéo hai tam giác để xem khi nào chúng bằng nhau.',
-      status: 'sap-ra-mat',
-      href: null,
+      status: 'live',
+      href: '/lop-7/tam-giac-bang-nhau/',
     },
     'lop-8': {
       title: 'Lớp 8',
@@ -55,6 +55,24 @@ export const vi = {
       'Cho đường tròn (O) với hai điểm A, B cố định sao cho góc ở tâm ∠AOB = 120°. Theo định lý, mọi điểm M nằm trên cung lớn AB đều cho ∠AMB = 60° (= 120° / 2). Khi M chuyển sang cung nhỏ, ∠AMB = 120° vì khi đó góc nội tiếp chắn cung lớn (240°), một nửa của nó là 120°. Hãy kéo điểm M để kiểm tra.',
     backToHub: '← Về trang chủ',
     nextTeaser: 'Bài tiếp theo: Tứ giác nội tiếp (sắp ra mắt)',
+  },
+  module1: {
+    title: 'Tam giác bằng nhau (SSS)',
+    grade: 'Lớp 7',
+    intro:
+      'Hai tam giác bằng nhau khi cả ba cặp cạnh tương ứng có độ dài bằng nhau (trường hợp Cạnh – Cạnh – Cạnh). Hãy kéo từng đỉnh để xem khi nào hai tam giác trùng khớp.',
+    instruction: 'Kéo bất kỳ đỉnh nào của hai tam giác',
+    congruentBadge: 'Hai tam giác bằng nhau (c.c.c)',
+    lengthsTitle: 'Độ dài cạnh',
+    tabSide: 'Cặp cạnh',
+    theoremTitle: 'Định lý (cạnh – cạnh – cạnh)',
+    theoremStatement:
+      'Nếu ba cạnh của tam giác này lần lượt bằng ba cạnh của tam giác kia thì hai tam giác đó bằng nhau.',
+    exampleTitle: 'Ví dụ',
+    exampleBody:
+      'Cho hai tam giác △ABC và △A′B′C′ với AB = A′B′ (cùng có một dấu gạch đỏ), BC = B′C′ (cùng có hai dấu gạch xanh), CA = C′A′ (cùng có ba dấu gạch cam). Theo trường hợp c.c.c, △ABC = △A′B′C′ — và do đó các góc tương ứng cũng bằng nhau. Hãy kéo các đỉnh để các cặp cạnh có cùng độ dài, huy hiệu xanh sẽ bật lên.',
+    backToHub: '← Về trang chủ',
+    nextTeaser: 'Sắp ra mắt: SAS / ASA / cạnh huyền – góc nhọn / cạnh huyền – cạnh góc vuông',
   },
 } as const;
 
