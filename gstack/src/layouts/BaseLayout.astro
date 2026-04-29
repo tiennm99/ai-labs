@@ -1,0 +1,35 @@
+---
+import '~/styles/global.css';
+import { t } from '~/i18n';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const copy = t();
+const { title = copy.site.title, description = copy.site.description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="vi_VN" />
+    <meta name="twitter:card" content="summary" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta name="robots" content="index, follow" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

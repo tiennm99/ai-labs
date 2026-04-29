@@ -1,0 +1,48 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { t } from '~/i18n';
+
+const copy = t();
+const grades = [
+  { key: 'lop-7' as const, ...copy.grade['lop-7'] },
+  { key: 'lop-8' as const, ...copy.grade['lop-8'] },
+  { key: 'lop-9' as const, ...copy.grade['lop-9'] },
+];
+---
+
+<BaseLayout>
+  <main class="mx-auto max-w-prose px-5 py-10">
+    <header class="mb-10">
+      <h1 class="mb-2">{copy.site.title}</h1>
+      <p class="text-lg" style="color:#444">{copy.site.tagline}</p>
+    </header>
+
+    <section class="mb-10">
+      <p>{copy.hub.intro}</p>
+    </section>
+
+    <section>
+      <h2 class="mb-4">{copy.hub.chooseGrade}</h2>
+      <ul class="space-y-3">
+        {
+          grades.map((grade) => (
+            <li class="rounded-lg border border-neutral-300 p-4">
+              <div class="flex items-baseline justify-between gap-3">
+                <strong>{grade.title}</strong>
+                <span class="text-sm uppercase tracking-wide" style="color:#888">
+                  {copy.status[grade.status]}
+                </span>
+              </div>
+              <div class="mt-1 font-medium">{grade.hero}</div>
+              <p class="mt-2 text-base">{grade.blurb}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <footer class="mt-16 border-t border-neutral-200 pt-6 text-sm" style="color:#888">
+      Phiên bản v{import.meta.env.PUBLIC_VERSION ?? '0.0.1.0'}
+    </footer>
+  </main>
+</BaseLayout>
