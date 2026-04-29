@@ -67,15 +67,15 @@ Tracked work, organized by component then priority (P0 highest → P4 lowest). S
   **Priority:** P3
   **What:** v0.0.3.0 ships 1 example. SGK textbook has many. Add 2 more.
 
-## Module 2 — Lớp 8 Tam giác đồng dạng (weekend 4)
+## Module 2 — Lớp 8 Tam giác đồng dạng
 
-- **Similarity ratio + AA/SAS/SSS-similar detectors**
-  **Priority:** P1
-  **What:** `src/geom-engine/similarity.ts`. Live ratio display via numeric text-node updates only (KaTeX template rendered at build, never re-parsed during drag).
+- **Free-vertex-drag mode (AA / SAS / SSS đồng dạng detectors)**
+  **Priority:** P2
+  **What:** v0.0.4.0 ships scale-slider mode. Add a toggle to switch into free-drag mode where both triangles' vertices can be moved independently and the detector identifies which similarity case (if any) holds. Adds `src/geom-engine/similarity.ts`.
 
-- **Scale slider clamped to [0.5, 2.0]**
-  **Priority:** P1
-  **What:** `min=0.5, max=2, step=0.05`. Cannot reach 0. Per Eng failure mode #3.
+- **Numeric angle readouts on the canvas**
+  **Priority:** P3
+  **What:** Currently angles are pinned conceptually in prose. Add live numeric readouts (∠A, ∠B, ∠C and primes) so students see "the angles don't change" empirically.
 
 ## Testing & CI infrastructure (with first canvas module)
 
@@ -152,3 +152,5 @@ Tracked work, organized by component then priority (P0 highest → P4 lowest). S
 - **TheoremCanvas primitive first cut** — vanilla TS in Astro `<script>` tag, AbortController teardown on `astro:before-swap`. **Completed:** v0.0.2.0 (2026-04-29). Note: built directly in Astro rather than as a single HTML prototype first; the inscribed-angle pattern proved the shape, and the next module (lớp 7 / 8) will reuse this pattern.
 - **SSS detector** — `src/geom-engine/triangle.ts:congruentSSS` with position-strict semantics. 10 unit tests including symmetry and EPSILON tolerance. **Completed:** v0.0.3.0 (2026-04-30)
 - **SGK tick-mark encoding** — 1/2/3 ticks paired with the locked 3-color palette, rendered live during drag. Wired in Module 1 (Tam giác bằng nhau). **Completed:** v0.0.3.0 (2026-04-30). Tick rendering helper in `src/components/congruence-sss.ts:renderTicks` is reusable for future modules.
+- **Scale slider clamped to [0.5, 2.0]** — `src/components/similarity-scale.ts` step 0.05. Cannot reach 0. **Completed:** v0.0.4.0 (2026-04-30)
+- **Similarity ratio readout** — three ratio readouts (AB/A′B′, BC/B′C′, CA/C′A′) showing all-equal under scaling. **Completed:** v0.0.4.0 (2026-04-30) as part of Module 2.

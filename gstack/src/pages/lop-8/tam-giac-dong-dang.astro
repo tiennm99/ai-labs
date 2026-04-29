@@ -1,0 +1,141 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { t } from '~/i18n';
+
+const copy = t();
+const m = copy.module2;
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<BaseLayout title={`${m.title} — ${copy.site.title}`} description={m.intro}>
+  <main class="mx-auto max-w-prose px-5 py-6">
+    <nav class="mb-4 text-sm">
+      <a href={baseUrl}>{m.backToHub}</a>
+    </nav>
+
+    <header class="mb-6">
+      <div class="text-sm uppercase tracking-wide" style="color:#888">{m.grade}</div>
+      <h1 class="mb-2">{m.title}</h1>
+      <p>{m.intro}</p>
+    </header>
+
+    <section class="mb-3">
+      <label
+        for="k-slider"
+        class="flex flex-wrap items-center justify-between gap-2 text-sm"
+        style="color:#444"
+      >
+        <span>{m.instruction}</span>
+        <span class="tabular-nums">
+          {m.kLabel}: <strong data-readout="k" style="color:#D7263D">1.00</strong>
+        </span>
+      </label>
+      <input
+        id="k-slider"
+        data-control="k-slider"
+        type="range"
+        min="0.5"
+        max="2"
+        step="0.05"
+        value="1"
+        class="block w-full mt-2"
+        aria-label={m.kLabel}
+      />
+    </section>
+
+    <section class="mb-6">
+      <svg
+        id="similarity-canvas"
+        viewBox="0 0 400 300"
+        preserveAspectRatio="xMidYMid meet"
+        class="block w-full mx-auto"
+        style="max-width:640px; touch-action:pan-y; aspect-ratio:4/3; background:#FAFAFA; border-radius:8px"
+        role="img"
+        aria-label={m.instruction}
+      >
+        <line data-side="ab" x1="70" y1="110" x2="140" y2="130" stroke="#444" stroke-width="2"></line>
+        <line data-side="bc" x1="140" y1="130" x2="95" y2="200" stroke="#444" stroke-width="2"></line>
+        <line data-side="ca" x1="95" y1="200" x2="70" y2="110" stroke="#444" stroke-width="2"></line>
+
+        <line data-side="apbp" stroke="#444" stroke-width="2"></line>
+        <line data-side="bpcp" stroke="#444" stroke-width="2"></line>
+        <line data-side="cpap" stroke="#444" stroke-width="2"></line>
+
+        <g data-ticks="ab"></g>
+        <g data-ticks="bc"></g>
+        <g data-ticks="ca"></g>
+        <g data-ticks="apbp"></g>
+        <g data-ticks="bpcp"></g>
+        <g data-ticks="cpap"></g>
+
+        <text x="54" y="100" font-size="14" font-weight="700" fill="#444">A</text>
+        <text x="148" y="120" font-size="14" font-weight="700" fill="#444">B</text>
+        <text x="89" y="222" font-size="14" font-weight="700" fill="#444">C</text>
+
+        <circle cx="70" cy="110" r="6" fill="#444"></circle>
+        <circle cx="140" cy="130" r="6" fill="#444"></circle>
+        <circle cx="95" cy="200" r="6" fill="#444"></circle>
+
+        <text data-vertex-label="ap" font-size="14" font-weight="700" fill="#444">A&#39;</text>
+        <text data-vertex-label="bp" font-size="14" font-weight="700" fill="#444">B&#39;</text>
+        <text data-vertex-label="cp" font-size="14" font-weight="700" fill="#444">C&#39;</text>
+
+        <circle data-vertex="ap" r="6" fill="#444"></circle>
+        <circle data-vertex="bp" r="6" fill="#444"></circle>
+        <circle data-vertex="cp" r="6" fill="#444"></circle>
+      </svg>
+    </section>
+
+    <section class="mb-6">
+      <h2 class="mb-2 text-base">{m.sidesTitle}</h2>
+      <table class="w-full text-sm tabular-nums">
+        <thead>
+          <tr style="border-bottom:1px solid #ddd">
+            <th class="text-left py-1 font-medium" style="color:#666">{m.tabSide}</th>
+            <th class="text-right py-1 font-medium" style="color:#666">{m.tabT1}</th>
+            <th class="text-right py-1 font-medium" style="color:#666">{m.tabT2}</th>
+            <th class="text-right py-1 font-medium" style="color:#666">{m.tabRatio}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #f0f0f0">
+            <td class="py-1"><span style="color:#D7263D; font-weight:700">|</span> AB / A&#39;B&#39;</td>
+            <td class="text-right" style="color:#D7263D">72.8</td>
+            <td class="text-right" style="color:#D7263D"><span data-readout-side="apbp">—</span></td>
+            <td class="text-right tabular-nums"><span data-readout-ratio="ab" style="color:#D7263D">—</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #f0f0f0">
+            <td class="py-1"><span style="color:#1B998B; font-weight:700">| |</span> BC / B&#39;C&#39;</td>
+            <td class="text-right" style="color:#1B998B">83.2</td>
+            <td class="text-right" style="color:#1B998B"><span data-readout-side="bpcp">—</span></td>
+            <td class="text-right tabular-nums"><span data-readout-ratio="bc" style="color:#1B998B">—</span></td>
+          </tr>
+          <tr>
+            <td class="py-1"><span style="color:#F46036; font-weight:700">| | |</span> CA / C&#39;A&#39;</td>
+            <td class="text-right" style="color:#F46036">93.4</td>
+            <td class="text-right" style="color:#F46036"><span data-readout-side="cpap">—</span></td>
+            <td class="text-right tabular-nums"><span data-readout-ratio="ca" style="color:#F46036">—</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="mt-3 text-xs" style="color:#666">{m.anglesNote}</p>
+    </section>
+
+    <section class="mb-6">
+      <h2 class="mb-2">{m.theoremTitle}</h2>
+      <p class="rounded-lg p-4" style="background:#F4F4F4">{m.theoremStatement}</p>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="mb-2">{m.exampleTitle}</h2>
+      <p>{m.exampleBody}</p>
+    </section>
+
+    <footer class="border-t border-neutral-200 pt-4 text-sm" style="color:#888">{m.nextTeaser}</footer>
+  </main>
+</BaseLayout>
+
+<script>
+  import { setupSimilarityScale } from '~/components/similarity-scale';
+  setupSimilarityScale('#similarity-canvas');
+</script>

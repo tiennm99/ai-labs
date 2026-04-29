@@ -1,6 +1,6 @@
 {
   "name": "try-gstack",
-  "version": "0.0.3.0",
+  "version": "0.0.4.0",
   "private": true,
   "type": "module",
   "description": "Hình Học Sống — Interactive Vietnamese THCS geometry visualizer (lớp 7-9). Static site, drag-to-explore theorems.",

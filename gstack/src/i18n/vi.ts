@@ -22,9 +22,9 @@ export const vi = {
       title: 'Lớp 8',
       hero: 'Tam giác đồng dạng',
       blurb:
-        'AA, SAS, SSS đồng dạng. Kéo để xem tỉ số cạnh giữ nguyên khi tam giác phóng to.',
-      status: 'sap-ra-mat',
-      href: null,
+        'Kéo thanh trượt phóng/thu — tỉ số ba cạnh tương ứng giữ nguyên, các góc cũng không đổi.',
+      status: 'live',
+      href: '/lop-8/tam-giac-dong-dang/',
     },
     'lop-9': {
       title: 'Lớp 9',
@@ -73,6 +73,29 @@ export const vi = {
       'Cho hai tam giác △ABC và △A′B′C′ với AB = A′B′ (cùng có một dấu gạch đỏ), BC = B′C′ (cùng có hai dấu gạch xanh), CA = C′A′ (cùng có ba dấu gạch cam). Theo trường hợp c.c.c, △ABC = △A′B′C′ — và do đó các góc tương ứng cũng bằng nhau. Hãy kéo các đỉnh để các cặp cạnh có cùng độ dài, huy hiệu xanh sẽ bật lên.',
     backToHub: '← Về trang chủ',
     nextTeaser: 'Sắp ra mắt: SAS / ASA / cạnh huyền – góc nhọn / cạnh huyền – cạnh góc vuông',
+  },
+  module2: {
+    title: 'Tam giác đồng dạng',
+    grade: 'Lớp 8',
+    intro:
+      'Hai tam giác đồng dạng có các góc tương ứng bằng nhau và các cạnh tương ứng tỉ lệ. Hãy kéo thanh trượt phóng/thu △A′B′C′ — tỉ số AB/A′B′ luôn bằng BC/B′C′ và CA/C′A′, dù tam giác lớn hay nhỏ. Các góc thì không đổi.',
+    instruction: 'Kéo thanh trượt để phóng to hoặc thu nhỏ △A′B′C′',
+    kLabel: 'Hệ số phóng',
+    sidesTitle: 'Cạnh tương ứng',
+    tabSide: 'Cặp cạnh',
+    tabT1: '△ABC',
+    tabT2: '△A′B′C′',
+    tabRatio: 'Tỉ số AB/A′B′',
+    anglesNote:
+      'Khi △A′B′C′ phóng/thu theo hệ số k, các cạnh nhân với k nhưng các góc tại A, B, C không thay đổi — đó chính là định nghĩa của hai tam giác đồng dạng.',
+    theoremTitle: 'Định nghĩa',
+    theoremStatement:
+      'Hai tam giác gọi là đồng dạng khi các góc tương ứng bằng nhau và các cạnh tương ứng tỉ lệ. Tỉ số đó được gọi là tỉ số đồng dạng k.',
+    exampleTitle: 'Ví dụ',
+    exampleBody:
+      'Ở hệ số k = 2, tam giác △A′B′C′ to gấp đôi △ABC: mỗi cạnh A′B′ = 2 · AB. Khi đó tỉ số AB/A′B′ = 1/2 = 0,50, đúng bằng BC/B′C′ và CA/C′A′. Khi k = 0,5, tam giác A′B′C′ nhỏ bằng nửa: tỉ số AB/A′B′ = 2,00. Hãy kéo thanh trượt để xác nhận.',
+    backToHub: '← Về trang chủ',
+    nextTeaser: 'Sắp ra mắt: kéo từng đỉnh tự do (AA / SAS / SSS đồng dạng)',
   },
 } as const;
 

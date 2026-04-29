@@ -2,6 +2,26 @@
 
 All notable changes to **Hình Học Sống** are documented here. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versioning: 4-digit MAJOR.MINOR.PATCH.MICRO per gstack.
 
+## [0.0.4.0] - 2026-04-30
+
+### Added
+
+- **Module 2 (lớp 8): Tam giác đồng dạng** — third interactive theorem demo, live at `/lop-8/tam-giac-dong-dang/`. MVP completes the autoplan plan's 3-module hero set.
+  - Slider-driven scale-similarity demo: a fixed △ABC on the left, a scaled △A′B′C′ on the right with vertices computed at runtime as `centroid_target + k · (vertex − centroid_ABC)` for `k ∈ [0.5, 2.0]`, step 0.05.
+  - Live readout table: 6 side lengths + 3 ratios (AB/A′B′, BC/B′C′, CA/C′A′). All 3 ratios stay equal as `k` varies — the killer-demo property of similarity in motion. Color-keyed and tick-marked per Decision D3 (1/2/3 ticks paired with the 3-color palette).
+  - The `k` value displays prominently above the slider in pair1 red. ARIA-labels on the slider so screen readers can drive the demo by keyboard.
+  - Page reuses `src/components/similarity-scale.ts` + `renderTicks` helper (extracted as a pattern from Module 1). No new geom-engine module needed — `triangle.sides()` and `vec.scale()` carry the math.
+- Hub: lớp 8 card now links forward with "Khám phá" status. All three grade cards are now live.
+
+### Changed
+
+- The Astro build now extracts shared geom-engine chunks (`vec.js` ~441B, `triangle.js` ~288B) instead of inlining per-page scripts. Per-page script weight: ~2–3.6KB. Cached across modules after first visit.
+
+### Notes
+
+- Module 2's MVP picks the BONUS variant from the autoplan plan (slider-driven scale) over the harder free-vertex-drag form. Reasoning: scale slider gives the strongest "wow" moment in a single gesture and ships in one weekend; free-drag with AA/SAS/SSS đồng dạng detectors is a separate UI surface. Free-drag deferred to v0.0.5.0+ (P2 in TODOS.md).
+- Angles are not displayed numerically but are pinned conceptually in the prose: "khi △A′B′C′ phóng/thu theo hệ số k, các cạnh nhân với k nhưng các góc tại A, B, C không thay đổi". Numeric angle readouts arrive when the free-drag mode lands.
+
 ## [0.0.3.0] - 2026-04-30
 
 ### Added
