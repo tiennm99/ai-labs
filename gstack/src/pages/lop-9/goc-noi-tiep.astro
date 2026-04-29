@@ -1,0 +1,97 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { t } from '~/i18n';
+
+const copy = t();
+const m = copy.module3;
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<BaseLayout
+  title={`${m.title} — ${copy.site.title}`}
+  description={m.intro}
+>
+  <main class="mx-auto max-w-prose px-5 py-6">
+    <nav class="mb-4 text-sm">
+      <a href={baseUrl}>{m.backToHub}</a>
+    </nav>
+
+    <header class="mb-6">
+      <div class="text-sm uppercase tracking-wide" style="color:#888">{m.grade}</div>
+      <h1 class="mb-2">{m.title}</h1>
+      <p>{m.intro}</p>
+    </header>
+
+    <section class="mb-2">
+      <div
+        class="flex items-baseline justify-between gap-3 px-1 text-sm tabular-nums"
+        style="color:#222"
+      >
+        <span><strong style="color:#D7263D">{m.inscribedLabel}:</strong> <span data-readout="inscribed">—</span></span>
+        <span><strong style="color:#1B998B">{m.centralLabel}:</strong> <span data-readout="central">—</span></span>
+      </div>
+    </section>
+
+    <section class="mb-6">
+      <svg
+        id="inscribed-canvas"
+        viewBox="0 0 400 400"
+        preserveAspectRatio="xMidYMid meet"
+        class="block w-full max-w-md mx-auto"
+        style="touch-action:none; aspect-ratio:1/1; background:#FAFAFA; border-radius:8px"
+        role="img"
+        aria-label={m.instruction}
+      >
+        <circle cx="200" cy="200" r="150" fill="none" stroke="#999" stroke-width="2" />
+
+        <line x1="200" y1="200" x2="70" y2="275" stroke="#D0D0D0" stroke-width="1" stroke-dasharray="4 4" />
+        <line x1="200" y1="200" x2="330" y2="275" stroke="#D0D0D0" stroke-width="1" stroke-dasharray="4 4" />
+
+        <line data-segment="AM" x1="70" y1="275" x2="200" y2="50" stroke="#444" stroke-width="2" />
+        <line data-segment="BM" x1="330" y1="275" x2="200" y2="50" stroke="#444" stroke-width="2" />
+
+        <circle cx="200" cy="200" r="3" fill="#888" />
+        <text x="208" y="198" font-size="14" fill="#888">O</text>
+
+        <circle cx="70" cy="275" r="6" fill="#1B998B" />
+        <text x="50" y="295" font-size="14" font-weight="600" fill="#1B998B">A</text>
+
+        <circle cx="330" cy="275" r="6" fill="#1B998B" />
+        <text x="340" y="295" font-size="14" font-weight="600" fill="#1B998B">B</text>
+
+        <circle
+          data-vertex="M"
+          cx="200"
+          cy="50"
+          r="14"
+          fill="#D7263D"
+          stroke="#FFFFFF"
+          stroke-width="2"
+          tabindex="0"
+          style="cursor:grab"
+        />
+        <text x="208" y="44" font-size="14" font-weight="700" fill="#D7263D">M</text>
+      </svg>
+      <p class="mt-3 text-center text-sm" style="color:#666">{m.instruction}</p>
+    </section>
+
+    <section class="mb-6">
+      <h2 class="mb-2">{m.theoremTitle}</h2>
+      <p class="rounded-lg p-4" style="background:#F4F4F4">{m.theoremStatement}</p>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="mb-2">{m.exampleTitle}</h2>
+      <p>{m.exampleBody}</p>
+    </section>
+
+    <footer class="border-t border-neutral-200 pt-4 text-sm" style="color:#888">
+      {m.nextTeaser}
+    </footer>
+  </main>
+</BaseLayout>
+
+<script>
+  import { setupInscribedAngle } from '~/components/inscribed-angle';
+  setupInscribedAngle('#inscribed-canvas');
+</script>

@@ -37,12 +37,9 @@ Tracked work, organized by component then priority (P0 highest → P4 lowest). S
 
 ## Module 3 — Lớp 9 Góc nội tiếp (weekend 2, hero module)
 
-- **Drag M around circle, project to circle constraint**
-  **Priority:** P1
-  **What:** `M = center + r·normalize(pointer − center)` every `pointermove`. No free movement. Per Eng failure mode #4.
-
 - **Theorem panel + 3 worked SGK-style examples**
   **Priority:** P1
+  **Status:** PARTIAL — v0.0.2.0 ships theorem panel + 1 worked example. 2 more examples remain.
 
 - **First-load coaching state** (per Design F2.2)
   **Priority:** P2
@@ -51,6 +48,14 @@ Tracked work, organized by component then priority (P0 highest → P4 lowest). S
 - **ARIA-live announcements on dragend**
   **Priority:** P2
   **What:** "Góc AMB bằng 47 độ" announced via `aria-live="polite"`. Per Design F6.4.
+
+- **Multi-toggle theorem variants**
+  **Priority:** P2
+  **What:** Toggle between "góc nội tiếp" / "góc nội tiếp chắn nửa đường tròn = 90°" / "góc tạo bởi tiếp tuyến và dây cung". Each variant uses the same canvas with different fixed-point setup.
+
+- **KaTeX inline rendering for theorem text**
+  **Priority:** P3
+  **What:** Currently uses Unicode (∠AMB, °) which renders fine in Be Vietnam Pro. Switch to KaTeX when notation gets richer (cung, đường tròn (O), etc.).
 
 ## Module 1 — Lớp 7 Tam giác bằng nhau (weekend 3)
 
@@ -143,3 +148,6 @@ Tracked work, organized by component then priority (P0 highest → P4 lowest). S
 - Teacher-tool / B2B2C demo mode (build after Module 3 ships)
 
 ## Completed
+
+- **Drag M around circle, project to circle constraint** — `src/components/inscribed-angle.ts` + `src/geom-engine/circle.ts:projectToCircle`. **Completed:** v0.0.2.0 (2026-04-29)
+- **TheoremCanvas primitive first cut** — vanilla TS in Astro `<script>` tag, AbortController teardown on `astro:before-swap`. **Completed:** v0.0.2.0 (2026-04-29). Note: built directly in Astro rather than as a single HTML prototype first; the inscribed-angle pattern proved the shape, and the next module (lớp 7 / 8) will reuse this pattern.
