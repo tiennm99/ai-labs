@@ -3,7 +3,7 @@ import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 
 const siteUrl = process.env.SITE_URL ?? 'https://tiennm99.github.io';
-const basePath = process.env.SITE_BASE ?? '/try-gstack';
+const basePath = process.env.SITE_BASE ?? '/ai-coding-workflow-labs/gstack';
 
 export default defineConfig({
   site: siteUrl,

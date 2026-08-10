@@ -1,0 +1,74 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.13
+
+      - name: Build claudekit
+        run: npm ci && npm test && npm run build
+        working-directory: claudekit
+
+      - name: Build superpowers
+        run: npm ci && npm test && npm run build
+        working-directory: superpowers
+
+      - name: Build bmad
+        run: npm ci && npm run build
+        working-directory: bmad
+
+      - name: Build gstack
+        run: bun install --frozen-lockfile && bun run build
+        working-directory: gstack
+        env:
+          SITE_URL: https://tiennm99.github.io
+          SITE_BASE: /ai-coding-workflow-labs/gstack
+
+      - name: Assemble site
+        run: |
+          set -euo pipefail
+          mkdir -p _site
+          cp index.html _site/
+          cp -r claudekit/dist _site/claudekit
+          cp -r superpowers/dist _site/superpowers
+          cp -r bmad/dist _site/bmad
+          cp -r gstack/dist _site/gstack
+          mkdir -p _site/oh-my-claudecode
+          cp -r oh-my-claudecode/index.html oh-my-claudecode/src oh-my-claudecode/styles _site/oh-my-claudecode/
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
