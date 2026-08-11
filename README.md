@@ -11,8 +11,8 @@ together at **[tiennm99.github.io/ai-coding-workflow-labs](https://tiennm99.gith
 | [`bmad/`](./bmad/) | BMAD method (Vite/JS) | [/bmad/](https://tiennm99.github.io/ai-coding-workflow-labs/bmad/) |
 | [`oh-my-claudecode/`](./oh-my-claudecode/) | oh-my-claudecode (static) | [/oh-my-claudecode/](https://tiennm99.github.io/ai-coding-workflow-labs/oh-my-claudecode/) |
 | [`gstack/`](./gstack/) | gstack starter (Astro/Bun) | [/gstack/](https://tiennm99.github.io/ai-coding-workflow-labs/gstack/) |
-| [`cc4e-course/`](./cc4e-course/) | Claude Code for Everyone course work | [Vercel](https://cc4e-course-lilac.vercel.app) |
-| [`advanced-claude-workflows/`](./advanced-claude-workflows/) | Hooks/aliases notes | — |
+| [`cc4e-course/`](./cc4e-course/) | Claude Code for Everyone course work | [/cc4e-course/](https://tiennm99.github.io/ai-coding-workflow-labs/cc4e-course/) |
+| [`advanced-claude-workflows/`](./advanced-claude-workflows/) | Hooks/aliases notes | [/advanced-claude-workflows/](https://tiennm99.github.io/ai-coding-workflow-labs/advanced-claude-workflows/) |
 
 The `Deploy to GitHub Pages` workflow builds every app with its base path under
 this repo and publishes them as one site with a root index.

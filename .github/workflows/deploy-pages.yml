@@ -47,6 +47,10 @@ jobs:
           SITE_URL: https://tiennm99.github.io
           SITE_BASE: /ai-coding-workflow-labs/gstack
 
+      - name: Build cc4e-course quiz
+        run: npm ci && npm run build
+        working-directory: cc4e-course/quiz-project
+
       - name: Assemble site
         run: |
           set -euo pipefail
@@ -58,6 +62,9 @@ jobs:
           cp -r gstack/dist _site/gstack
           mkdir -p _site/oh-my-claudecode
           cp -r oh-my-claudecode/index.html oh-my-claudecode/src oh-my-claudecode/styles _site/oh-my-claudecode/
+          cp -r cc4e-course/quiz-project/out _site/cc4e-course
+          mkdir -p _site/advanced-claude-workflows
+          cp advanced-claude-workflows/thumbnail.html _site/advanced-claude-workflows/index.html
 
       - uses: actions/upload-pages-artifact@v3
         with:
