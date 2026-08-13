@@ -2,17 +2,17 @@
 
 Experiments with AI-assisted coding workflows and tooling. Each directory was a
 standalone repository, merged here with full history. The web demos are served
-together at **[tiennm99.github.io/ai-coding-workflow-labs](https://tiennm99.github.io/ai-coding-workflow-labs/)**.
+together at **[miti99dev.github.io/ai-coding-workflow-labs](https://miti99dev.github.io/ai-coding-workflow-labs/)**.
 
 | Directory | Experiment | Demo |
 | --- | --- | --- |
-| [`claudekit/`](./claudekit/) | ClaudeKit workflow (Vite/JS) | [/claudekit/](https://tiennm99.github.io/ai-coding-workflow-labs/claudekit/) |
-| [`superpowers/`](./superpowers/) | Superpowers skill set (Vite/TS) | [/superpowers/](https://tiennm99.github.io/ai-coding-workflow-labs/superpowers/) |
-| [`bmad/`](./bmad/) | BMAD method (Vite/JS) | [/bmad/](https://tiennm99.github.io/ai-coding-workflow-labs/bmad/) |
-| [`oh-my-claudecode/`](./oh-my-claudecode/) | oh-my-claudecode (static) | [/oh-my-claudecode/](https://tiennm99.github.io/ai-coding-workflow-labs/oh-my-claudecode/) |
-| [`gstack/`](./gstack/) | gstack starter (Astro/Bun) | [/gstack/](https://tiennm99.github.io/ai-coding-workflow-labs/gstack/) |
-| [`cc4e-course/`](./cc4e-course/) | Claude Code for Everyone course work | [/cc4e-course/](https://tiennm99.github.io/ai-coding-workflow-labs/cc4e-course/) |
-| [`advanced-claude-workflows/`](./advanced-claude-workflows/) | Hooks/aliases notes | [/advanced-claude-workflows/](https://tiennm99.github.io/ai-coding-workflow-labs/advanced-claude-workflows/) |
+| [`claudekit/`](./claudekit/) | ClaudeKit workflow (Vite/JS) | [/claudekit/](https://miti99dev.github.io/ai-coding-workflow-labs/claudekit/) |
+| [`superpowers/`](./superpowers/) | Superpowers skill set (Vite/TS) | [/superpowers/](https://miti99dev.github.io/ai-coding-workflow-labs/superpowers/) |
+| [`bmad/`](./bmad/) | BMAD method (Vite/JS) | [/bmad/](https://miti99dev.github.io/ai-coding-workflow-labs/bmad/) |
+| [`oh-my-claudecode/`](./oh-my-claudecode/) | oh-my-claudecode (static) | [/oh-my-claudecode/](https://miti99dev.github.io/ai-coding-workflow-labs/oh-my-claudecode/) |
+| [`gstack/`](./gstack/) | gstack starter (Astro/Bun) | [/gstack/](https://miti99dev.github.io/ai-coding-workflow-labs/gstack/) |
+| [`cc4e-course/`](./cc4e-course/) | Claude Code for Everyone course work | [/cc4e-course/](https://miti99dev.github.io/ai-coding-workflow-labs/cc4e-course/) |
+| [`advanced-claude-workflows/`](./advanced-claude-workflows/) | Hooks/aliases notes | [/advanced-claude-workflows/](https://miti99dev.github.io/ai-coding-workflow-labs/advanced-claude-workflows/) |
 
 The `Deploy to GitHub Pages` workflow builds every app with its base path under
 this repo and publishes them as one site with a root index.
