@@ -93,7 +93,7 @@ Tracked work, organized by component then priority (P0 highest → P4 lowest). S
 
 - **Lighthouse-CI gate**
   **Priority:** P2
-  **What:** Mobile preset, ≥90 Perf + A11y. Run against `bun preview`.
+  **What:** Mobile preset, ≥90 Perf + A11y. Run against `npm run preview`.
 
 - **axe-playwright a11y tests**
   **Priority:** P2

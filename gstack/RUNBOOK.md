@@ -5,7 +5,7 @@
 Production deploys from `main` via GitHub Actions (`.github/workflows/deploy.yml`).
 
 - Live URL: `https://tiennm99.github.io/try-gstack/`
-- Build: `bun run build` (Astro static, output to `dist/`)
+- Build: `npm run build` (Astro static, output to `dist/`)
 - Deploy mechanism: `actions/upload-pages-artifact@v3` + `actions/deploy-pages@v4`
 - Concurrency: `pages-deploy` group, cancel-in-progress disabled (so a force-pushed retry doesn't abort an in-flight rollback)
 
@@ -23,7 +23,7 @@ If the workflow itself is broken (e.g., bad `deploy.yml` change), use the GitHub
 ## CI
 
 - `.github/workflows/ci.yml` runs typecheck + Vitest + build on every PR and push to `main`. Build failure on `main` blocks the deploy job.
-- Local equivalent: `bun install && bun run typecheck && bun run test && bun run build`
+- Local equivalent: `npm install && npm run typecheck && npm test && npm run build`
 
 ## Domain migration trigger
 

@@ -11,11 +11,11 @@ Scaffold only (v0.0.1.0). Modules are placeholders — landing page lists three 
 ## Develop
 
 ```sh
-bun install
-bun run dev          # http://localhost:4321/try-gstack/
-bun run test         # Vitest (geom-engine unit tests)
-bun run typecheck    # Astro check + TS strict
-bun run build        # Static output to dist/
+npm install
+npm run dev          # http://localhost:4321/try-gstack/
+npm test         # Vitest (geom-engine unit tests)
+npm run typecheck    # Astro check + TS strict
+npm run build        # Static output to dist/
 ```
 
 ## Deploy

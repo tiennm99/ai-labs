@@ -13,7 +13,7 @@ git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.cl
 cd ~/.claude/skills/gstack && ./setup
 ```
 
-`./setup` requires `bun` (`npm install -g bun` works) and a working Playwright Chromium (run `sudo npx playwright install-deps` if libs are missing on Linux).
+`./setup` requires a working Playwright Chromium (run `sudo npx playwright install-deps` if libs are missing on Linux).
 
 ### Web browsing
 
