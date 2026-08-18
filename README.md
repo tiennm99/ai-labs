@@ -2,7 +2,7 @@
 
 Experiments with AI-assisted coding workflows and tooling. Each directory was a
 standalone repository, merged here with full history. The web demos are served
-together at **[miti99dev.github.io/ai-coding-workflow-labs](https://tiennm99dev.github.io/ai-coding-workflow-labs/)**.
+together at **[tiennm99dev.github.io/ai-coding-workflow-labs](https://tiennm99dev.github.io/ai-coding-workflow-labs/)**.
 
 | Directory | Experiment | Demo |
 | --- | --- | --- |
