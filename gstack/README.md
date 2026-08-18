@@ -14,7 +14,7 @@ Scaffold only (v0.0.1.0). Modules are placeholders — landing page lists three 
 npm install
 npm run dev          # http://localhost:4321/try-gstack/
 npm test         # Vitest (geom-engine unit tests)
-npm run typecheck    # Astro check + TS strict
+npm run typecheck    # Astro check + strict checkJs (JavaScript + JSDoc)
 npm run build        # Static output to dist/
 ```
 
@@ -31,7 +31,7 @@ Auto-deploys to GitHub Pages from `main` via `actions/deploy-pages@v4`. See `RUN
 - **Math rendering**: KaTeX, bundled locally + SSR-rendered — to be added with first canvas module
 - **Animation**: Web Animations API + `requestAnimationFrame` (no GSAP / Motion One / Lottie)
 - **Analytics**: Cloudflare Web Analytics, deferred until 50+ daily sessions
-- **i18n**: every string via `t()` from `src/i18n/vi.ts`; English added by adding `en.ts`
+- **i18n**: every string via `t()` from `src/i18n/vi.js`; English added by adding `en.js`
 
 ## License
 

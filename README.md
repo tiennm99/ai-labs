@@ -7,7 +7,7 @@ together at **[miti99dev.github.io/ai-coding-workflow-labs](https://miti99dev.gi
 | Directory | Experiment | Demo |
 | --- | --- | --- |
 | [`claudekit/`](./claudekit/) | ClaudeKit workflow (Vite/JS) | [/claudekit/](https://miti99dev.github.io/ai-coding-workflow-labs/claudekit/) |
-| [`superpowers/`](./superpowers/) | Superpowers skill set (Vite/TS) | [/superpowers/](https://miti99dev.github.io/ai-coding-workflow-labs/superpowers/) |
+| [`superpowers/`](./superpowers/) | Superpowers skill set (Vite/JS) | [/superpowers/](https://miti99dev.github.io/ai-coding-workflow-labs/superpowers/) |
 | [`bmad/`](./bmad/) | BMAD method (Vite/JS) | [/bmad/](https://miti99dev.github.io/ai-coding-workflow-labs/bmad/) |
 | [`oh-my-claudecode/`](./oh-my-claudecode/) | oh-my-claudecode (static) | [/oh-my-claudecode/](https://miti99dev.github.io/ai-coding-workflow-labs/oh-my-claudecode/) |
 | [`gstack/`](./gstack/) | gstack starter (Astro/Bun) | [/gstack/](https://miti99dev.github.io/ai-coding-workflow-labs/gstack/) |

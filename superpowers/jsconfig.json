@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "allowJs": true,
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+
+    /* jsconfig.json defaults maxNodeModuleJsDepth to 2 (vs. 0 for
+       tsconfig.json); left at 2 it makes checkJs walk into untyped
+       node_modules JS packages (e.g. jsdom, pulled in transitively via
+       vitest's own type declarations) and fail on their internals. Pin it
+       back to the standard default. */
+    "maxNodeModuleJsDepth": 0,
+
+    "types": ["vite/client", "vitest/globals"]
+  },
+  "include": ["src", "tests", "vite.config.js"]
+}
