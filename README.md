@@ -16,6 +16,8 @@ together at **[tiennm99dev.github.io/ai-coding-workflow-labs](https://tiennm99de
 | [`cowork-complete-guide/`](./cowork-complete-guide/) | Claude Cowork complete-guide practices | [/cowork-complete-guide/](https://tiennm99dev.github.io/ai-coding-workflow-labs/cowork-complete-guide/) |
 | [`ross-mike-workflows/`](./ross-mike-workflows/) | Ross Mike workflows mini-lesson practices | — |
 | [`vin-obsidian-workflows/`](./vin-obsidian-workflows/) | Vin Obsidian workflows mini-lesson practices (Obsidian vault) | — |
+| [`gsd-framework/`](./gsd-framework/) | GSD (Get Shit Done) Advanced Vibe Coding practice — expense splitter (Vite/Preact) | [/gsd-framework/](https://tiennm99dev.github.io/ai-coding-workflow-labs/gsd-framework/) |
+| [`cline/`](./cline/) | Cline agent test — Flappy Bird game (Phaser/webpack) | — |
 
 The `Deploy to GitHub Pages` workflow builds every app with its base path under
 this repo and publishes them as one site with a root index.
