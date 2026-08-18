@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -p jsconfig.json --noEmit && vite build",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "typecheck": "tsc -p jsconfig.json --noEmit"
   },
   "dependencies": {
     "phaser": "^3.88.2",
