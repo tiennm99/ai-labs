@@ -40,7 +40,7 @@ jobs:
         run: npm ci && npm run build
         working-directory: gstack
         env:
-          SITE_URL: https://tiennm99dev.github.io
+          SITE_URL: https://tiennm99.github.io
           SITE_BASE: /ai-coding-workflow-labs/gstack
 
       - name: Build cc4e-course quiz
