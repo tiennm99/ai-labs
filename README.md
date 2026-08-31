@@ -19,6 +19,7 @@ together at **[tiennm99.github.io/ai-labs](https://tiennm99.github.io/ai-labs/)*
 | [`gsd-framework/`](./gsd-framework/) | GSD (Get Shit Done) Advanced Vibe Coding practice — expense splitter (Vite/Preact) | [/gsd-framework/](https://tiennm99.github.io/ai-labs/gsd-framework/) |
 | [`cline/`](./cline/) | Cline agent test — Flappy Bird game (Phaser/webpack) | — |
 | [`solver/`](./solver/) | Solver agent test — Netty 4 WebSocket game server (Java/Maven) | — |
+| [`haystack/`](./haystack/) | Haystack RAG pipeline — BM25 retrieval into an Ollama generator, answering over local text files (Python) | — |
 
 The `Deploy to GitHub Pages` workflow builds every app with its base path under
 this repo and publishes them as one site with a root index.
