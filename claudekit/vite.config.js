@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  base: "/ai-coding-workflow-labs/claudekit/",
+  base: "/ai-labs/claudekit/",
 });

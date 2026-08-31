@@ -4,6 +4,6 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/ai-coding-workflow-labs/bmad/',
+  base: '/ai-labs/bmad/',
   plugins: [svelte(), tailwindcss()],
 })
