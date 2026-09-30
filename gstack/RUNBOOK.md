@@ -4,7 +4,7 @@
 
 Production deploys from `main` via GitHub Actions (`.github/workflows/deploy.yml`).
 
-- Live URL: `https://tiennm99.github.io/try-gstack/`
+- Live URL: `https://tiennm99.github.io/ai-labs/gstack/`
 - Build: `npm run build` (Astro static, output to `dist/`)
 - Deploy mechanism: `actions/upload-pages-artifact@v3` + `actions/deploy-pages@v4`
 - Concurrency: `pages-deploy` group, cancel-in-progress disabled (so a force-pushed retry doesn't abort an in-flight rollback)
@@ -33,7 +33,7 @@ Per autoplan plan, buy a `.vn` / `.com.vn` domain only when ANY of:
 2. **1 organic teacher share** (Facebook group, Zalo, or school chat — verified, not founder-initiated), OR
 3. **≥5 modules shipped** (signals content sustainability and amortizes the domain cost)
 
-If none hit within 90 days of soft launch, stay on `tiennm99.github.io/try-gstack/`.
+If none hit within 90 days of soft launch, stay on `tiennm99.github.io/ai-labs/gstack/`.
 
 When the trigger fires:
 
